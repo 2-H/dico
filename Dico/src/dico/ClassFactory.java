@@ -12,19 +12,62 @@ public class ClassFactory {
      */
     public static String create(ClassModel model) {
         StringBuilder sb = new StringBuilder();
+
+         //add import ...
+        //Render Class
         sb.append("public class ")
                 .append(model.getName())
-                .append(" { \n")
-                .append("\n");
+                //extends ...
+                .append(" {")
+                .append("\n\n");
 
+        //Start Render Default Constructer
+        sb.append("\t")
+                .append("public ")
+                .append(model.getName())
+                .append("(){\n").append("\t}")
+                .append("\n");
+        //End Render Default Constructer        
+
+        //Start Render Constructer
+        sb.append("\n");
+        sb.append("\t")
+                .append("public ")
+                .append(model.getName())
+                .append("(");
+        int i = 0;
+        for (Attribute atr : model.getAttribute()) {
+            i++;
+            sb.append(atr.getType())
+                    .append(" ")
+                    .append(atr.getName());
+            if (i < model.getAttribute().size()) {
+                sb.append(", ");
+            }
+        }
+        sb.append(") {\n");
+
+        for (Attribute atr : model.getAttribute()) {
+            sb.append("\t\t").append("this.").append(atr.getName())
+                    .append(" = ")
+                    .append(atr.getName())
+                    .append(";\n");
+        }
+        sb.append("\t}\n\n");
+        //End Render Constructer
+
+        //Start Render Attributes
         for (Attribute atr : model.getAttribute()) {
             sb.append("\t").append("private ").append(atr.getType())
                     .append(" ")
                     .append(atr.getName())
                     .append(";\n");
         }
+        //End Render Attributes
 
         sb.append("\n}");
+        //End Render Class
+
         return sb.toString();
     }
 
