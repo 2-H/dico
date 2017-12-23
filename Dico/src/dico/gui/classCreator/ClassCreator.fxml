@@ -5,30 +5,31 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="342.0" prefWidth="447.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dico.gui.classCreator.ClassCreatorController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="342.0" prefWidth="455.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dico.gui.classCreator.ClassCreatorController">
     <children>
-        <Label fx:id="lblClassName" layoutX="-4.0" layoutY="7.0" prefHeight="20.0" prefWidth="76.0" text="Class Name:">
+      
+        <Label fx:id="lblClassName" layoutX="8.0" layoutY="7.0" prefHeight="20.0" prefWidth="76.0" text="Class Name">
             <font>
                 <Font size="14.0" />
             </font>
         </Label>
-        <TextField fx:id="txtClassName" layoutX="74.0" layoutY="4.0" prefHeight="25.0" prefWidth="149.0" promptText="Class name..." />
-        <Label fx:id="lblAttributes" layoutX="8.0" layoutY="43.0" text="Attributes:">
+        <TextField fx:id="txtClassName" layoutX="89.0" layoutY="4.0" prefHeight="25.0" prefWidth="149.0" promptText="Class name..." />
+        <Label fx:id="lblAttributes" layoutX="8.0" layoutY="43.0" text="Attributes">
             <font>
                 <Font size="14.0" />
             </font>
         </Label>
-        <TextField fx:id="txtAttributeName" layoutX="73.0" layoutY="40.0" promptText="Attribute name..." />
-        <ComboBox fx:id="comboTypes" layoutX="225.0" layoutY="40.0" prefWidth="150.0" promptText="Types..." />
+        <TextField fx:id="txtAttributeName" layoutX="89.0" layoutY="40.0" promptText="Attribute name..." />
+        <ComboBox fx:id="comboTypes" layoutX="240.0" layoutY="40.0" prefWidth="142.0" promptText="Types..." />
         <Button fx:id="btnCreateClass" layoutX="325.0" layoutY="301.0" mnemonicParsing="false" onAction="#CreateClassButtonHandler" prefHeight="25.0" prefWidth="115.0" text="Create class" />
-        <TableView id="tblAtd" fx:id="tblAtd" layoutY="70.0" prefHeight="200.0" prefWidth="375.0">
+        <TableView id="tblAtd" fx:id="tblAtd" layoutX="8.0" layoutY="70.0" prefHeight="200.0" prefWidth="375.0">
             <columns>
                 <TableColumn fx:id="tblColAttributeName" prefWidth="75.0" text="Name" />
                 <TableColumn fx:id="tblColAtrributeType" prefWidth="75.0" text="Type" />
             </columns>         
         </TableView>
-        <Button id="btnAdd" fx:id="btnAdd" onAction="#AddButtonClicked" layoutX="383.0" layoutY="70.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="59.0" text="Add" />
-        <Button id="btnRemove" fx:id="btnRemove" layoutX="383.0" layoutY="103.0" mnemonicParsing="false" text="Remove" />
+        <Button id="btnAdd" fx:id="btnAdd" onAction="#AddButtonClicked" layoutX="391.0" layoutY="70.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="59.0" text="Add" />
+        <Button id="btnRemove" fx:id="btnRemove" onAction="#RemoveButtonClicked"  layoutX="391.0" layoutY="103.0" mnemonicParsing="false" text="Remove" />
         <CheckBox id="chkInherited" fx:id="chkInherited" layoutX="8.0" layoutY="283.0" mnemonicParsing="false" text="Inherited" />
         <ComboBox fx:id="comboInheritedTypes" layoutX="91.0" layoutY="279.0" prefWidth="150.0" promptText="Types..." />
     </children>
