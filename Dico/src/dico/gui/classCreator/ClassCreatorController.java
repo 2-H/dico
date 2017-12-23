@@ -12,6 +12,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 
 /**
  *
@@ -19,6 +23,17 @@ import javafx.scene.control.Alert.AlertType;
  */
 public class ClassCreatorController implements Initializable {
     @FXML
+    private Label lblClassName;
+    @FXML
+    private Label lblAttributes;
+    @FXML
+    private TextField txtClassName;
+    @FXML
+    private TextField txtAttributeName;
+    @FXML
+    private ComboBox comboTypes;
+    @FXML
+    private Button btnCreateClass;
     
     @FXML
     private void CreateClassButtonHandler(ActionEvent event) {
