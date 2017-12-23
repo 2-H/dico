@@ -5,6 +5,8 @@
  */
 package dico.gui.classCreator;
 
+import dico.ClassFactory;
+import dico.models.ClassModel;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -22,6 +24,7 @@ import javafx.scene.control.TextField;
  * @author Ali Al-Jobouri
  */
 public class ClassCreatorController implements Initializable {
+
     @FXML
     private Label lblClassName;
     @FXML
@@ -34,13 +37,19 @@ public class ClassCreatorController implements Initializable {
     private ComboBox comboTypes;
     @FXML
     private Button btnCreateClass;
-    
+
     @FXML
     private void CreateClassButtonHandler(ActionEvent event) {
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("Information Dialog");
         alert.setHeaderText(null);
-        alert.setContentText("Class is created successfully");
+
+        ClassModel test = new ClassModel();
+        test.setName("EmployeeTest");
+
+        String classText = ClassFactory.create(test);
+
+        alert.setContentText(classText);
 
         alert.showAndWait();
     }
