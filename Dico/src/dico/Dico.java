@@ -13,7 +13,7 @@ import javafx.stage.Stage;
 
 /**
  *
- * @author k.shehady
+ * @author k.shehady saleh
  */
 public class Dico extends Application {
     
