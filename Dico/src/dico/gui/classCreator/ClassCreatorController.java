@@ -17,8 +17,8 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
+/*import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;*/
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -51,6 +51,13 @@ public class ClassCreatorController implements Initializable {
     private TableColumn tblColAttributeName;
     @FXML
     private TableColumn tblColAtrributeType;
+    @FXML
+     private void RemoveButtonClicked()
+    {
+        AttributeRow atr=tblAtd.getSelectionModel().getSelectedItem();
+        tblAtd.getItems().remove(atr);
+        
+    }
     @FXML
     private void AddButtonClicked() {
         String adt = txtAttributeName.getText();
