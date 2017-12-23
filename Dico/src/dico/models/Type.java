@@ -10,8 +10,13 @@ package dico.models;
  * @author k.shehady
  */
 public class Type {
+
     public static String STRING = "String";
     public static String INT = "int";
     public static String DOUBLE = "Double";
     public static String DATE = "java.util.Date";
+
+    public static String[] GetTypes() {
+        return new String[]{STRING, INT, DOUBLE, DATE};
+    }
 }

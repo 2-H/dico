@@ -6,9 +6,14 @@
 package dico.gui.classCreator;
 
 import dico.ClassFactory;
+import dico.models.Attribute;
 import dico.models.ClassModel;
+import dico.models.Type;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -17,7 +22,10 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 /**
  *
@@ -37,17 +45,48 @@ public class ClassCreatorController implements Initializable {
     private ComboBox comboTypes;
     @FXML
     private Button btnCreateClass;
+    @FXML
+    private TableView<AttributeRow> tblAtd;
+    @FXML
+    private TableColumn tblColAttributeName;
+    @FXML
+    private TableColumn tblColAtrributeType;
+    @FXML
+    private void AddButtonClicked() {
+        String adt = txtAttributeName.getText();
+        String type = comboTypes.getSelectionModel().getSelectedItem().toString();
+         AttributeRow r = new AttributeRow(adt, type);
+        ObservableList<AttributeRow> rows = FXCollections.observableArrayList(r);
+
+        tblAtd.getItems().addAll(rows);
+        txtAttributeName.clear();
+    }
+
+    private void addToComboBox(ArrayList<String> myArrStr) {
+        for (String str : myArrStr) {
+            comboTypes.getItems().add(str);
+        }
+    }
 
     @FXML
     private void CreateClassButtonHandler(ActionEvent event) {
+        // txtClassName = new TextField();
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("Information Dialog");
         alert.setHeaderText(null);
 
-        ClassModel test = new ClassModel();
-        test.setName("EmployeeTest");
+        ClassModel classmodel = new ClassModel();
+        classmodel.setName(txtClassName.getText());
+        
+        ArrayList<Attribute> list= new ArrayList<Attribute>();
+        
+        for (AttributeRow at : tblAtd.getItems()) {
+            list.add(new Attribute(at.getName(), at.getType()));
+        }
+        
+        classmodel.setAttribute(list);
 
-        String classText = ClassFactory.create(test);
+        String classText = ClassFactory.create(classmodel);
 
         alert.setContentText(classText);
 
@@ -57,6 +96,17 @@ public class ClassCreatorController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+        tblColAttributeName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        tblColAtrributeType.setCellValueFactory(new PropertyValueFactory<>("type"));
+        //AttributeRow r = new AttributeRow("A", "B");
+        //ObservableList<AttributeRow> rows = FXCollections.observableArrayList(r);
+
+        //tblAtd.getItems().addAll(rows);
+        ArrayList<String> a = new ArrayList<String>();
+        for (String t : Type.GetTypes()) {
+            a.add(t);
+        }
+        addToComboBox(a);
     }
 
 }
