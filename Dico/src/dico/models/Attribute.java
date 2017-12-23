@@ -5,23 +5,17 @@
  */
 package dico.models;
 
-import java.util.ArrayList;
-
 /**
  *
  * @author k.shehady
  */
-public class ClassModel {
-
+public class Attribute {
     private String name;
-    private ArrayList<Attribute> attribute;
+    private String type;
 
-    public ArrayList<Attribute> getAttribute() {
-        return attribute;
-    }
-
-    public void setAttribute(ArrayList<Attribute> attribute) {
-        this.attribute = attribute;
+    public Attribute(String name, String type) {
+        this.name = name;
+        this.type = type;
     }
 
     public String getName() {
@@ -32,4 +26,12 @@ public class ClassModel {
         this.name = name;
     }
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String Type) {
+        this.type = Type;
+    }
+    
 }
