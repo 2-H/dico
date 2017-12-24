@@ -68,10 +68,8 @@ public class ClassCreatorController implements Initializable {
         if (txtAttributeName != null && !(txtAttributeName.getText().trim().equals("")) && comboTypes.getValue() != null) {
             String adt = txtAttributeName.getText();
             String type = comboTypes.getSelectionModel().getSelectedItem().toString();
-            AttributeRow r = new AttributeRow(adt, type);
-            ObservableList<AttributeRow> rows = FXCollections.observableArrayList(r);
-
-            tblAtd.getItems().addAll(rows);
+            AttributeRow row = new AttributeRow(adt, type);
+            tblAtd.getItems().add(row);
             txtAttributeName.clear();
         }
     }
