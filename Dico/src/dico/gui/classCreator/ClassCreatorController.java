@@ -89,9 +89,9 @@ public class ClassCreatorController implements Initializable {
         }
     }
 
-    private void addToComboBox(ArrayList<String> myArrStr) {
+    private void addToComboBox(ComboBox combo,ArrayList<String> myArrStr) {
         for (String str : myArrStr) {
-            comboTypes.getItems().add(str);
+            combo.getItems().add(str);
         }
     }
 
@@ -147,11 +147,16 @@ public class ClassCreatorController implements Initializable {
         tblColAtrributeType.setCellValueFactory(new PropertyValueFactory<>("type"));
         tblColEquals.setCellValueFactory(new PropertyValueFactory<>("equals"));
         tblColCompareTo.setCellValueFactory(new PropertyValueFactory<>("compareTo"));
-        ArrayList<String> a = new ArrayList<String>();
+        ArrayList<String> a = new ArrayList<String>(); 
         for (String t : Type.GetTypes()) {
             a.add(t);
         }
-        addToComboBox(a);
+        addToComboBox(comboTypes,a);
+        
+        ArrayList<String> b = new ArrayList<String>();//to use from file
+        b.add("Person");
+        b.add("Employee");
+        addToComboBox(comboInheritedTypes,b);
         tblAtd.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         chkInherited.setSelected(false);
         comboInheritedTypes.setDisable(true);

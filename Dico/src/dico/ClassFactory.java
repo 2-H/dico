@@ -74,22 +74,22 @@ public class ClassFactory {
     }
 
     public static void main(String[] args) {
-        ClassModel test = new ClassModel();
-        test.setName("Employee");
-        Attribute atr1 = new Attribute("id", Type.INT);
-        Attribute atr2 = new Attribute("name", Type.STRING);
-        Attribute atr3 = new Attribute("gender", Type.STRING);
-        Attribute atr4 = new Attribute("birthday", Type.DATE);
-        ArrayList<Attribute> list = new ArrayList<>();
-        list.add(atr1);
-        list.add(atr2);
-        list.add(atr3);
-        list.add(atr4);
-
-        test.setAttribute(list);
-
-        String text = ClassFactory.create(test);
-        System.out.println(text);
+//        ClassModel test = new ClassModel();
+//        test.setName("Employee");
+//        Attribute atr1 = new Attribute("id", Type.INT);
+//        Attribute atr2 = new Attribute("name", Type.STRING);
+//        Attribute atr3 = new Attribute("gender", Type.STRING);
+//        Attribute atr4 = new Attribute("birthday", Type.DATE);
+//        ArrayList<Attribute> list = new ArrayList<>();
+//        list.add(atr1);
+//        list.add(atr2);
+//        list.add(atr3);
+//        list.add(atr4);
+//
+//        test.setAttribute(list);
+//
+//        String text = ClassFactory.create(test);
+//        System.out.println(text);
 
     }
 }
