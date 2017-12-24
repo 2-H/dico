@@ -57,8 +57,48 @@ public class ClassFactory {
         }
         sb.append("\t}\n\n");
         //End Render Constructer
+        
+        //Start Render equals method
+        sb.append("\t@Override\n")
+                .append("\tpublic boolean equals(Object obj) {\n")
+                .append("\t\tif (this == obj) {\n")
+                .append("\t\t\t").append("return true;\n\t\t}\n")
+                
+                .append("\t\tif (obj == null) {\n")
+                .append("\t\t\t").append("return false;\n\t\t}\n")
+                
+                .append("\t\t").append("if (getClass() != obj.getClass()) {\n")
+                .append("\t\t\t").append("return false;\n\t\t}\n")
+               
+                .append("\tfinal ").append(model.getName()).append(" other = (").append(model.getName()).append(") obj;\n\t\t}\n");
+        
+                
+        for (Attribute atr : model.getAttribute()) {
+            sb.append("\t\t").append("if (!Objects.equals(this.").append(atr.getName()).append(",").append("other.").append(atr.getName()).append(")) {\n") 
+                    .append("\t\t\t").append("return false;\n\t\t}\n");
+                   
+        }
+        sb.append("\t\treturn true;\n\t}\n");
+        //End Render equals method  
+        
+        
+        //Strart render hashcode
+        sb.append("\t@Override\n")
+                .append("\tpublic int hashCode() {\n")
+                .append("\t\tint prime = 31;\n")
+                .append("\t\tint result = 1;\n");
+        for (Attribute atr : model.getAttribute()) {
+            sb.append("\t\tresult = prime * result + ((this.").append(atr.getName()).append(" == null) ? 0 : ").append(atr.getName()).append(".hashCode());\n");
+              
+                
+        }
+        sb.append("\t}\n");
+                
+        //End rende hashcode
 
+        
         //Start Render Attributes
+        sb.append("\n");
         for (Attribute atr : model.getAttribute()) {
             sb.append("\t").append("private ").append(atr.getType())
                     .append(" ")
@@ -67,7 +107,7 @@ public class ClassFactory {
         }
         //End Render Attributes
 
-        sb.append("\n}");
+        sb.append("\n}\n");
         //End Render Class
 
         return sb.toString();
@@ -75,7 +115,7 @@ public class ClassFactory {
 
     public static void main(String[] args) {
         ClassModel test = new ClassModel();
-        test.setName("Employee");
+        test.setName("Manager");
         Attribute atr1 = new Attribute("id", Type.INT);
         Attribute atr2 = new Attribute("name", Type.STRING);
         Attribute atr3 = new Attribute("gender", Type.STRING);
