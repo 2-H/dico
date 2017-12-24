@@ -5,18 +5,61 @@
  */
 package dico.models;
 
+
 /**
  *
  * @author k.shehady
  */
 public class Type {
 
-    public static String STRING = "String";
-    public static String INT = "int";
-    public static String DOUBLE = "Double";
-    public static String DATE = "java.util.Date";
+    private String name;
+    private String packageName;
+    private Class className;
+    private boolean object;    
 
-    public static String[] GetTypes() {
-        return new String[]{STRING, INT, DOUBLE, DATE};
+    public Type() {
+ 
     }
+
+    public Type(String name, String packageName, Class className, boolean isObject) {
+        this.name = name;
+        this.className = className;
+        this.packageName = packageName;
+        this.object = isObject;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPackageName() {
+        return packageName;
+    }
+
+    public void setPackageName(String packageName) {
+        this.packageName = packageName;
+    }
+
+    public Class getClassName() {
+        return className;
+    }
+
+    public void setClassName(Class className) {
+        this.className = className;
+    }
+
+    public boolean isObject() {
+        return object;
+    }
+
+    public void setIsObject(boolean isObject) {
+        this.object = isObject;
+    }
+
+    
+ 
 }

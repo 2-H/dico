@@ -13,7 +13,7 @@ import javafx.beans.property.SimpleStringProperty;
  */
 public class AttributeRow {
 
-    private final SimpleStringProperty name;//بدنا نشوف شو هي
+    private final SimpleStringProperty name;//Check it later
 
     private final SimpleStringProperty type;
 

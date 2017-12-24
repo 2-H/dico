@@ -2,17 +2,20 @@ package dico;
 
 import dico.models.Attribute;
 import dico.models.ClassModel;
-import dico.models.Type;
 import java.util.ArrayList;
 
 public class ClassFactory {
+
+    public static ArrayList<ClassModel> Classess = new ArrayList<>();
 
     /*
     used by GUI to creat class
      */
     public static String create(ClassModel model) {
+        Classess.add(model);
         //String builder is better than concatination in performance 
         StringBuilder sb = new StringBuilder();
+        sb.append("package dicodemo; \n\n");
 
         //add package, import ...
         //Render Class
@@ -39,7 +42,7 @@ public class ClassFactory {
         int i = 0;
         for (Attribute atr : model.getAttribute()) {
             i++;
-            sb.append(atr.getType())
+            sb.append(atr.getType().getName())
                     .append(" ")
                     .append(atr.getName());
             if (i < model.getAttribute().size()) {
@@ -66,16 +69,27 @@ public class ClassFactory {
                 .append("\t\t\t").append("return false;\n\t\t}\n")
                 .append("\t\t").append("if (getClass() != obj.getClass()) {\n")
                 .append("\t\t\t").append("return false;\n\t\t}\n")
-                .append("\t\tfinal ").append(model.getName()).append(" other = (").append(model.getName()).append(") obj;\n\t\t}\n");
+                .append("\t\tfinal ").append(model.getName()).append(" other = (").append(model.getName()).append(") obj;\n");
 
         for (Attribute atr : model.getAttribute()) {
             if (atr.isUseInEquals()) {
-                sb.append("\t\t").append("if (!Objects.equals(this.")
-                        .append(atr.getName()).append(",")
-                        .append("other.")
-                        .append(atr.getName()).append(")) {\n")
-                        .append("\t\t\t")
-                        .append("return false;\n\t\t}\n");
+                sb.append("\t\t");
+
+                if (!atr.getType().isObject()) {
+                    sb.append("if (this.")
+                            .append(atr.getName()).append(" != ")
+                            .append("other.")
+                            .append(atr.getName())
+                            .append(") {\n")
+                            .append("\t\t\treturn false;\n\t\t}\n");
+                } else {
+                    sb.append("if (!this.")
+                            .append(atr.getName()).append(".equals(")
+                            .append("other.")
+                            .append(atr.getName())
+                            .append(")) {\n")
+                            .append("\t\t\treturn false;\n\t\t}\n");
+                }
             }
 
         }
@@ -89,19 +103,26 @@ public class ClassFactory {
                 .append("\t\tint result = 1;\n");
         for (Attribute atr : model.getAttribute()) {
             if (atr.isUseInEquals()) {
-                sb.append("\t\tresult = prime * result + ((this.")
-                        .append(atr.getName())
-                        .append(" == null) ? 0 : ")
-                        .append(atr.getName()).append(".hashCode());\n");
+                sb.append("\t\tresult = prime * result + (this.")
+                        .append(atr.getName());
+                if (atr.getType().isObject()) {
+                    sb.append(" == null ? 0 : ").append("this.").append(atr.getName()).append(".hashCode());\n");
+                }else{
+                     sb.append(");\n");
+                }
+                //.append(" == null) ? 0 : ")
+                //.append(atr.getName())
+
             }
         }
-        sb.append("\t}\n");
+
+        sb.append("\t\treturn result;\n\t}\n");
 
         //End rende hashcode
         //Start Render Attributes
         sb.append("\n");
         for (Attribute atr : model.getAttribute()) {
-            sb.append("\t").append("private ").append(atr.getType())
+            sb.append("\t").append("private ").append(atr.getType().getName())
                     .append(" ")
                     .append(atr.getName())
                     .append(";\n");
@@ -114,23 +135,27 @@ public class ClassFactory {
         return sb.toString();
     }
 
-    public static void main(String[] args) {
+    public static String CreateDemoClass() {
         ClassModel test = new ClassModel();
-        test.setName("Manager");
-        Attribute atr1 = new Attribute("id", Type.INT, true, true);
-        Attribute atr2 = new Attribute("name", Type.STRING, true, true);
-        Attribute atr3 = new Attribute("gender", Type.STRING, true, true);
-        Attribute atr4 = new Attribute("birthday", Type.DATE, false, true);
+        test.setName("Person");
+        Attribute atr1 = new Attribute("id", TypesFactory.INT, true, true);
+        Attribute atr2 = new Attribute("name", TypesFactory.STRING, true, true);
+        //Attribute atr3 = new Attribute("gender", Type.STRING, true, true);
+        //Attribute atr4 = new Attribute("birthday", Type.DATE, false, true);
         ArrayList<Attribute> list = new ArrayList<>();
         list.add(atr1);
         list.add(atr2);
-        list.add(atr3);
-        list.add(atr4);
+        //list.add(atr3);
+        //list.add(atr4);
 
         test.setAttribute(list);
 
-        String text = ClassFactory.create(test);
-        System.out.println(text);
+        return ClassFactory.create(test);
+    }
+
+    public static void main(String[] args) {
+
+        System.out.println(CreateDemoClass());
 
     }
 }

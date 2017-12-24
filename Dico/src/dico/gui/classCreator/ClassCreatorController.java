@@ -6,6 +6,7 @@
 package dico.gui.classCreator;
 
 import dico.ClassFactory;
+import dico.TypesFactory;
 import dico.models.Attribute;
 import dico.models.ClassModel;
 import dico.models.Type;
@@ -89,7 +90,7 @@ public class ClassCreatorController implements Initializable {
         }
     }
 
-    private void addToComboBox(ComboBox combo,ArrayList<String> myArrStr) {
+    private void addToComboBox(ComboBox combo, ArrayList<String> myArrStr) {
         for (String str : myArrStr) {
             combo.getItems().add(str);
         }
@@ -125,10 +126,10 @@ public class ClassCreatorController implements Initializable {
         ClassModel classmodel = new ClassModel();
         classmodel.setName(txtClassName.getText());
 
-        ArrayList<Attribute> list = new ArrayList<Attribute>();
+        ArrayList<Attribute> list = new ArrayList<>();
 
         for (AttributeRow at : tblAtd.getItems()) {
-            list.add(new Attribute(at.getName(), at.getType(), at.getEquals().equals("Yes") ? true : false, at.getCompareTo().equals("Yes") ? true : false));
+            list.add(new Attribute(at.getName(), TypesFactory.Instance.Get(at.getType()), at.getEquals().equals("Yes"), at.getCompareTo().equals("Yes")));
         }
 
         classmodel.setAttribute(list);
@@ -147,16 +148,20 @@ public class ClassCreatorController implements Initializable {
         tblColAtrributeType.setCellValueFactory(new PropertyValueFactory<>("type"));
         tblColEquals.setCellValueFactory(new PropertyValueFactory<>("equals"));
         tblColCompareTo.setCellValueFactory(new PropertyValueFactory<>("compareTo"));
-        ArrayList<String> a = new ArrayList<String>(); 
-        for (String t : Type.GetTypes()) {
-            a.add(t);
-        }
-        addToComboBox(comboTypes,a);
         
-        ArrayList<String> b = new ArrayList<String>();//to use from file
-        b.add("Person");
-        b.add("Employee");
-        addToComboBox(comboInheritedTypes,b);
+        ArrayList<String> typeList = new ArrayList<>();
+        for (Type t : TypesFactory.Instance.Types) {
+            typeList.add(t.getName());
+        }
+        addToComboBox(comboTypes, typeList);
+
+        ArrayList<String> classList = new ArrayList<>();
+         for (ClassModel c : ClassFactory.Classess) {
+            classList.add(c.getName());
+        }      
+        addToComboBox(comboInheritedTypes,classList);
+        
+        
         tblAtd.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         chkInherited.setSelected(false);
         comboInheritedTypes.setDisable(true);
