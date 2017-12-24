@@ -26,17 +26,7 @@ import javax.tools.StandardJavaFileManager;
 import javax.tools.ToolProvider;
 import sun.reflect.ConstructorAccessor;
 
-/**
- * Dynamic java class compiler and executer  <br>
- * Demonstrate how to compile dynamic java source code, <br>
- * instantiate instance of the class, and finally call method of the class <br>
- *
- * http://www.beyondlinux.com
- *
- * @author david 2011/07
- *
- */
-public class DynamicCompiler {
+public class DicoCompiler {
 
     /**
      * where shall the compiled class be saved to (should exist already)
