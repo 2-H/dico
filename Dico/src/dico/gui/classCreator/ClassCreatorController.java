@@ -56,15 +56,17 @@ public class ClassCreatorController implements Initializable {
     private TableColumn tblColAtrributeType;
     @FXML
     private CheckBox chkInherited;
-    @FXML
-    private void RemoveButtonClicked() {
-        AttributeRow atr = tblAtd.getSelectionModel().getSelectedItem();
-        tblAtd.getItems().remove(atr);
 
+    @FXML
+    private void RemoveAttributeButtonClicked() {
+        AttributeRow atr = tblAtd.getSelectionModel().getSelectedItem();
+        if (atr != null) {
+            tblAtd.getItems().remove(atr);
+        }
     }
 
     @FXML
-    private void AddButtonClicked() {
+    private void AddAttributeButtonClicked() {
         if (txtAttributeName != null && !(txtAttributeName.getText().trim().equals("")) && comboTypes.getValue() != null) {
             String adt = txtAttributeName.getText();
             String type = comboTypes.getSelectionModel().getSelectedItem().toString();
@@ -73,12 +75,6 @@ public class ClassCreatorController implements Initializable {
             txtAttributeName.clear();
         }
     }
-
-   /* @FXML
-    private void RemoveButtonClicked() {
-        AttributeRow r = tblAtd.getSelectionModel().getSelectedItem();
-        tblAtd.getItems().remove(r);
-    }*/
 
     private void addToComboBox(ArrayList<String> myArrStr) {
         for (String str : myArrStr) {
@@ -97,7 +93,6 @@ public class ClassCreatorController implements Initializable {
 
     @FXML
     private void CreateClassButtonHandler(ActionEvent event) {
-        // txtClassName = new TextField();
         if (txtClassName == null || txtClassName.getText().trim().equals("") || tblAtd.getItems().size() == 0 || (comboInheritedTypes.getValue() == null && chkInherited.isSelected())) {
             Alert alert = new Alert(AlertType.ERROR);
             alert.setTitle("Error Dialog");
@@ -127,17 +122,12 @@ public class ClassCreatorController implements Initializable {
         alert.setContentText(classText);
 
         alert.showAndWait();
-    }    
- 
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
         tblColAttributeName.setCellValueFactory(new PropertyValueFactory<>("name"));
         tblColAtrributeType.setCellValueFactory(new PropertyValueFactory<>("type"));
-        //AttributeRow r = new AttributeRow("A", "B");
-        //ObservableList<AttributeRow> rows = FXCollections.observableArrayList(r);
-
-        //tblAtd.getItems().addAll(rows);
         ArrayList<String> a = new ArrayList<String>();
         for (String t : Type.GetTypes()) {
             a.add(t);
