@@ -10,12 +10,33 @@ package dico.models;
  * @author k.shehady
  */
 public class Attribute {
+
     private String name;
     private String type;
+    private boolean useInEquals;
+    private boolean useInCompareTo;
 
-    public Attribute(String name, String type) {
+    public Attribute(String name, String type, boolean useInEquals, boolean useInCompareTo) {
         this.name = name;
         this.type = type;
+        this.useInEquals = useInEquals;
+        this.useInCompareTo = useInCompareTo;
+    }
+
+    public boolean isUseInEquals() {
+        return useInEquals;
+    }
+
+    public void setUseInEquals(boolean useInEquals) {
+        this.useInEquals = useInEquals;
+    }
+
+    public boolean isUseInCompareTo() {
+        return useInCompareTo;
+    }
+
+    public void setUseInCompareTo(boolean useInCompareTo) {
+        this.useInCompareTo = useInCompareTo;
     }
 
     public String getName() {
@@ -33,5 +54,5 @@ public class Attribute {
     public void setType(String Type) {
         this.type = Type;
     }
-    
+
 }

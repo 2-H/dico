@@ -56,6 +56,14 @@ public class ClassCreatorController implements Initializable {
     private TableColumn tblColAtrributeType;
     @FXML
     private CheckBox chkInherited;
+    @FXML
+    private TableColumn tblColEquals;
+    @FXML
+    private TableColumn tblColCompareTo;
+    @FXML
+    private CheckBox checkCt;
+    @FXML
+    private CheckBox checkEq;
 
     @FXML
     private void RemoveAttributeButtonClicked() {
@@ -70,15 +78,20 @@ public class ClassCreatorController implements Initializable {
         if (txtAttributeName != null && !(txtAttributeName.getText().trim().equals("")) && comboTypes.getValue() != null) {
             String adt = txtAttributeName.getText();
             String type = comboTypes.getSelectionModel().getSelectedItem().toString();
-            AttributeRow row = new AttributeRow(adt, type);
+            String equals = checkEq.isSelected() ? "Yes" : "No";
+            String compareTo = checkCt.isSelected() ? "Yes" : "No";
+            AttributeRow row = new AttributeRow(adt, type, equals, compareTo);
             tblAtd.getItems().add(row);
             txtAttributeName.clear();
+            checkEq.setSelected(false);
+            checkCt.setSelected(false);
+
         }
     }
 
-    private void addToComboBox(ArrayList<String> myArrStr) {
+    private void addToComboBox(ComboBox combo,ArrayList<String> myArrStr) {
         for (String str : myArrStr) {
-            comboTypes.getItems().add(str);
+            combo.getItems().add(str);
         }
     }
 
@@ -99,7 +112,10 @@ public class ClassCreatorController implements Initializable {
             alert.setHeaderText(null);
             alert.setContentText("Some fields are not filled properly.");
             alert.showAndWait();
+            //System.out.println("created class");
+
             return;
+
         }
 
         Alert alert = new Alert(AlertType.INFORMATION);
@@ -112,7 +128,7 @@ public class ClassCreatorController implements Initializable {
         ArrayList<Attribute> list = new ArrayList<Attribute>();
 
         for (AttributeRow at : tblAtd.getItems()) {
-            list.add(new Attribute(at.getName(), at.getType()));
+            list.add(new Attribute(at.getName(), at.getType(), at.getEquals().equals("Yes") ? true : false, at.getCompareTo().equals("Yes") ? true : false));
         }
 
         classmodel.setAttribute(list);
@@ -126,13 +142,21 @@ public class ClassCreatorController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
         tblColAttributeName.setCellValueFactory(new PropertyValueFactory<>("name"));
         tblColAtrributeType.setCellValueFactory(new PropertyValueFactory<>("type"));
-        ArrayList<String> a = new ArrayList<String>();
+        tblColEquals.setCellValueFactory(new PropertyValueFactory<>("equals"));
+        tblColCompareTo.setCellValueFactory(new PropertyValueFactory<>("compareTo"));
+        ArrayList<String> a = new ArrayList<String>(); 
         for (String t : Type.GetTypes()) {
             a.add(t);
         }
-        addToComboBox(a);
+        addToComboBox(comboTypes,a);
+        
+        ArrayList<String> b = new ArrayList<String>();//to use from file
+        b.add("Person");
+        b.add("Employee");
+        addToComboBox(comboInheritedTypes,b);
         tblAtd.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         chkInherited.setSelected(false);
         comboInheritedTypes.setDisable(true);
