@@ -56,13 +56,13 @@ public class ClassCreatorController implements Initializable {
     private TableColumn tblColAtrributeType;
     @FXML
     private CheckBox chkInherited;
-      @FXML
+    @FXML
     private TableColumn tblColEquals;
     @FXML
     private TableColumn tblColCompareTo;
     @FXML
     private CheckBox checkCt;
-     @FXML
+    @FXML
     private CheckBox checkEq;
 
     @FXML
@@ -78,14 +78,14 @@ public class ClassCreatorController implements Initializable {
         if (txtAttributeName != null && !(txtAttributeName.getText().trim().equals("")) && comboTypes.getValue() != null) {
             String adt = txtAttributeName.getText();
             String type = comboTypes.getSelectionModel().getSelectedItem().toString();
-            String equals=checkEq.isSelected()?"Yes":"No";
-            String compareTo=checkCt.isSelected()?"Yes":"No";
-            AttributeRow row = new AttributeRow(adt, type,equals,compareTo);
+            String equals = checkEq.isSelected() ? "Yes" : "No";
+            String compareTo = checkCt.isSelected() ? "Yes" : "No";
+            AttributeRow row = new AttributeRow(adt, type, equals, compareTo);
             tblAtd.getItems().add(row);
             txtAttributeName.clear();
             checkEq.setSelected(false);
             checkCt.setSelected(false);
-            
+
         }
     }
 
@@ -112,21 +112,23 @@ public class ClassCreatorController implements Initializable {
             alert.setHeaderText(null);
             alert.setContentText("Some fields are not filled properly.");
             alert.showAndWait();
+            //System.out.println("created class");
+
             return;
-            System.out.println("created class");
+
         }
 
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("Information Dialog");
         alert.setHeaderText(null);
-        
+
         ClassModel classmodel = new ClassModel();
         classmodel.setName(txtClassName.getText());
 
         ArrayList<Attribute> list = new ArrayList<Attribute>();
 
         for (AttributeRow at : tblAtd.getItems()) {
-            list.add(new Attribute(at.getName(), at.getType()));
+            list.add(new Attribute(at.getName(), at.getType(), at.getEquals().equals("Yes") ? true : false, at.getCompareTo().equals("Yes") ? true : false));
         }
 
         classmodel.setAttribute(list);
@@ -140,7 +142,7 @@ public class ClassCreatorController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        
+
         tblColAttributeName.setCellValueFactory(new PropertyValueFactory<>("name"));
         tblColAtrributeType.setCellValueFactory(new PropertyValueFactory<>("type"));
         tblColEquals.setCellValueFactory(new PropertyValueFactory<>("equals"));
