@@ -20,6 +20,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -44,6 +45,8 @@ public class ClassCreatorController implements Initializable {
     @FXML
     private ComboBox comboTypes;
     @FXML
+    private ComboBox comboInheritedTypes;
+    @FXML
     private Button btnCreateClass;
     @FXML
     private TableView<AttributeRow> tblAtd;
@@ -52,22 +55,32 @@ public class ClassCreatorController implements Initializable {
     @FXML
     private TableColumn tblColAtrributeType;
     @FXML
-     private void RemoveButtonClicked()
-    {
-        AttributeRow atr=tblAtd.getSelectionModel().getSelectedItem();
+    private CheckBox chkInherited;
+    @FXML
+    private void RemoveButtonClicked() {
+        AttributeRow atr = tblAtd.getSelectionModel().getSelectedItem();
         tblAtd.getItems().remove(atr);
-        
+
     }
+
     @FXML
     private void AddButtonClicked() {
-        String adt = txtAttributeName.getText();
-        String type = comboTypes.getSelectionModel().getSelectedItem().toString();
-         AttributeRow r = new AttributeRow(adt, type);
-        ObservableList<AttributeRow> rows = FXCollections.observableArrayList(r);
+        if (txtAttributeName != null && !(txtAttributeName.getText().trim().equals("")) && comboTypes.getValue() != null) {
+            String adt = txtAttributeName.getText();
+            String type = comboTypes.getSelectionModel().getSelectedItem().toString();
+            AttributeRow r = new AttributeRow(adt, type);
+            ObservableList<AttributeRow> rows = FXCollections.observableArrayList(r);
 
-        tblAtd.getItems().addAll(rows);
-        txtAttributeName.clear();
+            tblAtd.getItems().addAll(rows);
+            txtAttributeName.clear();
+        }
     }
+
+   /* @FXML
+    private void RemoveButtonClicked() {
+        AttributeRow r = tblAtd.getSelectionModel().getSelectedItem();
+        tblAtd.getItems().remove(r);
+    }*/
 
     private void addToComboBox(ArrayList<String> myArrStr) {
         for (String str : myArrStr) {
@@ -76,21 +89,39 @@ public class ClassCreatorController implements Initializable {
     }
 
     @FXML
+    private void InheritedChecked() {
+        if (chkInherited.isSelected()) {
+            comboInheritedTypes.setDisable(false);
+        } else {
+            comboInheritedTypes.setDisable(true);
+        }
+    }
+
+    @FXML
     private void CreateClassButtonHandler(ActionEvent event) {
         // txtClassName = new TextField();
+        if (txtClassName == null || txtClassName.getText().trim().equals("") || tblAtd.getItems().size() == 0 || (comboInheritedTypes.getValue() == null && chkInherited.isSelected())) {
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Error Dialog");
+            alert.setHeaderText(null);
+            alert.setContentText("Some fields are not filled properly.");
+            alert.showAndWait();
+            return;
+        }
+
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("Information Dialog");
         alert.setHeaderText(null);
 
         ClassModel classmodel = new ClassModel();
         classmodel.setName(txtClassName.getText());
-        
-        ArrayList<Attribute> list= new ArrayList<Attribute>();
-        
+
+        ArrayList<Attribute> list = new ArrayList<Attribute>();
+
         for (AttributeRow at : tblAtd.getItems()) {
             list.add(new Attribute(at.getName(), at.getType()));
         }
-        
+
         classmodel.setAttribute(list);
 
         String classText = ClassFactory.create(classmodel);
@@ -114,6 +145,9 @@ public class ClassCreatorController implements Initializable {
             a.add(t);
         }
         addToComboBox(a);
+        tblAtd.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        chkInherited.setSelected(false);
+        comboInheritedTypes.setDisable(true);
     }
 
 }
