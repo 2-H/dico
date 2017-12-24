@@ -129,8 +129,8 @@ public class ClassCreatorController implements Initializable {
         alert.setContentText(classText);
 
         alert.showAndWait();
-    }
-
+    }    
+ 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
