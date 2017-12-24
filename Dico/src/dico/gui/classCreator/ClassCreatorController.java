@@ -56,6 +56,14 @@ public class ClassCreatorController implements Initializable {
     private TableColumn tblColAtrributeType;
     @FXML
     private CheckBox chkInherited;
+      @FXML
+    private TableColumn tblColEquals;
+    @FXML
+    private TableColumn tblColCompareTo;
+    @FXML
+    private CheckBox checkCt;
+     @FXML
+    private CheckBox checkEq;
 
     @FXML
     private void RemoveAttributeButtonClicked() {
@@ -70,9 +78,14 @@ public class ClassCreatorController implements Initializable {
         if (txtAttributeName != null && !(txtAttributeName.getText().trim().equals("")) && comboTypes.getValue() != null) {
             String adt = txtAttributeName.getText();
             String type = comboTypes.getSelectionModel().getSelectedItem().toString();
-            AttributeRow row = new AttributeRow(adt, type);
+            String equals=checkEq.isSelected()?"Yes":"No";
+            String compareTo=checkCt.isSelected()?"Yes":"No";
+            AttributeRow row = new AttributeRow(adt, type,equals,compareTo);
             tblAtd.getItems().add(row);
             txtAttributeName.clear();
+            checkEq.setSelected(false);
+            checkCt.setSelected(false);
+            
         }
     }
 
@@ -100,12 +113,13 @@ public class ClassCreatorController implements Initializable {
             alert.setContentText("Some fields are not filled properly.");
             alert.showAndWait();
             return;
+            System.out.println("created class");
         }
 
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("Information Dialog");
         alert.setHeaderText(null);
-
+        
         ClassModel classmodel = new ClassModel();
         classmodel.setName(txtClassName.getText());
 
@@ -126,8 +140,11 @@ public class ClassCreatorController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        
         tblColAttributeName.setCellValueFactory(new PropertyValueFactory<>("name"));
         tblColAtrributeType.setCellValueFactory(new PropertyValueFactory<>("type"));
+        tblColEquals.setCellValueFactory(new PropertyValueFactory<>("equals"));
+        tblColCompareTo.setCellValueFactory(new PropertyValueFactory<>("compareTo"));
         ArrayList<String> a = new ArrayList<String>();
         for (String t : Type.GetTypes()) {
             a.add(t);
