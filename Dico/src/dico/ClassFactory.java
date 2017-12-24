@@ -11,9 +11,11 @@ public class ClassFactory {
     used by GUI to creat class
      */
     public static String create(ClassModel model) {
+        //String builder is better than concatination in performance https://stackoverflow.com/questions/1532461/stringbuilder-vs-string-concatenation-in-tostring-in-java
         StringBuilder sb = new StringBuilder();
 
-         //add import ...
+        //add package, import ...
+        
         //Render Class
         sb.append("public class ")
                 .append(model.getName())
