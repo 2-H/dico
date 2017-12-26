@@ -180,7 +180,7 @@ public class ClassFactory {
                 sb.append(", ");
             }
         }
-         sb.append("]\";");
+        sb.append("]\";");
         sb.append("\t\t\n\t}\n");
 
         //End rendering toString method
