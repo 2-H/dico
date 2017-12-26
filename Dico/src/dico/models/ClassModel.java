@@ -19,17 +19,14 @@ public class ClassModel {
     public ArrayList<Attribute> getAttribute() {
         return attribute;
     }
-
     public void setAttribute(ArrayList<Attribute> attribute) {
         this.attribute = attribute;
     }
-
     public String getName() {
         return name;
     }
-
     public void setName(String name) {
         this.name = name;
     }
-
+    
 }
