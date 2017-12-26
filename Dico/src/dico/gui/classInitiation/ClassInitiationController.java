@@ -78,13 +78,13 @@ public class ClassInitiationController implements Initializable {
 
     @FXML
     private void CreateInstanceButtonHandler(ActionEvent event) {
-        if (txtObjectName == null || (comboClassType.getValue() == null)) {
-            /*
+        /*if (txtObjectName == null || (comboClassType.getValue() == null)) {
+            
                 #Alert 
-             */
+            
             return;
         }
-
+         */
         for (ObjectInstanceRow row : tableInstances.getItems()) {
             for (Attribute atr : model.getAttribute()) {
                 if (atr.getName().equals(row.getField()) && row.getValue() != null) {
