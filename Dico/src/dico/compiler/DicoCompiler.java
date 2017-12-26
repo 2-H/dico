@@ -132,6 +132,11 @@ public class DicoCompiler {
 
             Object kassem = constructor.newInstance(2, "kassem");
 
+            Method toStringKassem = thisClass.getDeclaredMethod("toString", null);
+            Object str = toStringKassem.invoke(kassem);
+
+            System.out.println(str.toString());
+            
             Class paramsMethold[] = {Object.class};//thisClass
             Method equalsMethold = thisClass.getDeclaredMethod("equals", paramsMethold);
 
@@ -165,9 +170,8 @@ public class DicoCompiler {
                 + "  } "
                 + "} ";
          */
-        
         String test = ClassFactory.CreateDemoClass();
-        
+
         System.out.println(test);
         //1.Construct an in-memory java source file from your dynamic code
         JavaFileObject file = getJavaFileObject(className, test);

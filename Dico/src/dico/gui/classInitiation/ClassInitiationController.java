@@ -6,6 +6,7 @@
 package dico.gui.classInitiation;
 
 import dico.ClassFactory;
+import dico.ObjectFactory;
 import dico.TypesFactory;
 import dico.models.Attribute;
 import dico.models.ClassModel;
@@ -18,6 +19,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.SelectionModel;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -32,6 +34,8 @@ import javafx.scene.control.cell.TextFieldTableCell;
  * @author Hussien Wehbi
  */
 public class ClassInitiationController implements Initializable {
+
+    ClassModel model;
 
     @FXML
     private Label labelInstance;
@@ -62,7 +66,7 @@ public class ClassInitiationController implements Initializable {
     @FXML
     private void Select(ActionEvent event) {
         String selected = comboClassType.getSelectionModel().getSelectedItem().toString();
-        ClassModel model;
+
         try {
             model = ClassFactory.Instance.GetClass(selected);
             for (Attribute t : model.getAttribute()) {
@@ -76,19 +80,26 @@ public class ClassInitiationController implements Initializable {
 
     @FXML
     private void CreateInstanceButtonHandler(ActionEvent event) {
-        if (txtObjectName == null || (comboClassType.getValue() == null)) {
-
+        if (txtObjectName.getText() == "" || (comboClassType.getValue()== null)) {
+            
+            /*
+                #ALert
+            
+            */
+                
+            
             return;
         }
-
-        ClassModel classmodel = new ClassModel();
-        classmodel.setName(txtObjectName.getText());
-
-        ArrayList<Attribute> list = new ArrayList<Attribute>();
-
-        classmodel.setAttribute(list);
-        //String classText = ClassFactory.create(classmodel);
-
+        
+        for (ObjectInstanceRow row : tableInstances.getItems()) {
+            for (Attribute atr : model.getAttribute()) {
+                if (atr.getName().equals(row.getField()) && row.getValue() != null) {
+                    atr.setValueString(row.getValue());
+                }
+            }
+        }
+        //System.out.println(model.getAttribute().get(0).getValueString());
+        ObjectFactory.Objects.add(model);
     }
 
     @Override

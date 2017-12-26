@@ -61,6 +61,11 @@ public class Attribute {
         return type;
     }
 
+    @Override
+    public String toString() {
+        return "Attribute{" + "name=" + name + ", valueString=" + valueString + ", type=" + type + ", useInEquals=" + useInEquals + ", useInCompareTo=" + useInCompareTo + '}';
+    }
+
     public void setType(Type type) {
         this.type = type;
     }

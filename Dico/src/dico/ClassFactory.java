@@ -14,7 +14,7 @@ public class ClassFactory {
         Classess = new ArrayList<>();
     }
 
-    public  ArrayList<String> GetClassNames() {
+    public ArrayList<String> GetClassNames() {
         ArrayList<String> list = new ArrayList<String>();
         for (ClassModel cls : Classess) {
             list.add(cls.getName());
@@ -22,18 +22,19 @@ public class ClassFactory {
         return list;
     }
 
-    public  ClassModel GetClass(String name) throws ClassNotFoundException {
+    public ClassModel GetClass(String name) throws ClassNotFoundException {
         for (ClassModel cls : Classess) {
-            if(cls.getName().equals(name))
+            if (cls.getName().equals(name)) {
                 return cls;
+            }
         }
-        throw new  ClassNotFoundException("Class Not Found");
+        throw new ClassNotFoundException("Class Not Found");
     }
 
     /*
     used by GUI to creat class
      */
-    public  String create(ClassModel model) {
+    public String create(ClassModel model) {
         Classess.add(model);
         //String builder is better than concatination in performance 
         StringBuilder sb = new StringBuilder();
@@ -45,7 +46,7 @@ public class ClassFactory {
                 .append(model.getName());
 
         //Check if we must implement comparable, in case yes add it to string
-       /* boolean comparableFlag = false;
+        /* boolean comparableFlag = false;
         for (Attribute atr : model.getAttribute()) {
             if (atr.isUseInCompareTo()) {
                 comparableFlag = true;
@@ -56,7 +57,6 @@ public class ClassFactory {
             //sb.append(" implements Comparable ");
         }*/
         //End check if we must implement comparable
-
         //extends ...
         sb.append(" {")
                 .append("\n\n");
@@ -139,7 +139,6 @@ public class ClassFactory {
 
         }*/
         //End add compareTo in case flag is true
-
         //Strart render hashcode
         sb.append("\t@Override\n")
                 .append("\tpublic int hashCode() {\n")
@@ -162,7 +161,29 @@ public class ClassFactory {
 
         sb.append("\t\treturn result;\n\t}\n");
 
-        //End rende hashcode
+        //End render hashcode
+        //       @Override
+        // public String toString() {
+        //    return "Attribute{" + "name=" + name + ", valueString=" + valueString + ", type=" + type + ", useInEquals=" + useInEquals + ", useInCompareTo=" + useInCompareTo + '}';
+        //}
+        //Start render toString method
+        sb.append("\t@Override\n")
+                .append("\tpublic String toString() {\n")
+                .append("\t\treturn ")
+                .append("getClass().getName() + \"[");
+        int j = 0;
+
+        for (Attribute atr : model.getAttribute()) {
+            j++;
+            sb.append(atr.getName()).append("=\" + ").append(atr.getName()).append(" + \"");
+            if (j < model.getAttribute().size()) {
+                sb.append(", ");
+            }
+        }
+        sb.append("]\";");
+        sb.append("\t\t\n\t}\n");
+
+        //End rendering toString method
         //Start Render Attributes
         sb.append("\n");
         for (Attribute atr : model.getAttribute()) {
