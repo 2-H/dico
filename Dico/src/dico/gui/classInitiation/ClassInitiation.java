@@ -5,6 +5,7 @@
  */
 package dico.gui.classInitiation;
 
+import dico.ClassFactory;
 import java.lang.reflect.InvocationTargetException;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
@@ -33,6 +34,7 @@ public class ClassInitiation extends Application {
         {
             e.printStackTrace();
         }
+        
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();

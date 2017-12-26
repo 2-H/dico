@@ -12,6 +12,8 @@ package dico.models;
 public class Attribute {
 
     private String name;
+    private String valueString;
+
     private Type type;
     private boolean useInEquals;
     private boolean useInCompareTo;
@@ -20,7 +22,15 @@ public class Attribute {
         this.name = name;
         this.type = type;
         this.useInEquals = useInEquals;
-        this.useInCompareTo = useInCompareTo;
+        this.useInCompareTo = useInCompareTo;       
+    }
+
+    public String getValueString() {
+        return valueString;
+    }
+
+    public void setValueString(String valueString) {
+        this.valueString = valueString;
     }
 
     public boolean isUseInEquals() {

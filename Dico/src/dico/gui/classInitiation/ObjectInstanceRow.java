@@ -13,29 +13,33 @@ import javafx.beans.property.SimpleStringProperty;
  */
 public class ObjectInstanceRow {
 
-    private final SimpleStringProperty feild;
-    private  SimpleStringProperty value;
+    private SimpleStringProperty field;
+    private SimpleStringProperty value;
 
     public ObjectInstanceRow() {
-        feild = new SimpleStringProperty("");
+        field = new SimpleStringProperty("");
         value = new SimpleStringProperty("");
     }
 
-    public ObjectInstanceRow(String attribute) {
-        this.feild = new SimpleStringProperty(attribute);
+    public ObjectInstanceRow(String field) {
+        this.field = new SimpleStringProperty(field);
         this.value = new SimpleStringProperty("");
     }
 
-    public String getFeild() {
-        return feild.getValue();
+    public String getField() {
+        return field.getValue();
+    }
+
+    public void setField(String value) {
+        this.field = new SimpleStringProperty(value);
     }
 
     public String getValue() {
         return value.getValue();
     }
-    public void setValue(String value)
-    {
-        this.value=new SimpleStringProperty(value);
+
+    public void setValue(String value) {
+        this.value = new SimpleStringProperty(value);
     }
 
 }

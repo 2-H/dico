@@ -20,7 +20,7 @@
     <Button fx:id="btnCreateInstance" layoutX="245.0" layoutY="248.0" mnemonicParsing="false" onAction="#CreateInstanceButtonHandler" prefHeight="25.0" prefWidth="115.0" text="Create Instance" />
     <TableView fx:id="tableInstances" editable="true" layoutX="18.0" layoutY="73.0" opacity="1.0" prefHeight="200.0" prefWidth="220.0" tableMenuButtonVisible="false">
       <columns>
-        <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="118.0" text="Field" fx:id="tblColFeildName" />
+        <TableColumn maxWidth="5000.0" minWidth="10.0" prefWidth="118.0" text="Feild" fx:id="tblColFeildName" />
         <TableColumn maxWidth="5000.0" minWidth="10.0" onEditCommit="#changeValue" prefWidth="100.0" text="Value" fx:id="tblColFeildValue" />
       </columns>
     </TableView>

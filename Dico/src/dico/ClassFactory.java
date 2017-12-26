@@ -8,7 +8,7 @@ public class ClassFactory {
 
     public static final ClassFactory Instance = new ClassFactory();
 
-    public static ArrayList<ClassModel> Classess = new ArrayList<>();
+    public static ArrayList<ClassModel> Classess;
 
     private ClassFactory() {
         Classess = new ArrayList<>();

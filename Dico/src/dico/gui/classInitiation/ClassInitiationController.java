@@ -93,10 +93,10 @@ public class ClassInitiationController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        tblColFeildName.setCellValueFactory(new PropertyValueFactory<>("feild"));
+        tblColFeildName.setCellValueFactory(new PropertyValueFactory<>("field"));
         tblColFeildValue.setCellValueFactory(new PropertyValueFactory<>("value"));
         tblColFeildValue.setCellFactory(TextFieldTableCell.forTableColumn());
-
+        ClassFactory.CreateDemoClass();
         addToComboBox(ClassFactory.Instance.GetClassNames());
         tableInstances.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         tableInstances.getSelectionModel().cellSelectionEnabledProperty().set(true);
