@@ -5,6 +5,8 @@
  */
 package dico.gui.MainForm;
 
+import dico.ClassFactory;
+import dico.ObjectFactory;
 import dico.gui.classCreator.ClassCreator;
 import java.io.IOException;
 import java.net.URL;
@@ -21,51 +23,64 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import dico.gui.classCreator.*;/**
+import dico.gui.classCreator.*;
+
+/**
  * FXML Controller class
  *
  * @author Ali Al-Jobouri
  */
 public class MainFormController implements Initializable {
-    @FXML
-    private AnchorPane AnchorPane;
+
     @FXML
     private Button btnCreateClass;
     @FXML
     private Button btnCreateObject;
     @FXML
     private Button btnInstantiate;
-    
-    @FXML
-    private void OpenCreateClass() {
 
+    public void refreshForm() {
+        if (ClassFactory.Instance.Classess.size() > 0) {
+            btnCreateObject.setDisable(false);
+        }
+        if (ObjectFactory.Instance.Objects.size() > 0) {
+            btnInstantiate.setDisable(false);
+        }
+    }
+
+    private void opener(String str) {
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("..//classCreator//ClassCreator.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource(str));
             Stage stage = new Stage();
             Scene scene = new Scene(root);
-           // stage.initStyle(StageStyle.TRANSPARENT);
-           // stage.setTitle("abc");
- 
             stage.setScene(scene);
-            stage.show();
-            
+            stage.showAndWait();
+            refreshForm();
+
         } catch (IOException ex) {
             Logger.getLogger(MainFormController.class.getName()).log(Level.SEVERE, null, ex);
         }
+
+    }
+
+    @FXML
+    private void OpenCreateClass() {
+        opener("..//classCreator//ClassCreator.fxml");
     }
 
     @FXML
     private void OpenCreateObject() {
-
+        opener("..//classInitiation//ClassInitiation.fxml");
     }
 
     @FXML
     private void OpenInstantiate() {
+        opener("..//CallingMethods//Methods.fxml");
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        refreshForm();
     }
 
 }

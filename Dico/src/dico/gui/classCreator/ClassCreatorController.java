@@ -7,6 +7,8 @@ package dico.gui.classCreator;
 
 import dico.ClassFactory;
 import dico.TypesFactory;
+import dico.gui.MainForm.MainForm;
+import dico.gui.MainForm.MainFormController;
 import dico.models.Attribute;
 import dico.models.ClassModel;
 import dico.models.Type;
@@ -28,6 +30,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 
 /**
  *
@@ -114,7 +117,7 @@ public class ClassCreatorController implements Initializable {
             alert.setContentText("Some fields are not filled properly.");
             alert.showAndWait();
             //System.out.println("created class");
-*/
+             */
             return;
 
         }
@@ -122,7 +125,7 @@ public class ClassCreatorController implements Initializable {
         /*Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("Information Dialog");
         alert.setHeaderText(null);
-*/
+         */
         ClassModel classmodel = new ClassModel();
         classmodel.setName(txtClassName.getText());
 
@@ -135,10 +138,13 @@ public class ClassCreatorController implements Initializable {
         classmodel.setAttribute(list);
 
         String classText = ClassFactory.Instance.create(classmodel);
-
         //alert.setContentText(classText);
 
         //alert.showAndWait();
+        Stage stage = (Stage) btnCreateClass.getScene().getWindow();
+        // do what you have to do
+        stage.close();
+        
     }
 
     @Override
@@ -148,7 +154,7 @@ public class ClassCreatorController implements Initializable {
         tblColAtrributeType.setCellValueFactory(new PropertyValueFactory<>("type"));
         tblColEquals.setCellValueFactory(new PropertyValueFactory<>("equals"));
         tblColCompareTo.setCellValueFactory(new PropertyValueFactory<>("compareTo"));
-        
+
         ArrayList<String> typeList = new ArrayList<>();
         for (Type t : TypesFactory.Instance.Types) {
             typeList.add(t.getName());
@@ -156,14 +162,13 @@ public class ClassCreatorController implements Initializable {
         addToComboBox(comboTypes, typeList);
 
         ArrayList<String> classList = new ArrayList<>();
-         for (ClassModel c : ClassFactory.Classess) {
+        for (ClassModel c : ClassFactory.Classess) {
             classList.add(c.getName());
-        }      
-        addToComboBox(comboInheritedTypes,classList);
-        
-        
+        }
+        addToComboBox(comboInheritedTypes, classList);
+
         tblAtd.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        
+
         chkInherited.setSelected(false);
         comboInheritedTypes.setDisable(true);
     }
