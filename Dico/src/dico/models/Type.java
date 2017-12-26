@@ -14,14 +14,14 @@ public class Type {
 
     private String name;
     private String packageName;
-    private Class className;
+    private Class<?> className;
     private boolean object;    
 
     public Type() {
  
     }
 
-    public Type(String name, String packageName, Class className, boolean isObject) {
+    public Type(String name, String packageName, Class<?> className, boolean isObject) {
         this.name = name;
         this.className = className;
         this.packageName = packageName;
@@ -44,7 +44,7 @@ public class Type {
         this.packageName = packageName;
     }
 
-    public Class getClassName() {
+    public Class<?> getClassName() {
         return className;
     }
 

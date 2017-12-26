@@ -7,7 +7,6 @@ package dico;
 
 import dico.models.Type;
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  *
@@ -18,7 +17,7 @@ public class TypesFactory {
     public static Type INT = new Type("int", "", int.class, false);
     public static Type STRING = new Type("String", "", String.class, true);
     public static Type DOUBLE = new Type("Double", "", Double.class, true);
-    public static Type DATE = new Type("Date", "java.util.", Date.class, true);
+    //public static Type DATE = new Type("Date", "java.util.", Date.class, true);
 
     public static final TypesFactory Instance = new TypesFactory();
 
@@ -29,7 +28,7 @@ public class TypesFactory {
         Types.add(INT);
         Types.add(STRING);
         Types.add(DOUBLE);
-        Types.add(DATE);
+        //Types.add(DATE);
     }
 
     public Type Get(String name) {

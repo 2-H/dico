@@ -7,6 +7,8 @@ package dico.gui.classCreator;
 
 import dico.ClassFactory;
 import dico.TypesFactory;
+import dico.gui.MainForm.MainForm;
+import dico.gui.MainForm.MainFormController;
 import dico.models.Attribute;
 import dico.models.ClassModel;
 import dico.models.Type;
@@ -32,6 +34,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 
 /**
  *
@@ -149,8 +152,11 @@ public class ClassCreatorController implements Initializable {
 
         ClassFactory.Instance.generateJavaCode(classmodel);
 
-        alert.setContentText(classmodel.getJavaCode());
-        alert.showAndWait();
+        //alert.showAndWait();
+        Stage stage = (Stage) btnCreateClass.getScene().getWindow();
+        // do what you have to do
+        stage.close();
+        
     }
 
     @Override

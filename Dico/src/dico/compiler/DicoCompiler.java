@@ -6,6 +6,8 @@
 package dico.compiler;
 
 import dico.ClassFactory;
+import dico.models.Attribute;
+import dico.models.ClassModel;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
@@ -14,6 +16,7 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Locale;
 
@@ -107,21 +110,67 @@ public class DicoCompiler {
     /**
      * run class from the compiled byte code file by URLClassloader
      */
-    public static void runIt(String className) {
-        // Create a File object on the root of the directory
-        // containing the class file
+    public static ClassLoader loadClassesIntoMemory() {
         File file = new File(classOutputFolder);
-
+        ClassLoader loader = null;
         try {
             // Convert File to a URL
-            URL url = file.toURL(); // C:/classes
+            URL url = file.toURL();
             URL[] urls = new URL[]{url};
 
-            // Create a new class loader with the directory
-            ClassLoader loader = new URLClassLoader(urls);
+            loader = new URLClassLoader(urls);
+            return loader;
+        } catch (MalformedURLException ex) {
+            ex.printStackTrace();
+        }
+        return loader;
+    }
 
-            // Load in the class; Class.childclass should be located in
-            // the directory C:
+    public static void createObject(ClassLoader loader, ClassModel model) {
+        try {
+            Class thisClass = loader.loadClass("dicodemo." + model.getName());
+
+            //  ;
+            ArrayList<Class> constructorParams = new ArrayList<>();
+            for (Attribute atr : model.getAttribute()) {
+                constructorParams.add(atr.getType().getClassName());
+            }
+            // Class[] params =new {int.class,String.class} id name
+            Class[] params = constructorParams.toArray(new Class[constructorParams.size()]);
+
+            //Object instance = thisClass.newInstance();
+            Constructor constructor = thisClass.getConstructor(params);
+
+            ArrayList<Class> constructorParamValues = new ArrayList<>();
+            for (Attribute atr : model.getAttribute()) {
+                Class type = (atr.getType().getClassName());
+                System.out.println(type);
+                System.out.println(atr.getValueString());
+                constructorParamValues.add(type.getClass().cast(atr.getValueString()));
+            }
+
+            //Object ali = constructor.newInstance(1, "ali");
+            Class[] paramsValues = constructorParamValues.toArray(new Class[constructorParamValues.size()]);
+
+            Object kassem = constructor.newInstance(paramsValues);
+
+            Method toStringKassem = thisClass.getDeclaredMethod("toString", null);
+            Object str = toStringKassem.invoke(kassem);
+
+            System.out.println(str.toString());
+
+            //Class paramsMethold[] = {Object.class};//thisClass
+            //Method equalsMethold = thisClass.getDeclaredMethod("equals", paramsMethold);
+            // run the equals() method on the instance:
+            //Object o = equalsMethold.invoke(ali, kassem);
+            //System.out.println("ali.equals(kassem) ==> " + (boolean) o);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public static void testCTO(ClassLoader loader, String className) {
+        try {
             Class thisClass = loader.loadClass(className);
 
             Class[] params = {int.class, String.class};
@@ -136,7 +185,7 @@ public class DicoCompiler {
             Object str = toStringKassem.invoke(kassem);
 
             System.out.println(str.toString());
-            
+
             Class paramsMethold[] = {Object.class};//thisClass
             Method equalsMethold = thisClass.getDeclaredMethod("equals", paramsMethold);
 
@@ -144,43 +193,26 @@ public class DicoCompiler {
             Object o = equalsMethold.invoke(ali, kassem);
 
             System.out.println("ali.equals(kassem) ==> " + (boolean) o);
-        } catch (MalformedURLException | ClassNotFoundException e) {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
 
     public static void main(String[] args) throws Exception {
-        String className = "dicodemo.Person";
+        ClassFactory.CreateDemoClass();
 
-        /*
-        String contents = "package dico;"
-                + "public class Person { "
-                + "private int id;"
-                + "private String name;"
-
-                + "public  Person(int id, String name) { "
-                + "   this.id=id;"
-                + "   this.name=name;"
-                + "   System.out.println(name + \" is initialized \"); "
-                + "} "
-                + "  public boolean equals(Object other) { "
-                + "    Person obj=(Person)other; "
-                + "    return obj.id==this.id; "
-                + "  } "
-                + "} ";
-         */
-        String test = ClassFactory.CreateDemoClass();
-
-        System.out.println(test);
         //1.Construct an in-memory java source file from your dynamic code
-        JavaFileObject file = getJavaFileObject(className, test);
-        Iterable<? extends JavaFileObject> files = Arrays.asList(file);
+        ArrayList<JavaFileObject> files = new ArrayList<>();//Arrays.asList(file);
 
+        for (ClassModel cls : ClassFactory.Instance.Classess) {
+            JavaFileObject file = getJavaFileObject(cls.getName(), cls.getJavaCode());
+            files.add(file);
+        }
         //2.Compile your files by JavaCompiler
         compile(files);
 
+        ClassLoader loader = loadClassesIntoMemory();
         //3.Load your class by URLClassLoader, then instantiate the instance, and call method by reflection
-        runIt(className);
+        createObject(loader, ClassFactory.Instance.Classess.get(0));
     }
 }
