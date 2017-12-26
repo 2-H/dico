@@ -33,6 +33,8 @@ import javafx.scene.control.cell.TextFieldTableCell;
  */
 public class ClassInitiationController implements Initializable {
 
+    ClassModel model;
+
     @FXML
     private Label labelInstance;
     @FXML
@@ -62,7 +64,7 @@ public class ClassInitiationController implements Initializable {
     @FXML
     private void Select(ActionEvent event) {
         String selected = comboClassType.getSelectionModel().getSelectedItem().toString();
-        ClassModel model;
+
         try {
             model = ClassFactory.Instance.GetClass(selected);
             for (Attribute t : model.getAttribute()) {
@@ -77,18 +79,20 @@ public class ClassInitiationController implements Initializable {
     @FXML
     private void CreateInstanceButtonHandler(ActionEvent event) {
         if (txtObjectName == null || (comboClassType.getValue() == null)) {
-
+            /*
+                #Alert 
+             */
             return;
         }
 
-        ClassModel classmodel = new ClassModel();
-        classmodel.setName(txtObjectName.getText());
-
-        ArrayList<Attribute> list = new ArrayList<Attribute>();
-
-        classmodel.setAttribute(list);
-        //String classText = ClassFactory.create(classmodel);
-
+        for (ObjectInstanceRow row : tableInstances.getItems()) {
+            for (Attribute atr : model.getAttribute()) {
+                if (atr.getName().equals(row.getField()) && row.getValue() != null) {
+                    atr.setValueString(row.getValue());
+                }
+            }
+        }
+        System.out.println(model.getAttribute().get(0).getValueString());
     }
 
     @Override
