@@ -163,6 +163,7 @@ public class ClassCreatorController implements Initializable {
         
         
         tblAtd.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        
         chkInherited.setSelected(false);
         comboInheritedTypes.setDisable(true);
     }

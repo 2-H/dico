@@ -16,7 +16,7 @@ public class TypesFactory {
 
     public static Type INT = new Type("int", "", int.class, false);
     public static Type STRING = new Type("String", "", int.class, true);
-    public static Type DOUBLE = new Type("Double", "", int.class, true);
+    public static Type DOUBLE = new Type("double", "", int.class, true);
     public static Type DATE = new Type("Date", "java.util.", int.class, true);
 
     public static final TypesFactory Instance = new TypesFactory();

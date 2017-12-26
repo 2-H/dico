@@ -18,11 +18,26 @@ public class ClassFactory {
         sb.append("package dicodemo; \n\n");
 
         //add package, import ...
+        
         //Render Class
         sb.append("public class ")
-                .append(model.getName())
-                //extends ...
-                .append(" {")
+                .append(model.getName());
+        
+        //Check if we must implement comparable, in case yes add it to string
+        boolean comparableFlag = false;
+        for (Attribute atr : model.getAttribute()) {
+            if (atr.isUseInCompareTo()) {
+                comparableFlag = true;
+                break;
+            }
+        }
+        if (comparableFlag) {
+            sb.append(" implements Comparable ");
+        }
+        //End check if we must implement comparable
+        
+        //extends ...
+        sb.append(" {")
                 .append("\n\n");
 
         //Start Render Default Constructer
@@ -96,6 +111,14 @@ public class ClassFactory {
         sb.append("\t\treturn true;\n\t}\n\n");
         //End Render equals method  
 
+        //Add compareTo in case flag is true
+        sb.append("\t@Override\n")
+                .append("public int compareTo(");
+        for(Attribute atd: model.getAttribute()){
+            
+        }
+        //End add compareTo in case flag is true
+        
         //Strart render hashcode
         sb.append("\t@Override\n")
                 .append("\tpublic int hashCode() {\n")
@@ -107,8 +130,8 @@ public class ClassFactory {
                         .append(atr.getName());
                 if (atr.getType().isObject()) {
                     sb.append(" == null ? 0 : ").append("this.").append(atr.getName()).append(".hashCode());\n");
-                }else{
-                     sb.append(");\n");
+                } else {
+                    sb.append(");\n");
                 }
                 //.append(" == null) ? 0 : ")
                 //.append(atr.getName())
@@ -140,13 +163,13 @@ public class ClassFactory {
         test.setName("Person");
         Attribute atr1 = new Attribute("id", TypesFactory.INT, true, true);
         Attribute atr2 = new Attribute("name", TypesFactory.STRING, true, true);
-        //Attribute atr3 = new Attribute("gender", Type.STRING, true, true);
-        //Attribute atr4 = new Attribute("birthday", Type.DATE, false, true);
+        Attribute atr3 = new Attribute("gender", TypesFactory.STRING, true, true);
+        Attribute atr4 = new Attribute("birthday", TypesFactory.DATE, false, true);
         ArrayList<Attribute> list = new ArrayList<>();
         list.add(atr1);
         list.add(atr2);
-        //list.add(atr3);
-        //list.add(atr4);
+        list.add(atr3);
+        list.add(atr4);
 
         test.setAttribute(list);
 
