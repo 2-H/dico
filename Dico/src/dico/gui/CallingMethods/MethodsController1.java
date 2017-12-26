@@ -145,6 +145,7 @@ int x=0;
 //        
 //
 //        
+tf.setEditable(false);
     ArrayList<Method> methodList = new ArrayList<>();
        ArrayList<String> classList = new ArrayList<>();
        Method ct = new Method("compareTo", 1);
