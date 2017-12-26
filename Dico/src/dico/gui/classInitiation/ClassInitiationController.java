@@ -34,7 +34,6 @@ import javafx.scene.control.cell.TextFieldTableCell;
 public class ClassInitiationController implements Initializable {
 
     ClassModel model;
-
     @FXML
     private Label labelInstance;
     @FXML
@@ -50,6 +49,16 @@ public class ClassInitiationController implements Initializable {
     @FXML
     private TableColumn tblColFeildValue;
 
+    private ArrayList<Attribute> getAllAttributes(ClassModel c) {
+        ArrayList<Attribute> allAtributes = new ArrayList<Attribute>();
+        ClassModel model;
+        while (!(c == null)) {
+            allAtributes.addAll(0, c.getAttribute());
+            c = c.getParent();
+        }
+        return allAtributes;
+    }
+
     private void addToComboBox(ArrayList<String> myArrStr) {
         for (String str : myArrStr) {
             comboClassType.getItems().add(str);
@@ -63,11 +72,16 @@ public class ClassInitiationController implements Initializable {
 
     @FXML
     private void Select(ActionEvent event) {
-        String selected = comboClassType.getSelectionModel().getSelectedItem().toString();
-
         try {
+            model = null;
+            tableInstances.getItems().clear();
+            tableInstances.refresh();
+            String selected = comboClassType.getSelectionModel().getSelectedItem().toString();
             model = ClassFactory.Instance.GetClass(selected);
-            for (Attribute t : model.getAttribute()) {
+            System.out.println("Model name before: " + model.getName());
+            ArrayList<Attribute> allAtributes = getAllAttributes(model);
+            System.out.println("Model name after: "+model.getName());
+            for (Attribute t : allAtributes) {
                 ObjectInstanceRow row = new ObjectInstanceRow(t.getName());
                 tableInstances.getItems().add(row);
             }
@@ -100,7 +114,7 @@ public class ClassInitiationController implements Initializable {
         tblColFeildName.setCellValueFactory(new PropertyValueFactory<>("field"));
         tblColFeildValue.setCellValueFactory(new PropertyValueFactory<>("value"));
         tblColFeildValue.setCellFactory(TextFieldTableCell.forTableColumn());
-       // ClassFactory.CreateDemoClass();
+        // ClassFactory.CreateDemoClass();
         addToComboBox(ClassFactory.Instance.GetClassNames());
         tableInstances.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         tableInstances.getSelectionModel().cellSelectionEnabledProperty().set(true);

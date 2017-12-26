@@ -24,6 +24,10 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import dico.gui.classCreator.*;
+import dico.models.ClassModel;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.control.ListView;
 
 /**
  * FXML Controller class
@@ -38,6 +42,8 @@ public class MainFormController implements Initializable {
     private Button btnCreateObject;
     @FXML
     private Button btnInstantiate;
+    @FXML
+    private ListView lstBoxClass;
 
     public void refreshForm() {
         if (ClassFactory.Instance.Classess.size() > 0) {
@@ -46,6 +52,11 @@ public class MainFormController implements Initializable {
         if (ObjectFactory.Instance.Objects.size() > 0) {
             btnInstantiate.setDisable(false);
         }
+        ObservableList<String> list = FXCollections.observableArrayList();
+        for (String str : ClassFactory.Instance.GetClassNames()) {
+            list.add(str);
+        }
+        lstBoxClass.setItems(list);
     }
 
     private void opener(String str) {
@@ -80,7 +91,8 @@ public class MainFormController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        refreshForm();
+        lstBoxClass.setMouseTransparent(true);
+        lstBoxClass.setFocusTraversable(false);
     }
 
 }
