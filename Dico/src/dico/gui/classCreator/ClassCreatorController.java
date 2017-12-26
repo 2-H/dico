@@ -13,11 +13,15 @@ import dico.models.Type;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 //import javafx.scene.control.Alert;
 //import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -114,15 +118,15 @@ public class ClassCreatorController implements Initializable {
             alert.setContentText("Some fields are not filled properly.");
             alert.showAndWait();
             //System.out.println("created class");
-*/
+             */
             return;
 
         }
 
-        /*Alert alert = new Alert(AlertType.INFORMATION);
+        Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("Information Dialog");
         alert.setHeaderText(null);
-*/
+         
         ClassModel classmodel = new ClassModel();
         classmodel.setName(txtClassName.getText());
 
@@ -134,11 +138,19 @@ public class ClassCreatorController implements Initializable {
 
         classmodel.setAttribute(list);
 
-        String classText = ClassFactory.Instance.create(classmodel);
+        if (comboInheritedTypes.getValue() != null) {
+            try {
+                String selected = comboInheritedTypes.getSelectionModel().getSelectedItem().toString();
+                classmodel.setParent(ClassFactory.Instance.GetClass(selected));
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(ClassCreatorController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
 
-        //alert.setContentText(classText);
+        ClassFactory.Instance.generateJavaCode(classmodel);
 
-        //alert.showAndWait();
+        alert.setContentText(classmodel.getJavaCode());
+        alert.showAndWait();
     }
 
     @Override
@@ -148,7 +160,7 @@ public class ClassCreatorController implements Initializable {
         tblColAtrributeType.setCellValueFactory(new PropertyValueFactory<>("type"));
         tblColEquals.setCellValueFactory(new PropertyValueFactory<>("equals"));
         tblColCompareTo.setCellValueFactory(new PropertyValueFactory<>("compareTo"));
-        
+
         ArrayList<String> typeList = new ArrayList<>();
         for (Type t : TypesFactory.Instance.Types) {
             typeList.add(t.getName());
@@ -156,14 +168,13 @@ public class ClassCreatorController implements Initializable {
         addToComboBox(comboTypes, typeList);
 
         ArrayList<String> classList = new ArrayList<>();
-         for (ClassModel c : ClassFactory.Classess) {
+        for (ClassModel c : ClassFactory.Classess) {
             classList.add(c.getName());
-        }      
-        addToComboBox(comboInheritedTypes,classList);
-        
-        
+        }
+        addToComboBox(comboInheritedTypes, classList);
+
         tblAtd.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        
+
         chkInherited.setSelected(false);
         comboInheritedTypes.setDisable(true);
     }
