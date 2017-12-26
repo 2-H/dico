@@ -4,7 +4,8 @@
  * and open the template in the editor.
  */
 package dico.gui.CallingMethods;
-
+import dico.ObjectFactory;
+import dico.models.ClassModel;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -21,6 +22,7 @@ import javafx.scene.control.TextField;
  * @author user
  */
 public class MethodsController1 implements Initializable {
+    ArrayList<ClassModel> Objects=ObjectFactory.Instance.Objects;
 
       @FXML
     private ComboBox comboMethods;
@@ -84,112 +86,114 @@ int x=0;
        
          
      String s= comboMethods.getSelectionModel().getSelectedItem().toString();
-       String s1= comboClass2.getSelectionModel().getSelectedItem().toString();
-        String s2= comboClass1.getSelectionModel().getSelectedItem().toString();
+       Object s2= comboClass2.getSelectionModel().getSelectedItem().toString();
+        Object s1= comboClass1.getSelectionModel().getSelectedItem().toString();
         
         
         if(s.equals("equal"))
-            if(s2.equals(s1)){
-              tf.setText("Hi");
+            if(s1.equals(s2)){
+              tf.setText("they are equal");
             }
-              else{  tf.setText("Bye");}
+              else{  tf.setText("they are not equal");}
         
         
-        
+        //
         if(s.equals("compareTo")){
-            if(s2.compareTo(s1)>0){
-             
-                  tf.setText(" "+s2+"    is greater");
-            }
-            else if(s2.compareTo(s1)<0){
-           tf.setText("  "+s1+"    is greater");
-             
-            }
-            else
-               tf.setText("equal!");
+            if(s1.getClass()==s2.getClass()){
+             Comparable c1=(Comparable) s1;
+             Comparable c2=(Comparable) s2;  
+             if(c1.compareTo(c2)>0){
+                 tf.setText(c1.toString()+"is greater");
+             }
+             else 
+                 if(c1.compareTo(c2)<0)
+                 {
+                      tf.setText(c2.toString()+"is greater");
+                 }
+             else
+                      tf.setText("they are equal");
+                 
+             }
             
+            else
+                 tf.setText("2 Objects of different classes cannot be compared");
+             
+           
+           
+           
         }
+            
+               
+            
+        
         
         if(s.equals("Hashcode")){
-            String a=""+s2.hashCode();
+            String a=""+s1.hashCode();
          tf.setText(a);
             
             
         }
         
         if(s.equals("ToString")){
-            tf.setText("my name is    "+s2);
+            tf.setText(s2.toString());
         }
       
-//         if(s.equals("equal")){
-////             if(s1.equals(s2)){
-//               tf.setText("they are equal");
-////                 
-////             }
-//                 
-//         }
-//         if(s.equals("compareTo"))
-//             tf.setText("hi");
-////             if(s1.compareTo(s2)>0){
-////                 
-////                 tf.setText("first object is greater");
-////                 
-////                 
-////             }
-////         
-////       else
-////                 if(s1.compareTo(s2)<0)
-////                 {
-////                     tf.setText("second object is greater");
-////                 }
-////         else
-////                     tf.setText("they are equal");
-////     
-//         
-//         if(s.equals("Hashcode")){
-//             String t= s1.hashCode()+"";
-//             tf.setText(t);
-//         }
-//         
-//         if(s.equals("ToString")){
-//             
-//             tf.setText(s1);
-//         }
-//           
-//         
-//         
-//         
-     }
+        }
+     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
-        ArrayList<Method> methodList = new ArrayList<>();
-        ArrayList<String> classList = new ArrayList<>();
-        Method ct = new Method("compareTo", 1);
+//        
+//
+//        
+    ArrayList<Method> methodList = new ArrayList<>();
+       ArrayList<String> classList = new ArrayList<>();
+       Method ct = new Method("compareTo", 1);
         methodList.add(ct);
         classList.add(ct.getName());
-        Method eq = new Method("equal", 1);
+       Method eq = new Method("equal", 1);
         methodList.add(eq);
-        classList.add(eq.getName());
-        Method hc = new Method("Hashcode", 0);
+       classList.add(eq.getName());
+       Method hc = new Method("Hashcode", 0);
          Method ts = new Method("ToString", 0);
          methodList.add(ts);
          classList.add(ts.getName());
 
         methodList.add(hc);
         classList.add(hc.getName());
-
+//
         addToComboBox(comboMethods, classList);
         ArrayList<String> objlist = new ArrayList<>();
-        
-        objlist.add("jhh");
-        objlist.add("Jad");
-        objlist.add("Jayer");
-        
+//        
+//        objlist.add("jhh");
+//        objlist.add("Jad");
+//        objlist.add("Jayer");
+//        
         addToComboBox(comboClass1,objlist);
         addToComboBox(comboClass2,objlist);
-        comboClass2.getSelectionModel().selectFirst();
-        comboClass1.getSelectionModel().selectFirst();
+
+   
+
+ 
+ for(Object o:Objects){
+     objlist.add(o.toString());
+     
+     
+     
+ }
+ 
+  addToComboBox(comboClass1,objlist);
+        addToComboBox(comboClass2,objlist);
+ 
+ 
+        comboClass2.getSelectionModel().selectFirst();//just to avoid NullPointrException
+      comboClass1.getSelectionModel().selectFirst();
+ 
+ 
+ 
+ 
+ 
+
+
         
 
     }
