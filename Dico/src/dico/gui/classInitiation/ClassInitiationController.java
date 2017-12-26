@@ -6,7 +6,6 @@
 package dico.gui.classInitiation;
 
 import dico.ClassFactory;
-import dico.ObjectFactory;
 import dico.TypesFactory;
 import dico.models.Attribute;
 import dico.models.ClassModel;
@@ -19,7 +18,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.SelectionModel;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -80,17 +78,13 @@ public class ClassInitiationController implements Initializable {
 
     @FXML
     private void CreateInstanceButtonHandler(ActionEvent event) {
-        if (txtObjectName.getText() == "" || (comboClassType.getValue()== null)) {
+        /*if (txtObjectName == null || (comboClassType.getValue() == null)) {
             
-            /*
-                #ALert
-            
-            */
-                
+                #Alert 
             
             return;
         }
-        
+         */
         for (ObjectInstanceRow row : tableInstances.getItems()) {
             for (Attribute atr : model.getAttribute()) {
                 if (atr.getName().equals(row.getField()) && row.getValue() != null) {
@@ -98,8 +92,7 @@ public class ClassInitiationController implements Initializable {
                 }
             }
         }
-        //System.out.println(model.getAttribute().get(0).getValueString());
-        ObjectFactory.Objects.add(model);
+        System.out.println(model.getAttribute().get(0).getValueString());
     }
 
     @Override
