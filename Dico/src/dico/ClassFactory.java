@@ -3,6 +3,7 @@ package dico;
 import dico.models.Attribute;
 import dico.models.ClassModel;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class ClassFactory {
 
@@ -321,6 +322,7 @@ public class ClassFactory {
         manager.setParent(person);
         ClassFactory.Instance.generateJavaCode(manager);
         System.out.println(manager.getJavaCode());
+        System.out.println(Arrays.toString(manager.getAttributesWithSuper().toArray()));
 
         ClassModel cto = new ClassModel();
         cto.setName("CTO");
@@ -332,6 +334,7 @@ public class ClassFactory {
         ClassFactory.Instance.generateJavaCode(cto);
         System.out.println(cto.getJavaCode());
 
+        System.out.println(Arrays.toString(cto.getAttributesWithSuper().toArray()));
     }
 
     public static void main(String[] args) {

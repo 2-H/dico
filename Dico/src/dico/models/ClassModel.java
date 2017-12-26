@@ -42,6 +42,20 @@ public class ClassModel {
         return attribute;
     }
 
+    public ArrayList<Attribute> getAttributesWithSuper() {
+        ArrayList<Attribute> list = new ArrayList<>();
+        if (parent != null) {
+            ArrayList<Attribute> superAttributes = parent.getAttributesWithSuper();
+            if (superAttributes.size() > 0) {
+                list.addAll(superAttributes);
+            }
+        }
+        if (attribute.size() > 0) {
+            list.addAll(attribute);
+        }
+        return list;
+    }
+
     public void setAttribute(ArrayList<Attribute> attribute) {
         this.attribute = attribute;
     }
