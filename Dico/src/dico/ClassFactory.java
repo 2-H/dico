@@ -6,25 +6,46 @@ import java.util.ArrayList;
 
 public class ClassFactory {
 
+    public static final ClassFactory Instance = new ClassFactory();
+
     public static ArrayList<ClassModel> Classess = new ArrayList<>();
+
+    private ClassFactory() {
+        Classess = new ArrayList<>();
+    }
+
+    public  ArrayList<String> GetClassNames() {
+        ArrayList<String> list = new ArrayList<String>();
+        for (ClassModel cls : Classess) {
+            list.add(cls.getName());
+        }
+        return list;
+    }
+
+    public  ClassModel GetClass(String name) throws ClassNotFoundException {
+        for (ClassModel cls : Classess) {
+            if(cls.getName().equals(name))
+                return cls;
+        }
+        throw new  ClassNotFoundException("Class Not Found");
+    }
 
     /*
     used by GUI to creat class
      */
-    public static String create(ClassModel model) {
+    public  String create(ClassModel model) {
         Classess.add(model);
         //String builder is better than concatination in performance 
         StringBuilder sb = new StringBuilder();
         sb.append("package dicodemo; \n\n");
 
         //add package, import ...
-        
         //Render Class
         sb.append("public class ")
                 .append(model.getName());
-        
+
         //Check if we must implement comparable, in case yes add it to string
-        boolean comparableFlag = false;
+       /* boolean comparableFlag = false;
         for (Attribute atr : model.getAttribute()) {
             if (atr.isUseInCompareTo()) {
                 comparableFlag = true;
@@ -32,10 +53,10 @@ public class ClassFactory {
             }
         }
         if (comparableFlag) {
-            sb.append(" implements Comparable ");
-        }
+            //sb.append(" implements Comparable ");
+        }*/
         //End check if we must implement comparable
-        
+
         //extends ...
         sb.append(" {")
                 .append("\n\n");
@@ -112,13 +133,13 @@ public class ClassFactory {
         //End Render equals method  
 
         //Add compareTo in case flag is true
-        sb.append("\t@Override\n")
+        /*sb.append("\t@Override\n")
                 .append("public int compareTo(");
-        for(Attribute atd: model.getAttribute()){
-            
-        }
+        for (Attribute atd : model.getAttribute()) {
+
+        }*/
         //End add compareTo in case flag is true
-        
+
         //Strart render hashcode
         sb.append("\t@Override\n")
                 .append("\tpublic int hashCode() {\n")
@@ -168,12 +189,12 @@ public class ClassFactory {
         ArrayList<Attribute> list = new ArrayList<>();
         list.add(atr1);
         list.add(atr2);
-        list.add(atr3);
-        list.add(atr4);
+        //list.add(atr3);
+        //list.add(atr4);
 
         test.setAttribute(list);
 
-        return ClassFactory.create(test);
+        return ClassFactory.Instance.create(test);
     }
 
     public static void main(String[] args) {

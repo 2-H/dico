@@ -18,8 +18,8 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
+//import javafx.scene.control.Alert;
+//import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
@@ -108,21 +108,21 @@ public class ClassCreatorController implements Initializable {
     @FXML
     private void CreateClassButtonHandler(ActionEvent event) {
         if (txtClassName == null || txtClassName.getText().trim().equals("") || tblAtd.getItems().size() == 0 || (comboInheritedTypes.getValue() == null && chkInherited.isSelected())) {
-            Alert alert = new Alert(AlertType.ERROR);
+            /*Alert alert = new Alert(AlertType.ERROR);
             alert.setTitle("Error Dialog");
             alert.setHeaderText(null);
             alert.setContentText("Some fields are not filled properly.");
             alert.showAndWait();
             //System.out.println("created class");
-
+*/
             return;
 
         }
 
-        Alert alert = new Alert(AlertType.INFORMATION);
+        /*Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("Information Dialog");
         alert.setHeaderText(null);
-
+*/
         ClassModel classmodel = new ClassModel();
         classmodel.setName(txtClassName.getText());
 
@@ -134,11 +134,11 @@ public class ClassCreatorController implements Initializable {
 
         classmodel.setAttribute(list);
 
-        String classText = ClassFactory.create(classmodel);
+        String classText = ClassFactory.Instance.create(classmodel);
 
-        alert.setContentText(classText);
+        //alert.setContentText(classText);
 
-        alert.showAndWait();
+        //alert.showAndWait();
     }
 
     @Override
