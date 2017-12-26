@@ -9,10 +9,10 @@ package dico.models;
  *
  * @author k.shehady
  */
-public class Attribute {
+public class Attribute<T> {
 
     private String name;
-    private String valueString;
+    private T valueString;
 
     private Type type;
     private boolean useInEquals;
@@ -25,11 +25,11 @@ public class Attribute {
         this.useInCompareTo = useInCompareTo;       
     }
 
-    public String getValueString() {
+    public T getValue() {
         return valueString;
     }
 
-    public void setValueString(String valueString) {
+    public void setValue(T valueString) {
         this.valueString = valueString;
     }
 

@@ -141,16 +141,16 @@ public class DicoCompiler {
             //Object instance = thisClass.newInstance();
             Constructor constructor = thisClass.getConstructor(params);
 
-            ArrayList<Class> constructorParamValues = new ArrayList<>();
+            ArrayList<Object> constructorParamValues = new ArrayList<>();
             for (Attribute atr : model.getAttribute()) {
                 Class type = (atr.getType().getClassName());
                 System.out.println(type);
-                System.out.println(atr.getValueString());
-                constructorParamValues.add(type.getClass().cast(atr.getValueString()));
+                System.out.println(atr.getValue());
+                constructorParamValues.add(atr.getValue());
             }
 
             //Object ali = constructor.newInstance(1, "ali");
-            Class[] paramsValues = constructorParamValues.toArray(new Class[constructorParamValues.size()]);
+            Object[] paramsValues = constructorParamValues.toArray(new Object[constructorParamValues.size()]);
 
             Object kassem = constructor.newInstance(paramsValues);
 

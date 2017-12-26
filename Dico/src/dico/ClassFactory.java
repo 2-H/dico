@@ -300,9 +300,9 @@ public class ClassFactory {
         ClassModel person = new ClassModel();
         person.setName("Person");
         Attribute atrId = new Attribute("id", TypesFactory.INT, true, true);
-        atrId.setValueString("1");
+        atrId.setValue(1);
         Attribute atrName = new Attribute("name", TypesFactory.STRING, true, true);
-        atrName.setValueString("ali");
+        atrName.setValue("ali");
 
         ArrayList<Attribute> list = new ArrayList<>();
         list.add(atrId);

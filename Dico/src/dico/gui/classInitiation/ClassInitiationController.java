@@ -88,11 +88,11 @@ public class ClassInitiationController implements Initializable {
         for (ObjectInstanceRow row : tableInstances.getItems()) {
             for (Attribute atr : model.getAttribute()) {
                 if (atr.getName().equals(row.getField()) && row.getValue() != null) {
-                    atr.setValueString(row.getValue());
+                    atr.setValue(row.getValue());
                 }
             }
         }
-        System.out.println(model.getAttribute().get(0).getValueString());
+        System.out.println(model.getAttribute().get(0).getValue());
     }
 
     @Override
