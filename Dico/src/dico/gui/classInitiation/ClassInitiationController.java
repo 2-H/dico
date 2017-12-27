@@ -26,6 +26,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.stage.Stage;
 
 /**
  *
@@ -80,7 +81,7 @@ public class ClassInitiationController implements Initializable {
             model = ClassFactory.Instance.GetClass(selected);
             System.out.println("Model name before: " + model.getName());
             ArrayList<Attribute> allAtributes = getAllAttributes(model);
-            System.out.println("Model name after: "+model.getName());
+            System.out.println("Model name after: " + model.getName());
             for (Attribute t : allAtributes) {
                 ObjectInstanceRow row = new ObjectInstanceRow(t.getName());
                 tableInstances.getItems().add(row);
@@ -99,14 +100,22 @@ public class ClassInitiationController implements Initializable {
             return;
         }
          */
+
         for (ObjectInstanceRow row : tableInstances.getItems()) {
-            for (Attribute atr : model.getAttribute()) {
-                if (atr.getName().equals(row.getField()) && row.getValue() != null) {
-                    atr.setValue(row.getValue());
+            ClassModel tmp = model;
+            while (tmp != null) {
+                for (Attribute atr : tmp.getAttribute()) {
+                    if (atr.getName().equals(row.getField()) && row.getValue() != null) {
+                        atr.setValue(row.getValue());
+                    }
                 }
+                tmp = tmp.getParent();
+
             }
         }
         System.out.println(model.getAttribute().get(0).getValue());
+        Stage stage = (Stage) btnCreateInstance.getScene().getWindow();
+        stage.close();
     }
 
     @Override
