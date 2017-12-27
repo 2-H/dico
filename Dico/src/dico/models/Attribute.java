@@ -12,7 +12,7 @@ package dico.models;
 public class Attribute<T> {
 
     private String name;
-    private T valueString;
+    private T value;
 
     private Type type;
     private boolean useInEquals;
@@ -26,11 +26,11 @@ public class Attribute<T> {
     }
 
     public T getValue() {
-        return valueString;
+        return value;
     }
 
-    public void setValue(T valueString) {
-        this.valueString = valueString;
+    public void setValue(T value) {
+        this.value = value;
     }
 
     public boolean isUseInEquals() {
@@ -63,7 +63,7 @@ public class Attribute<T> {
 
     @Override
     public String toString() {
-        return "Attribute{" + "name=" + name + ", valueString=" + valueString + ", type=" + type + ", useInEquals=" + useInEquals + ", useInCompareTo=" + useInCompareTo + '}';
+        return "Attribute{" + "name=" + name + ", value=" + value + ", type=" + type + ", useInEquals=" + useInEquals + ", useInCompareTo=" + useInCompareTo + '}';
     }
 
     public void setType(Type type) {

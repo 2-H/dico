@@ -316,17 +316,19 @@ public class ClassFactory {
         ClassModel manager = new ClassModel();
         manager.setName("Manager");
         Attribute atrSalary = new Attribute("salary", TypesFactory.DOUBLE, true, true);
+        atrSalary.setValue(1500.23);
         ArrayList<Attribute> list2 = new ArrayList<>();
         list2.add(atrSalary);
         manager.setAttribute(list2);
         manager.setParent(person);
         ClassFactory.Instance.generateJavaCode(manager);
         System.out.println(manager.getJavaCode());
-        System.out.println(Arrays.toString(manager.getAttributesWithSuper().toArray()));
+        //System.out.println(Arrays.toString(manager.getAttributesWithSuper().toArray()));
 
         ClassModel cto = new ClassModel();
         cto.setName("CTO");
         Attribute atrYears = new Attribute("yearsOfExperience", TypesFactory.INT, true, true);
+        atrYears.setValue(7);
         ArrayList<Attribute> list3 = new ArrayList<>();
         list3.add(atrYears);
         cto.setAttribute(list3);
@@ -334,7 +336,7 @@ public class ClassFactory {
         ClassFactory.Instance.generateJavaCode(cto);
         System.out.println(cto.getJavaCode());
 
-        System.out.println(Arrays.toString(cto.getAttributesWithSuper().toArray()));
+        //System.out.println(Arrays.toString(cto.getAttributesWithSuper().toArray()));
     }
 
     public static void main(String[] args) {

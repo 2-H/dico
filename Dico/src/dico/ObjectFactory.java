@@ -5,7 +5,13 @@
  */
 package dico;
 
+import static dico.ClassFactory.Classess;
+import dico.compiler.DicoCompilerIntiator;
+import dico.exceptions.ComplierFailedException;
+import dico.exceptions.ObjectCreationException;
+import dico.exceptions.ObjectNotFoundException;
 import dico.models.ClassModel;
+import dico.models.ObjectModel;
 import java.util.ArrayList;
 
 /**
@@ -15,14 +21,29 @@ import java.util.ArrayList;
 public class ObjectFactory {
 
     public static final ObjectFactory Instance = new ObjectFactory();
-    public static ArrayList<ClassModel> Objects;
+    public static ArrayList<ObjectModel> Objects;
 
     private ObjectFactory() {
         Objects = new ArrayList<>();
     }
 
-    public void createObject(ClassModel model) {
-        Objects.add(model);
+    public ObjectModel GetObject(String name) throws ObjectNotFoundException {
+        for (ObjectModel cls : Objects) {
+            if (cls.getVariableName().equals(name)) {
+                return cls;
+            }
+        }
+        throw new ObjectNotFoundException("Object Not Found");
+    }
+
+    public void createObject(ClassModel modelClass, String variableName) throws ComplierFailedException, ObjectCreationException {
+        if (Objects.size() == 0) {
+            DicoCompilerIntiator.Instance.CreateAndComplieFiles();
+        }
+
+        ObjectModel object = DicoCompilerIntiator.Instance.createObject(modelClass, variableName);
+
+        Objects.add(object);
 
     }
 }

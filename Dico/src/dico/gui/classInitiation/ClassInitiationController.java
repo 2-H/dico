@@ -8,6 +8,8 @@ package dico.gui.classInitiation;
 import dico.ClassFactory;
 import dico.ObjectFactory;
 import dico.TypesFactory;
+import dico.exceptions.ComplierFailedException;
+import dico.exceptions.ObjectCreationException;
 import dico.models.Attribute;
 import dico.models.ClassModel;
 import java.net.URL;
@@ -114,8 +116,14 @@ public class ClassInitiationController implements Initializable {
 
             }
         }
-        //System.out.println(model.getAttribute().get(0).getValue());
-        ObjectFactory.Instance.createObject(model);
+        try {
+            //System.out.println(model.getAttribute().get(0).getValue());
+            ObjectFactory.Instance.createObject(model,txtObjectName.getText());
+        } catch (ComplierFailedException ex) {
+            Logger.getLogger(ClassInitiationController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ObjectCreationException ex) {
+            Logger.getLogger(ClassInitiationController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         Stage stage = (Stage) btnCreateInstance.getScene().getWindow();
         stage.close();
     }
