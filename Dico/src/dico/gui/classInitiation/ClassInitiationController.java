@@ -6,6 +6,7 @@
 package dico.gui.classInitiation;
 
 import dico.ClassFactory;
+import dico.ObjectFactory;
 import dico.TypesFactory;
 import dico.models.Attribute;
 import dico.models.ClassModel;
@@ -113,7 +114,8 @@ public class ClassInitiationController implements Initializable {
 
             }
         }
-        System.out.println(model.getAttribute().get(0).getValue());
+        //System.out.println(model.getAttribute().get(0).getValue());
+        ObjectFactory.Instance.createObject(model);
         Stage stage = (Stage) btnCreateInstance.getScene().getWindow();
         stage.close();
     }
