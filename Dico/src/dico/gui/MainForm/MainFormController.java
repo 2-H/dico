@@ -25,6 +25,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import dico.gui.classCreator.*;
 import dico.models.ClassModel;
+import java.util.ArrayList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.ListView;
@@ -35,7 +36,7 @@ import javafx.scene.control.ListView;
  * @author Ali Al-Jobouri
  */
 public class MainFormController implements Initializable {
-
+      
     @FXML
     private Button btnCreateClass;
     @FXML
@@ -44,9 +45,13 @@ public class MainFormController implements Initializable {
     private Button btnInstantiate;
     @FXML
     private ListView lstBoxClass;
+    @FXML
+    private ListView lstBoxObject;
 
     public void refreshForm() {
-        if (ClassFactory.Instance.Classess.size() > 0) {
+        ArrayList<ClassModel> Objects=ObjectFactory.Instance.Objects;
+ObservableList<String> names = FXCollections.observableArrayList();     
+if (ClassFactory.Instance.Classess.size() > 0) {
             btnCreateObject.setDisable(false);
         }
         if (ObjectFactory.Instance.Objects.size() > 0) {
@@ -57,6 +62,12 @@ public class MainFormController implements Initializable {
             list.add(str);
         }
         lstBoxClass.setItems(list);
+        for(ClassModel str:Objects){
+            names.add(str.toString());
+            
+            
+        }
+        lstBoxObject.setItems(names);
     }
 
     private void opener(String str) {

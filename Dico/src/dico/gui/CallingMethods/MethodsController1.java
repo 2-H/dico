@@ -79,6 +79,23 @@ int x=0;
         for (String str : myArrStr) {
             combo.getItems().add(str);
         }
+        
+    }
+    private ClassModel FindInstance(ArrayList<ClassModel>ca,String name){
+        
+        for(ClassModel c:ca){
+            if(c.getName().equals(name)){
+                return c;
+            }
+        }
+        return null;
+    
+        
+    }
+         private void addToCombo(ComboBox combo, ArrayList<ClassModel> myArrStr) {
+        for (ClassModel str : myArrStr) {
+            combo.getItems().add(str.getName());
+        }
     }
 @FXML
      private void ApplyMethodHandler(ActionEvent event){
@@ -86,12 +103,14 @@ int x=0;
        
          
      String s= comboMethods.getSelectionModel().getSelectedItem().toString();
-       Object s2= comboClass2.getSelectionModel().getSelectedItem().toString();
-        Object s1= comboClass1.getSelectionModel().getSelectedItem().toString();
+       String s2= comboClass2.getSelectionModel().getSelectedItem().toString();
+        String s1= comboClass1.getSelectionModel().getSelectedItem().toString();
         
-        
+        ClassModel c1=FindInstance(Objects,s1);
+        ClassModel c2=FindInstance(Objects,s2);
+       
         if(s.equals("equal"))
-            if(s1.equals(s2)){
+            if(c1.equals(c2)){
               tf.setText("they are equal");
             }
               else{  tf.setText("they are not equal");}
@@ -99,16 +118,16 @@ int x=0;
         
         //
         if(s.equals("compareTo")){
-            if(s1.getClass()==s2.getClass()){
-             Comparable c1=(Comparable) s1;
-             Comparable c2=(Comparable) s2;  
+            if(c1.getClass()==c2.getClass()){
+//             Comparable c1=(Comparable) s1;
+//             Comparable c2=(Comparable) s2;  
              if(c1.compareTo(c2)>0){
-                 tf.setText(c1.toString()+"is greater");
+                 tf.setText(c1.getName()+"is greater");
              }
              else 
                  if(c1.compareTo(c2)<0)
                  {
-                      tf.setText(c2.toString()+"is greater");
+                      tf.setText(c2.getName()+"is greater");
                  }
              else
                       tf.setText("they are equal");
@@ -163,27 +182,27 @@ tf.setEditable(false);
         classList.add(hc.getName());
 //
         addToComboBox(comboMethods, classList);
-        ArrayList<String> objlist = new ArrayList<>();
+        ArrayList<ClassModel> objlist = new ArrayList<>();
 //        
 //        objlist.add("jhh");
 //        objlist.add("Jad");
 //        objlist.add("Jayer");
 //        
-        addToComboBox(comboClass1,objlist);
-        addToComboBox(comboClass2,objlist);
+        addToCombo(comboClass1,objlist);
+        addToCombo(comboClass2,objlist);
 
    
 
  
- for(Object o:Objects){
-     objlist.add(o.toString());
+ for(ClassModel o:Objects){
+     objlist.add(o);
      
      
      
  }
  
-  addToComboBox(comboClass1,objlist);
-        addToComboBox(comboClass2,objlist);
+  addToCombo(comboClass1,objlist);
+        addToCombo(comboClass2,objlist);
  
  
         comboClass2.getSelectionModel().selectFirst();//just to avoid NullPointrException
