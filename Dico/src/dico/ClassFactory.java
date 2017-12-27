@@ -1,9 +1,13 @@
 package dico;
 
+import dico.exceptions.DuplicateAttributesException;
+import dico.exceptions.DuplicateClassesException;
 import dico.models.Attribute;
 import dico.models.ClassModel;
 import java.util.ArrayList;
 import java.util.Arrays;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 
 public class ClassFactory {
 
@@ -262,11 +266,42 @@ public class ClassFactory {
         //End Render Attributes
     }
 
+    public void checkValidity(ClassModel model) throws DuplicateAttributesException, DuplicateClassesException {
+        for (String cm1 : ClassFactory.Instance.GetClassNames()) {
+            if (cm1.equals(model.getName())) {
+                throw new DuplicateClassesException("Unaccepted class name.");
+            }
+        }
+        if (model.getParent() != null) {
+            ArrayList<Attribute> attributesWithSuper = model.getParent().getAttributesWithSuper();
+            for (Attribute atd : attributesWithSuper) {
+                for (Attribute atd2 : model.getAttribute()) {
+                    if (atd2.getName().equals(atd.getName())) {
+                        throw new DuplicateAttributesException("Unaccepted attribute name.");
+                    }
+                }
+            }
+        }
+        int count = 0;
+        for (Attribute atd : model.getAttribute()) {
+            for (Attribute atd2 : model.getAttribute()) {
+                if (atd2.getName().equals(atd.getName())) {
+                    count++;
+                    if (count > 1) {
+                        throw new DuplicateAttributesException("Unaccepted attribute name.");
+                    }
+                }
+            }
+            count = 0;
+        }
+    }
+
     /*
     used by GUI to creat class
      */
-    public void generateJavaCode(ClassModel model) {
+    public void generateJavaCode(ClassModel model) throws DuplicateAttributesException, DuplicateClassesException {
         //String builder is better than concatination in performance 
+        checkValidity(model);
         StringBuilder sb = new StringBuilder();
         sb.append("package dicodemo; \n\n");
 
@@ -298,48 +333,57 @@ public class ClassFactory {
     }
 
     public static void CreateDemoClass() {
-        ClassModel person = new ClassModel();
-        person.setName("Person");
-        Attribute atrId = new Attribute("id", TypesFactory.INT, true, true);
-        atrId.setValue(1);
-        Attribute atrName = new Attribute("name", TypesFactory.STRING, true, true);
-        atrName.setValue("ali");
+        try {
+            ClassModel person = new ClassModel();
+            person.setName("Person");
+            Attribute atrId = new Attribute("id", TypesFactory.INT, true, true);
+            atrId.setValue(1);
+            Attribute atrName = new Attribute("name", TypesFactory.STRING, true, true);
+            atrName.setValue("ali");
 
-        ArrayList<Attribute> list = new ArrayList<>();
-        list.add(atrId);
-        list.add(atrName);
+            ArrayList<Attribute> list = new ArrayList<>();
+            list.add(atrId);
+            list.add(atrName);
 
-        person.setAttribute(list);
-        ClassFactory.Instance.generateJavaCode(person);
-        System.out.println(person.getJavaCode());
+            person.setAttribute(list);
+            ClassFactory.Instance.generateJavaCode(person);
+            System.out.println(person.getJavaCode());
 
-        ClassModel manager = new ClassModel();
-        manager.setName("Manager");
-        Attribute atrSalary = new Attribute("salary", TypesFactory.DOUBLE, true, true);
-        ArrayList<Attribute> list2 = new ArrayList<>();
-        list2.add(atrSalary);
-        manager.setAttribute(list2);
-        manager.setParent(person);
-        ClassFactory.Instance.generateJavaCode(manager);
-        System.out.println(manager.getJavaCode());
-        System.out.println(Arrays.toString(manager.getAttributesWithSuper().toArray()));
+            ClassModel manager = new ClassModel();
+            manager.setName("Manager");
+            Attribute atrSalary = new Attribute("salary", TypesFactory.DOUBLE, true, true);
+            ArrayList<Attribute> list2 = new ArrayList<>();
+            list2.add(atrSalary);
+            manager.setAttribute(list2);
+            manager.setParent(person);
+            ClassFactory.Instance.generateJavaCode(manager);
+            System.out.println(manager.getJavaCode());
+            System.out.println(Arrays.toString(manager.getAttributesWithSuper().toArray()));
 
-        ClassModel cto = new ClassModel();
-        cto.setName("CTO");
-        Attribute atrYears = new Attribute("yearsOfExperience", TypesFactory.INT, true, true);
-        ArrayList<Attribute> list3 = new ArrayList<>();
-        list3.add(atrYears);
-        cto.setAttribute(list3);
-        cto.setParent(manager);
-        ClassFactory.Instance.generateJavaCode(cto);
-        System.out.println(cto.getJavaCode());
+            ClassModel cto = new ClassModel();
+            cto.setName("CTO");
+            Attribute atrYears = new Attribute("yearsOfExperience", TypesFactory.INT, true, true);
+            ArrayList<Attribute> list3 = new ArrayList<>();
+            list3.add(atrYears);
+            cto.setAttribute(list3);
+            cto.setParent(manager);
+            ClassFactory.Instance.generateJavaCode(cto);
+            System.out.println(cto.getJavaCode());
 
-        System.out.println(Arrays.toString(cto.getAttributesWithSuper().toArray()));
+            System.out.println(Arrays.toString(cto.getAttributesWithSuper().toArray()));
+        } catch (DuplicateAttributesException|DuplicateClassesException ex) {
+            System.out.println(ex.toString());
+        }
+
     }
 
     public static void main(String[] args) {
 
         CreateDemoClass();
 
+    }
+
+    private Exception DuplicateAttributesException(String unaccepted_attribute_name) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
