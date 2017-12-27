@@ -7,7 +7,6 @@ package dico.gui.classInitiation;
 
 import dico.ClassFactory;
 import dico.ObjectFactory;
-import dico.TypesFactory;
 import dico.exceptions.ComplierFailedException;
 import dico.exceptions.ObjectCreationException;
 import dico.models.Attribute;
@@ -107,17 +106,20 @@ public class ClassInitiationController implements Initializable {
 
     @FXML
     private void CreateInstanceButtonHandler(ActionEvent event) {
-        /*if (txtObjectName == null || (comboClassType.getValue() == null)) {
-        #Alert
-        return;
+        for (ObjectInstanceRow oir : tableInstances.getItems()) {
+            if (oir.getValue().trim().equals("")) {
+                return;
+            }
         }
-         */
+        if (tableInstances.getItems().size() == 0 || txtObjectName.getText().trim().equals("")) {
+            return;
+        }
         for (ObjectInstanceRow row : tableInstances.getItems()) {
             ClassModel tmp = model;
             while (tmp != null) {
                 for (Attribute atr : tmp.getAttribute()) {
                     if (atr.getName().equals(row.getField()) && row.getValue() != null) {
-                        atr.setValue(GetValue(atr,row.getValue()));
+                        atr.setValue(GetValue(atr, row.getValue()));
                     }
                 }
                 tmp = tmp.getParent();
@@ -141,6 +143,8 @@ public class ClassInitiationController implements Initializable {
         tblColFeildName.setCellValueFactory(new PropertyValueFactory<>("field"));
         tblColFeildValue.setCellValueFactory(new PropertyValueFactory<>("value"));
         tblColFeildValue.setCellFactory(TextFieldTableCell.forTableColumn());
+        tblColFeildName.setStyle("-fx-alignment: CENTER;");
+        tblColFeildValue.setStyle("-fx-alignment: CENTER;");
         // ClassFactory.CreateDemoClass();
         addToComboBox(ClassFactory.Instance.GetClassNames());
         tableInstances.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);

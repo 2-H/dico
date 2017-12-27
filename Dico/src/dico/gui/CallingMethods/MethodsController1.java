@@ -22,6 +22,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
 /**
@@ -40,7 +41,7 @@ public class MethodsController1 implements Initializable {
     @FXML
     private Button btnApply;
     @FXML
-    private TextField tf;
+    private TextArea tf;
 
     /**
      * Initializes the controller class.
@@ -51,7 +52,7 @@ public class MethodsController1 implements Initializable {
 
         ArrayList<DicoMethod> methodList = DicoMethod.getMethods();
         ArrayList<String> methodNames = new ArrayList<>();
-        
+
         for (DicoMethod method : DicoMethod.getMethods()) {
             methodNames.add(method.getName());
         }
@@ -64,10 +65,17 @@ public class MethodsController1 implements Initializable {
                 parameterCount = mth.getParameterCount();
             }
         }
-        if (parameterCount == 0) {
-            comboSecondObject.setDisable(true);
-        } else {
-            comboSecondObject.setDisable(false);
+        switch (parameterCount) {
+            case 0:
+                comboSecondObject.setDisable(true);
+                comboFirstObject.setDisable(false);
+                break;
+            case 1:
+                comboSecondObject.setDisable(false);
+                comboFirstObject.setDisable(false);
+                break;
+            default:
+                break;
         }
     }
 
@@ -99,6 +107,9 @@ public class MethodsController1 implements Initializable {
     private void ApplyMethodHandler(ActionEvent event) {
 
         try {
+            if (comboMethods.getValue() == null || (!comboFirstObject.isDisabled() && comboFirstObject.getValue() == null) || (!comboSecondObject.isDisabled() && comboSecondObject.getValue() == null)) {
+                return;
+            }
             String method = comboMethods.getSelectionModel().getSelectedItem().toString();
             String second = comboSecondObject.getSelectionModel().getSelectedItem().toString();
             String first = comboFirstObject.getSelectionModel().getSelectedItem().toString();
@@ -108,6 +119,7 @@ public class MethodsController1 implements Initializable {
 
             if (method.equals("toString")) {
                 tf.setText(DicoCompilerIntiator.Instance.InvokeToString(firstObject));
+
             }
 
             /*      if (s.equals("equal")) {
@@ -146,7 +158,8 @@ public class MethodsController1 implements Initializable {
            
              */
         } catch (ObjectNotFoundException ex) {
-            Logger.getLogger(MethodsController1.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MethodsController1.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
 
     }
