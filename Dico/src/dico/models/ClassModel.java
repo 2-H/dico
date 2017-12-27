@@ -68,4 +68,9 @@ public class ClassModel {
         this.name = name;
     }
 
+    
+    public int compareTo(ClassModel  c){
+        
+        return 1;
+    }
 }

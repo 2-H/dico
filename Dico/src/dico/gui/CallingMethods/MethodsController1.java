@@ -4,11 +4,18 @@
  * and open the template in the editor.
  */
 package dico.gui.CallingMethods;
+
 import dico.ObjectFactory;
+import dico.compiler.DicoCompilerIntiator;
+import dico.exceptions.ObjectNotFoundException;
 import dico.models.ClassModel;
+import dico.models.DicoMethod;
+import dico.models.ObjectModel;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -16,20 +23,20 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+
 /**
  * FXML Controller class
  *
  * @author user
  */
 public class MethodsController1 implements Initializable {
-    ArrayList<ClassModel> Objects=ObjectFactory.Instance.Objects;
 
-      @FXML
+    @FXML
     private ComboBox comboMethods;
     @FXML
-    private ComboBox comboClass1;
+    private ComboBox comboFirstObject;
     @FXML
-    private ComboBox comboClass2;
+    private ComboBox comboSecondObject;
     @FXML
     private Button btnApply;
     @FXML
@@ -41,163 +48,129 @@ public class MethodsController1 implements Initializable {
     @FXML
 
     private void MethodDeciderHandler() {
-int x=0;
 
-        ArrayList<Method> methodList = new ArrayList<>();
-        ArrayList<String> classList = new ArrayList<>();
-        Method ct = new Method("compareTo", 1);
-        methodList.add(ct);
-        classList.add(ct.getName());
-        Method eq = new Method("equal", 1);
-        methodList.add(eq);
-        classList.add(eq.getName());
-        Method hc = new Method("Hashcode", 0);
+        ArrayList<DicoMethod> methodList = DicoMethod.getMethods();
+        ArrayList<String> methodNames = new ArrayList<>();
 
-        methodList.add(hc);
-        classList.add(hc.getName());
+        for (DicoMethod method : DicoMethod.getMethods()) {
+            methodNames.add(method.getName());
+        }
 
-        Method ts = new Method("ToString", 0);
-         methodList.add(ts);
-         classList.add(ts.getName());
-         
-       String s= comboMethods.getSelectionModel().getSelectedItem().toString();
+        String s = comboMethods.getSelectionModel().getSelectedItem().toString();
+        int parameterCount = 0;
 
-        
-         for (Method mth : methodList) {
-            if(mth.getName().equals(s))
-                x=mth.getPara();
-            
-        
-         }
-         if(x==0)
-             comboClass2.setDisable(true);
-         else
-             comboClass2.setDisable(false);
+        for (DicoMethod mth : methodList) {
+            if (mth.getName().equals(s)) {
+                parameterCount = mth.getParameterCount();
+            }
+        }
+        if (parameterCount == 0) {
+            comboSecondObject.setDisable(true);
+        } else {
+            comboSecondObject.setDisable(false);
+        }
     }
 
     private void addToComboBox(ComboBox combo, ArrayList<String> myArrStr) {
         for (String str : myArrStr) {
             combo.getItems().add(str);
         }
+
     }
-@FXML
-     private void ApplyMethodHandler(ActionEvent event){
-         
-       
-         
-     String s= comboMethods.getSelectionModel().getSelectedItem().toString();
-       Object s2= comboClass2.getSelectionModel().getSelectedItem().toString();
-        Object s1= comboClass1.getSelectionModel().getSelectedItem().toString();
-        
-        
-        if(s.equals("equal"))
-            if(s1.equals(s2)){
-              tf.setText("they are equal");
+
+    private ClassModel FindInstance(ArrayList<ClassModel> ca, String name) {
+
+        for (ClassModel c : ca) {
+            if (c.getName().equals(name)) {
+                return c;
             }
-              else{  tf.setText("they are not equal");}
-        
-        
-        //
-        if(s.equals("compareTo")){
-            if(s1.getClass()==s2.getClass()){
-             Comparable c1=(Comparable) s1;
-             Comparable c2=(Comparable) s2;  
-             if(c1.compareTo(c2)>0){
-                 tf.setText(c1.toString()+"is greater");
-             }
-             else 
-                 if(c1.compareTo(c2)<0)
-                 {
-                      tf.setText(c2.toString()+"is greater");
-                 }
-             else
-                      tf.setText("they are equal");
-                 
-             }
-            
-            else
-                 tf.setText("2 Objects of different classes cannot be compared");
-             
+        }
+        return null;
+
+    }
+
+    private void addToCombo(ComboBox combo, ArrayList<ObjectModel> myArrStr) {
+        for (ObjectModel str : myArrStr) {
+            combo.getItems().add(str.getVariableName());
+        }
+    }
+
+    @FXML
+    private void ApplyMethodHandler(ActionEvent event) {
+
+        try {
+            String method = comboMethods.getSelectionModel().getSelectedItem().toString();
+            String second = comboSecondObject.getSelectionModel().getSelectedItem().toString();
+            String first = comboFirstObject.getSelectionModel().getSelectedItem().toString();
+
+            ObjectModel firstObject = ObjectFactory.Instance.GetObject(first);
+            ObjectModel secondbject = ObjectFactory.Instance.GetObject(second);
+
+            if (method.equals("toString")) {
+                tf.setText(DicoCompilerIntiator.Instance.InvokeToString(firstObject));
+            }
+
+            /*      if (s.equals("equal")) {
+                if (c1.equals(c2)) {
+                    tf.setText("they are equal");
+                } else {
+                    tf.setText("they are not equal");
+                }
+            }
+
+            //
+            if (s.equals("compareTo")) {
+                if (c1.getClass() == c2.getClass()) {
+//             Comparable c1=(Comparable) s1;
+//             Comparable c2=(Comparable) s2;
+                    if (c1.compareTo(c2) > 0) {
+                        tf.setText(c1.getName() + "is greater");
+                    } else if (c1.compareTo(c2) < 0) {
+                        tf.setText(c2.getName() + " is greater");
+                    } else {
+                        tf.setText("they are equal");
+                    }
+
+                } else {
+                    tf.setText("2 Objects of different classes cannot be compared");
+                }
+
+            }
+
+            if (s.equals("Hashcode")) {
+                String a = " " + c1.hashCode();
+                tf.setText(a);
+
+            }
+
            
-           
-           
+             */
+        } catch (ObjectNotFoundException ex) {
+            Logger.getLogger(MethodsController1.class.getName()).log(Level.SEVERE, null, ex);
         }
-            
-               
-            
-        
-        
-        if(s.equals("Hashcode")){
-            String a=""+s1.hashCode();
-         tf.setText(a);
-            
-            
-        }
-        
-        if(s.equals("ToString")){
-            tf.setText(s2.toString());
-        }
-      
-        }
-     
+
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-//        
-//
-//        
-tf.setEditable(false);
-    ArrayList<Method> methodList = new ArrayList<>();
-       ArrayList<String> classList = new ArrayList<>();
-       Method ct = new Method("compareTo", 1);
-        methodList.add(ct);
-        classList.add(ct.getName());
-       Method eq = new Method("equal", 1);
-        methodList.add(eq);
-       classList.add(eq.getName());
-       Method hc = new Method("Hashcode", 0);
-         Method ts = new Method("ToString", 0);
-         methodList.add(ts);
-         classList.add(ts.getName());
 
-        methodList.add(hc);
-        classList.add(hc.getName());
-//
-        addToComboBox(comboMethods, classList);
-        ArrayList<String> objlist = new ArrayList<>();
-//        
-//        objlist.add("jhh");
-//        objlist.add("Jad");
-//        objlist.add("Jayer");
-//        
-        addToComboBox(comboClass1,objlist);
-        addToComboBox(comboClass2,objlist);
+        tf.setEditable(false);
 
-   
+        ArrayList<DicoMethod> methodList = DicoMethod.getMethods();
+        ArrayList<String> methodNames = new ArrayList<>();
 
- 
- for(Object o:Objects){
-     objlist.add(o.toString());
-     
-     
-     
- }
- 
-  addToComboBox(comboClass1,objlist);
-        addToComboBox(comboClass2,objlist);
- 
- 
-        comboClass2.getSelectionModel().selectFirst();//just to avoid NullPointrException
-      comboClass1.getSelectionModel().selectFirst();
- 
- 
- 
- 
- 
+        for (DicoMethod method : DicoMethod.getMethods()) {
+            methodNames.add(method.getName());
+        }
 
+        addToComboBox(comboMethods, methodNames);
+        ArrayList<ObjectModel> objlist = ObjectFactory.Instance.Objects;
 
-        
+        addToCombo(comboFirstObject, objlist);
+        addToCombo(comboSecondObject, objlist);
+
+        comboSecondObject.getSelectionModel().selectFirst();//just to avoid NullPointrException
+        comboFirstObject.getSelectionModel().selectFirst();
 
     }
-     }
-    
-
+}

@@ -349,16 +349,17 @@ public class ClassFactory {
             ClassFactory.Instance.generateJavaCode(person);
             System.out.println(person.getJavaCode());
 
-            ClassModel manager = new ClassModel();
-            manager.setName("Manager");
-            Attribute atrSalary = new Attribute("salary", TypesFactory.DOUBLE, true, true);
-            ArrayList<Attribute> list2 = new ArrayList<>();
-            list2.add(atrSalary);
-            manager.setAttribute(list2);
-            manager.setParent(person);
-            ClassFactory.Instance.generateJavaCode(manager);
-            System.out.println(manager.getJavaCode());
-            System.out.println(Arrays.toString(manager.getAttributesWithSuper().toArray()));
+        ClassModel manager = new ClassModel();
+        manager.setName("Manager");
+        Attribute atrSalary = new Attribute("salary", TypesFactory.DOUBLE, true, true);
+        atrSalary.setValue(1500.23);
+        ArrayList<Attribute> list2 = new ArrayList<>();
+        list2.add(atrSalary);
+        manager.setAttribute(list2);
+        manager.setParent(person);
+        ClassFactory.Instance.generateJavaCode(manager);
+        System.out.println(manager.getJavaCode());
+        //System.out.println(Arrays.toString(manager.getAttributesWithSuper().toArray()));
 
             ClassModel cto = new ClassModel();
             cto.setName("CTO");
