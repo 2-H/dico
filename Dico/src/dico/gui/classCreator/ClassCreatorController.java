@@ -28,6 +28,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 //import javafx.scene.control.Alert;
 //import javafx.scene.control.Alert.AlertType;
+//import javafx.scene.control.Alert;
+//import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
@@ -127,17 +129,39 @@ public class ClassCreatorController implements Initializable {
                  */
 
                 return;
-
             }
+//        Alert alert = new Alert(AlertType.INFORMATION);
+//        alert.setTitle("Information Dialog");
+//        alert.setHeaderText(null);
+//         
+        ClassModel classmodel = new ClassModel();
+        classmodel.setName(txtClassName.getText());
+
+        ArrayList<Attribute> list = new ArrayList<>();
+
+        for (AttributeRow at : tblAtd.getItems()) {
+            list.add(new Attribute(at.getName(), TypesFactory.Instance.Get(at.getType()), at.getEquals().equals("Yes"), at.getCompareTo().equals("Yes")));
+        }
+
+        classmodel.setAttribute(list);
+
+        if (comboInheritedTypes.getValue() != null) {
+            try {
+                String selected = comboInheritedTypes.getSelectionModel().getSelectedItem().toString();
+                classmodel.setParent(ClassFactory.Instance.GetClass(selected));
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(ClassCreatorController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
 
             Alert alert = new Alert(AlertType.INFORMATION);
             alert.setTitle("Information Dialog");
             alert.setHeaderText(null);
 
-            ClassModel classmodel = new ClassModel();
+           classmodel = new ClassModel();
             classmodel.setName(txtClassName.getText());
 
-            ArrayList<Attribute> list = new ArrayList<>();
+            list = new ArrayList<>();
 
             for (AttributeRow at : tblAtd.getItems()) {
                 list.add(new Attribute(at.getName(), TypesFactory.Instance.Get(at.getType()), at.getEquals().equals("Yes"), at.getCompareTo().equals("Yes")));
