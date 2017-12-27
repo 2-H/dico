@@ -94,6 +94,17 @@ public class ClassInitiationController implements Initializable {
         }
     }
 
+    private Object GetValue(Attribute atr, String value) {
+        if (atr.getType().getClassName() == int.class) {
+            return Integer.parseInt(value);
+        } else if (atr.getType().getClassName() == Double.class) {
+            return Double.parseDouble(value);
+        } else if (atr.getType().getClassName() == String.class) {
+            return value;
+        }
+        return value;
+    }
+
     @FXML
     private void CreateInstanceButtonHandler(ActionEvent event) {
         /*if (txtObjectName == null || (comboClassType.getValue() == null)) {
@@ -109,7 +120,7 @@ public class ClassInitiationController implements Initializable {
             while (tmp != null) {
                 for (Attribute atr : tmp.getAttribute()) {
                     if (atr.getName().equals(row.getField()) && row.getValue() != null) {
-                        atr.setValue(row.getValue());
+                        atr.setValue(GetValue(atr,row.getValue()));
                     }
                 }
                 tmp = tmp.getParent();
@@ -118,7 +129,7 @@ public class ClassInitiationController implements Initializable {
         }
         try {
             //System.out.println(model.getAttribute().get(0).getValue());
-            ObjectFactory.Instance.createObject(model,txtObjectName.getText());
+            ObjectFactory.Instance.createObject(model, txtObjectName.getText());
         } catch (ComplierFailedException ex) {
             Logger.getLogger(ClassInitiationController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ObjectCreationException ex) {

@@ -6,7 +6,7 @@ public class Manager extends Person {
 	super();
 	}
 
-	public Manager(String id, String name, String salary) {
+	public Manager(int id, String name, Double salary) {
 		super(id, name);
 		this.salary = salary;
 	}
@@ -28,6 +28,6 @@ public class Manager extends Person {
 		return super.toString() +"[salary=" + salary + "]";		
 	}
 
-	private String salary;
+	private Double salary;
 
 }

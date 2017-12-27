@@ -22,7 +22,7 @@ public class Attribute<T> {
         this.name = name;
         this.type = type;
         this.useInEquals = useInEquals;
-        this.useInCompareTo = useInCompareTo;       
+        this.useInCompareTo = useInCompareTo;
     }
 
     public T getValue() {
@@ -31,7 +31,7 @@ public class Attribute<T> {
 
     public void setValue(T value) {
         this.value = value;
-    }
+    } 
 
     public boolean isUseInEquals() {
         return useInEquals;

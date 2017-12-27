@@ -5,7 +5,7 @@ public class Person {
 	public Person(){
 	}
 
-	public Person(String id, String name) {
+	public Person(int id, String name) {
 		this.id = id;
 		this.name = name;
 	}
@@ -22,7 +22,7 @@ public class Person {
 			return false;
 		}
 		final Person other = (Person) obj;
-		if (!this.id.equals(other.id)) {
+		if (this.id != other.id) {
 			return false;
 		}
 		if (!this.name.equals(other.name)) {
@@ -36,7 +36,7 @@ public class Person {
 		return getClass().getName() +"[id=" + id + ", name=" + name + "]";		
 	}
 
-	private String id;
+	private int id;
 	private String name;
 
 }
