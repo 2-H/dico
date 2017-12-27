@@ -102,8 +102,12 @@ public class MainFormController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        lstBoxClass.setStyle("-fx-align: CENTER;");
+        lstBoxObject.setStyle("-fx-alignment: CENTER;");
         lstBoxClass.setMouseTransparent(true);
         lstBoxClass.setFocusTraversable(false);
+        lstBoxObject.setMouseTransparent(true);
+        lstBoxObject.setFocusTraversable(false);
     }
 
 }

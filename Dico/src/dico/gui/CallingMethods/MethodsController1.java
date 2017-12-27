@@ -51,7 +51,7 @@ public class MethodsController1 implements Initializable {
 
         ArrayList<DicoMethod> methodList = DicoMethod.getMethods();
         ArrayList<String> methodNames = new ArrayList<>();
-
+        
         for (DicoMethod method : DicoMethod.getMethods()) {
             methodNames.add(method.getName());
         }
@@ -155,7 +155,8 @@ public class MethodsController1 implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
 
         tf.setEditable(false);
-
+        comboFirstObject.setDisable(true);
+        comboSecondObject.setDisable(true);
         ArrayList<DicoMethod> methodList = DicoMethod.getMethods();
         ArrayList<String> methodNames = new ArrayList<>();
 

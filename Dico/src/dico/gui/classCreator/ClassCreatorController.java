@@ -9,8 +9,6 @@ import dico.ClassFactory;
 import dico.TypesFactory;
 import dico.exceptions.DuplicateAttributesException;
 import dico.exceptions.DuplicateClassesException;
-import dico.gui.MainForm.MainForm;
-import dico.gui.MainForm.MainFormController;
 import dico.models.Attribute;
 import dico.models.ClassModel;
 import dico.models.Type;
@@ -19,8 +17,6 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -95,9 +91,6 @@ public class ClassCreatorController implements Initializable {
             AttributeRow row = new AttributeRow(adt, type, equals, compareTo);
             tblAtd.getItems().add(row);
             txtAttributeName.clear();
-            checkEq.setSelected(false);
-            checkCt.setSelected(false);
-
         }
     }
 
@@ -134,31 +127,31 @@ public class ClassCreatorController implements Initializable {
 //        alert.setTitle("Information Dialog");
 //        alert.setHeaderText(null);
 //         
-        ClassModel classmodel = new ClassModel();
-        classmodel.setName(txtClassName.getText());
+            ClassModel classmodel = new ClassModel();
+            classmodel.setName(txtClassName.getText());
 
-        ArrayList<Attribute> list = new ArrayList<>();
+            ArrayList<Attribute> list = new ArrayList<>();
 
-        for (AttributeRow at : tblAtd.getItems()) {
-            list.add(new Attribute(at.getName(), TypesFactory.Instance.Get(at.getType()), at.getEquals().equals("Yes"), at.getCompareTo().equals("Yes")));
-        }
-
-        classmodel.setAttribute(list);
-
-        if (comboInheritedTypes.getValue() != null) {
-            try {
-                String selected = comboInheritedTypes.getSelectionModel().getSelectedItem().toString();
-                classmodel.setParent(ClassFactory.Instance.GetClass(selected));
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(ClassCreatorController.class.getName()).log(Level.SEVERE, null, ex);
+            for (AttributeRow at : tblAtd.getItems()) {
+                list.add(new Attribute(at.getName(), TypesFactory.Instance.Get(at.getType()), at.getEquals().equals("Yes"), at.getCompareTo().equals("Yes")));
             }
-        }
+
+            classmodel.setAttribute(list);
+
+            if (comboInheritedTypes.getValue() != null) {
+                try {
+                    String selected = comboInheritedTypes.getSelectionModel().getSelectedItem().toString();
+                    classmodel.setParent(ClassFactory.Instance.GetClass(selected));
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(ClassCreatorController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
 
             Alert alert = new Alert(AlertType.INFORMATION);
             alert.setTitle("Information Dialog");
             alert.setHeaderText(null);
 
-           classmodel = new ClassModel();
+            classmodel = new ClassModel();
             classmodel.setName(txtClassName.getText());
 
             list = new ArrayList<>();
@@ -204,7 +197,10 @@ public class ClassCreatorController implements Initializable {
         tblColAtrributeType.setCellValueFactory(new PropertyValueFactory<>("type"));
         tblColEquals.setCellValueFactory(new PropertyValueFactory<>("equals"));
         tblColCompareTo.setCellValueFactory(new PropertyValueFactory<>("compareTo"));
-
+        tblColAttributeName.setStyle("-fx-alignment: CENTER;");
+        tblColAtrributeType.setStyle("-fx-alignment: CENTER;");
+        tblColEquals.setStyle("-fx-alignment: CENTER;");
+        tblColCompareTo.setStyle("-fx-alignment: CENTER;");
         ArrayList<String> typeList = new ArrayList<>();
         for (Type t : TypesFactory.Instance.Types) {
             typeList.add(t.getName());

@@ -8,13 +8,13 @@
 
 <AnchorPane id="AnchorPane" fx:id="AnchorPane" prefHeight="569.0" prefWidth="757.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dico.gui.MainForm.MainFormController">
    <children>
-      <Button fx:id="btnCreateClass" layoutX="306.0" layoutY="100.0" mnemonicParsing="false" onAction="#OpenCreateClass" prefHeight="39.0" prefWidth="145.0" text="Create Class" />
-      <Button fx:id="btnCreateObject" disable="true" layoutX="306.0" layoutY="150.0" mnemonicParsing="false" onAction="#OpenCreateObject" prefHeight="39.0" prefWidth="145.0" text="Create Objects" />
-      <Button fx:id="btnInstantiate" disable="true" layoutX="306.0" layoutY="200.0" mnemonicParsing="false" onAction="#OpenInstantiate" prefHeight="39.0" prefWidth="145.0" text="Instantiate" />
+      <Button fx:id="btnCreateClass" layoutX="306.0" layoutY="99.0" mnemonicParsing="false" onAction="#OpenCreateClass" prefHeight="39.0" prefWidth="145.0" text="Create Class" />
+      <Button fx:id="btnCreateObject" disable="true" layoutX="306.0" layoutY="149.0" mnemonicParsing="false" onAction="#OpenCreateObject" prefHeight="39.0" prefWidth="145.0" text="Create Objects" />
+      <Button fx:id="btnInstantiate" disable="true" layoutX="306.0" layoutY="199.0" mnemonicParsing="false" onAction="#OpenInstantiate" prefHeight="39.0" prefWidth="145.0" text="Instantiate" />
       <ListView id="lstBoxClass" fx:id="lstBoxObject" layoutX="451.0" layoutY="293.0" prefHeight="205.0" prefWidth="171.0" />
-      <Label fx:id="lblAvailableClasses" layoutX="161.0" layoutY="268.0" text="Available classes:" />
+      <Label fx:id="lblAvailableClasses" layoutX="135.0" layoutY="268.0" text="Available classes" />
       <ListView fx:id="lstBoxClass" layoutX="135.0" layoutY="293.0" prefHeight="205.0" prefWidth="171.0" />
-      <Label layoutX="494.0" layoutY="268.0" text="Created Objects" />
+      <Label layoutX="451.0" layoutY="268.0" text="Created objects (POOL)" />
    </children>
  
 </AnchorPane>
