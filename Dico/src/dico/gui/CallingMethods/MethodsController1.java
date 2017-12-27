@@ -127,7 +127,7 @@ int x=0;
              else 
                  if(c1.compareTo(c2)<0)
                  {
-                      tf.setText(c2.getName()+"is greater");
+                      tf.setText(c2.getName()+" is greater");
                  }
              else
                       tf.setText("they are equal");
@@ -147,14 +147,14 @@ int x=0;
         
         
         if(s.equals("Hashcode")){
-            String a=""+s1.hashCode();
+            String a=" "+c1.hashCode();
          tf.setText(a);
             
             
         }
         
         if(s.equals("ToString")){
-            tf.setText(s2.toString());
+            tf.setText(c1.toString());
         }
       
         }
