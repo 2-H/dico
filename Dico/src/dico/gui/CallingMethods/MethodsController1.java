@@ -22,6 +22,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
 /**
@@ -40,7 +41,7 @@ public class MethodsController1 implements Initializable {
     @FXML
     private Button btnApply;
     @FXML
-    private TextField tf;
+    private TextArea tf;
 
     /**
      * Initializes the controller class.
