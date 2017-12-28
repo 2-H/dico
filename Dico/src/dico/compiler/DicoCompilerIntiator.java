@@ -27,6 +27,7 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.logging.Level;
@@ -41,6 +42,8 @@ import javax.tools.ToolProvider;
 //https://stackoverflow.com/questions/21544446/how-do-you-dynamically-compile-and-load-external-java-classes
 
 public class DicoCompilerIntiator {
+
+    private static final HashMap<String, Class> classess = new HashMap();
 
     public static final DicoCompilerIntiator Instance = new DicoCompilerIntiator();
     public URLClassLoader Loader;
@@ -68,14 +71,30 @@ public class DicoCompilerIntiator {
         return javaFile;
     }
 
+    public Class getClassByReflection(String className) throws ClassNotFoundException {
+        Class reflectionClass = (Class) classess.get(className);
+        if (reflectionClass == null) {
+            ClassLoader loader = getClassLoader();
+            reflectionClass = loader.loadClass("dicodemo." + className);
+            classess.put(className, reflectionClass);
+            System.out.println("Creating new Class " + className);
+
+        } else {
+            System.out.println("Read from Hashmap " + className);
+        }
+        return reflectionClass;
+    }
+
     public ObjectModel createObject(ClassModel model, String variablename) throws ObjectCreationException {
-        ClassLoader loader = getClassLoader();
+
         ObjectModel objectModel = new ObjectModel();
         objectModel.setVariableName(variablename);
         objectModel.setClassModel(model);
 
         try {
-            Class thisClass = loader.loadClass("dicodemo." + model.getName());
+
+            Class thisClass = getClassByReflection(model.getName());
+
             objectModel.setClassReference(thisClass);
 
             ArrayList<Class> constructorParamsTypes = new ArrayList<>();
@@ -122,6 +141,19 @@ public class DicoCompilerIntiator {
             ex.printStackTrace();
         }
         return "error";
+    }
+
+    public boolean InvokeEquals(ObjectModel object1, ObjectModel object2) {
+        try {
+            Class paramsMethold[] = {Object.class};//thisClass
+            Method equalsMethod = object1.getClassReference().getDeclaredMethod("equals", paramsMethold);
+            Object o = equalsMethod.invoke(object1.getInstance(), object2.getInstance());
+            System.out.println("object1.equals(object2) ==> " + (boolean) o);
+            return (boolean) o;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return false;
     }
 
     public boolean CompileFiles(ArrayList<File> javaFiles) {

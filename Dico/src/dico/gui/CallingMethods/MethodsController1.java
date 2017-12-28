@@ -51,7 +51,7 @@ public class MethodsController1 implements Initializable {
 
         ArrayList<DicoMethod> methodList = DicoMethod.getMethods();
         ArrayList<String> methodNames = new ArrayList<>();
-        
+
         for (DicoMethod method : DicoMethod.getMethods()) {
             methodNames.add(method.getName());
         }
@@ -104,20 +104,18 @@ public class MethodsController1 implements Initializable {
             String first = comboFirstObject.getSelectionModel().getSelectedItem().toString();
 
             ObjectModel firstObject = ObjectFactory.Instance.GetObject(first);
-            ObjectModel secondbject = ObjectFactory.Instance.GetObject(second);
+            ObjectModel secondObject = ObjectFactory.Instance.GetObject(second);
 
             if (method.equals("toString")) {
                 tf.setText(DicoCompilerIntiator.Instance.InvokeToString(firstObject));
-            }
-
-            /*      if (s.equals("equal")) {
-                if (c1.equals(c2)) {
-                    tf.setText("they are equal");
+            } else if (method.equals("equals")) {
+                if (DicoCompilerIntiator.Instance.InvokeEquals(firstObject,secondObject)) {
+                    tf.setText(first + " is equal to " + second);
                 } else {
-                    tf.setText("they are not equal");
+                    tf.setText(first + " is not equal to " + second);
                 }
             }
-
+            /*
             //
             if (s.equals("compareTo")) {
                 if (c1.getClass() == c2.getClass()) {
@@ -155,8 +153,8 @@ public class MethodsController1 implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
 
         tf.setEditable(false);
-        comboFirstObject.setDisable(true);
-        comboSecondObject.setDisable(true);
+        //comboFirstObject.setDisable(true);
+        //comboSecondObject.setDisable(true);
         ArrayList<DicoMethod> methodList = DicoMethod.getMethods();
         ArrayList<String> methodNames = new ArrayList<>();
 

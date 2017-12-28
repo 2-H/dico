@@ -9,6 +9,7 @@ import dico.ClassFactory;
 import dico.ObjectFactory;
 import dico.TypesFactory;
 import dico.exceptions.ComplierFailedException;
+import dico.exceptions.DicoClassNotFoundException;
 import dico.exceptions.ObjectCreationException;
 import dico.models.Attribute;
 import dico.models.ClassModel;
@@ -89,7 +90,7 @@ public class ClassInitiationController implements Initializable {
                 ObjectInstanceRow row = new ObjectInstanceRow(t.getName());
                 tableInstances.getItems().add(row);
             }
-        } catch (ClassNotFoundException ex) {
+        } catch (DicoClassNotFoundException ex) {
             Logger.getLogger(ClassInitiationController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -112,24 +113,26 @@ public class ClassInitiationController implements Initializable {
         return;
         }
          */
-        for (ObjectInstanceRow row : tableInstances.getItems()) {
-            ClassModel tmp = model;
-            while (tmp != null) {
-                for (Attribute atr : tmp.getAttribute()) {
-                    if (atr.getName().equals(row.getField()) && row.getValue() != null) {
-                        atr.setValue(GetValue(atr,row.getValue()));
-                    }
-                }
-                tmp = tmp.getParent();
-
-            }
-        }
         try {
+            for (ObjectInstanceRow row : tableInstances.getItems()) {
+                ClassModel tmp = model;
+                while (tmp != null) {
+                    for (Attribute atr : tmp.getAttribute()) {
+                        if (atr.getName().equals(row.getField()) && row.getValue() != null) {
+                            atr.setValue(GetValue(atr, row.getValue()));
+                        }
+                    }
+                    tmp = tmp.getParent();
+
+                }
+            }
             //System.out.println(model.getAttribute().get(0).getValue());
             ObjectFactory.Instance.createObject(model, txtObjectName.getText());
         } catch (ComplierFailedException ex) {
             Logger.getLogger(ClassInitiationController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ObjectCreationException ex) {
+            Logger.getLogger(ClassInitiationController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
             Logger.getLogger(ClassInitiationController.class.getName()).log(Level.SEVERE, null, ex);
         }
         Stage stage = (Stage) btnCreateInstance.getScene().getWindow();

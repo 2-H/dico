@@ -6,9 +6,9 @@ public class CTO extends Manager {
 	super();
 	}
 
-	public CTO(int id, String name, Double salary, int yearsOfExperience) {
+	public CTO(int id, String name, Double salary, int experience) {
 		super(id, name, salary);
-		this.yearsOfExperience = yearsOfExperience;
+		this.experience = experience;
 	}
 
 	@Override
@@ -17,7 +17,7 @@ public class CTO extends Manager {
 			return false;
 		}
 		final CTO other = (CTO) obj;
-		if (this.yearsOfExperience != other.yearsOfExperience) {
+		if (this.experience != other.experience) {
 			return false;
 		}
 		return true;
@@ -25,9 +25,9 @@ public class CTO extends Manager {
 
 	@Override
 	public String toString() {
-		return super.toString() +"[yearsOfExperience=" + yearsOfExperience + "]";		
+		return super.toString() +"[experience=" + experience + "]";		
 	}
 
-	private int yearsOfExperience;
+	private int experience;
 
 }
