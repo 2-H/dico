@@ -18,6 +18,6 @@
     <Label layoutX="301.0" layoutY="44.0" text="2nd instance" />
     <Button layoutX="402.0" layoutY="80.0" mnemonicParsing="false" onAction="#ApplyMethodHandler" prefHeight="25.0" prefWidth="111.0" text="Apply" />
     <Label layoutX="14.0" layoutY="107.0" prefHeight="27.0" prefWidth="66.0" text="Result" textFill="#1fae26" />
-    <TextArea fx:id="tf" layoutX="11.0" layoutY="131.0" prefHeight="166.0" prefWidth="458.0" />
+    <TextArea fx:id="tf" layoutX="11.0" layoutY="131.0" prefHeight="193.0" prefWidth="458.0" />
   </children>
 </AnchorPane>
