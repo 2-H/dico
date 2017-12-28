@@ -7,7 +7,6 @@ package dico.gui.classInitiation;
 
 import dico.ClassFactory;
 import dico.ObjectFactory;
-import dico.TypesFactory;
 import dico.exceptions.ComplierFailedException;
 import dico.exceptions.DicoClassNotFoundException;
 import dico.exceptions.ObjectCreationException;
@@ -144,6 +143,8 @@ public class ClassInitiationController implements Initializable {
         tblColFeildName.setCellValueFactory(new PropertyValueFactory<>("field"));
         tblColFeildValue.setCellValueFactory(new PropertyValueFactory<>("value"));
         tblColFeildValue.setCellFactory(TextFieldTableCell.forTableColumn());
+        tblColFeildName.setStyle("-fx-alignment: CENTER;");
+        tblColFeildValue.setStyle("-fx-alignment: CENTER;");
         // ClassFactory.CreateDemoClass();
         addToComboBox(ClassFactory.Instance.GetClassNames());
         tableInstances.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
