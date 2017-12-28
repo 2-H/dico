@@ -110,8 +110,8 @@ public class ClassInitiationController implements Initializable {
     private void CreateInstanceButtonHandler(ActionEvent event) {
         /*if (txtObjectName == null || (comboClassType.getValue() == null)) {
         #Alert
-        return;
-        }
+                return;
+            }
          */
         try {
             for (ObjectInstanceRow row : tableInstances.getItems()) {
