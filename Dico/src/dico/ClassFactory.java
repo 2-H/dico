@@ -10,6 +10,7 @@ import java.util.Arrays;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
+
 public class ClassFactory {
 
     public static final ClassFactory Instance = new ClassFactory();
