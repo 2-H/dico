@@ -13,9 +13,8 @@ import dico.models.Dictionary;
  */
 public class DictionaryFactory<T> {
 
-    public  Dictionary<T> createDictionary(T instance) {
+    public Dictionary<T> createDictionary(T instance) {
         Dictionary<T> dic = new Dictionary<>();
-
         return dic;
     }
 }
