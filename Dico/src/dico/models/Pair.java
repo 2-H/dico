@@ -14,8 +14,8 @@ import java.util.Set;
  */
 public class Pair<T> {
 
-    private Set<T> friends;
-    private Set<T> enemies;
+    private Set<T> friends = null;
+    private Set<T> enemies = null;
 
     public Pair() {
         friends = new HashSet<>();
@@ -51,6 +51,11 @@ public class Pair<T> {
         }
         friends.add(friend);
         return 1;       // friend added
+    }
+
+    public void addFriends(Set<T> friends) {
+        //Note: in HashSet item can't be duplicated (duplicate value will not be inserted)
+        this.friends.addAll(friends);
     }
 
     public int addEnemy(T enemy) {

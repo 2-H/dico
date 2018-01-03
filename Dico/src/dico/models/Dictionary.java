@@ -31,24 +31,99 @@ public class Dictionary<T> implements Collection<T>, Iterable<T> {
         return true;
     }
 
-    public Set<T> findFriends() {
-        Set<T> friends = new HashSet<>();
+    public Set<T> findFriends(T e) {
+        //  Set<T> friends = new HashSet<>();
+        if (elements.containsKey(e)) {
+            Pair<T> p = elements.get(e);
+            return p.getFriends();
+        }
+        return null;
+//        (a)The	friend	of	my	friend	is	my	friend. 
+//        (b)The	friend	of	my	enemy	is	my	enemy. 
 
-        //(a)The	friend	of	my	friend	is	my	friend. 
-        //(b)The	friend	of	my	enemy	is	my	enemy. 
-        return friends;
     }
 
-    public Set<T> findEnemies() {
-        Set<T> enemies = new HashSet<>();
-
-        //(c) The	enemy	of	my	enemy	is	my	friend.
-        //(d) The	enemy	of	my	friend	is	my	enemy.
-        return enemies;
+    public Set<T> findEnemies(T e) {
+        if (elements.containsKey(e)) {
+            Pair<T> p = elements.get(e);
+            return p.getEnemies();
+        }
+        return null;
     }
 
     public void addFriend(T element, T friend) {
+       
+        Pair<T> mySet = elements.get(element);
+        Pair<T> friendSet = elements.get(friend);
+        
+        //0-He must be added to each set of friends of my friends + his friends must be added 
+        //  to each individual of my friends
+        for(T elem : mySet.getFriends()){
+             Pair<T> individual = elements.get(elem);
+             individual.addFriend(friend);
+             individual.addFriends(friendSet.getFriends());
+        }
+        
+        //1-Me must be added to his friends + my friends must be added to each individual in the set of his friends
+        for (T elem : friendSet.getFriends()) {
+            Pair<T> individual = elements.get(elem);
+            individual.addFriend(element);
+            individual.addFriends(mySet.getFriends());
+        }
+        
+        //2-My friends must be added to the set of his friends
+        friendSet.addFriends(mySet.getFriends());
+        
+        //3-Friends of the the new friend must be added to the set of my friends
+        mySet.addFriends(friendSet.getFriends());
+         
+        //4-Me must be his friend
+        friendSet.addFriend(element); 
+        
+        //5-He must be my friend
+        mySet.addFriend(friend);
+        
     }
+//    public void addFriend(T element, T friend) {
+////        if(elements.get(element).getFriends()==null || elements.get(friend).getFriends()==null || elements.get(element)==null || elements.get(friend)==null){
+////        return;
+////        }
+//        Pair<T> p = elements.get(element);
+//        Pair<T> p2 = elements.get(friend);
+//        Set<T> myFriends = p.getFriends();
+//        Set<T> fof = p2.getFriends();
+//        Set<T> eof = p2.getEnemies();
+//        for (T elem : myFriends) {
+//            Pair<T> tmp = elements.get(elem);
+//            tmp.addFriend(friend);
+//            tmp.getFriends().addAll(fof);
+//        }
+//        p.addFriend(friend);
+//    
+//        // tmp.getFriends().remove(elem);
+//
+//        p.getFriends().addAll(fof);
+//        p.getEnemies().addAll(eof);
+//
+//        for (T elem : fof) {
+//
+//            Pair<T> tmp = elements.get(elem);
+//
+//            tmp.addFriend(element);
+//            
+//            tmp.getFriends().addAll(myFriends);
+//            tmp.removeFriends(friend);
+//            //tmp.removeFriends(friend);
+////            if(tmp.getFriends().contains(element)){
+////                tmp.getFriends().remove(element);
+////            }
+////             if(tmp.getFriends().contains(friend)){
+////                tmp.getFriends().remove(friend);
+////            }
+//        }
+//            
+//
+//    }
 
     public void addEnemy(T element, T enemy) {
     }
@@ -113,4 +188,25 @@ public class Dictionary<T> implements Collection<T>, Iterable<T> {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    public void Demo() {
+        Dictionary<String> dico = new Dictionary<>();
+        dico.add("Ahmad");
+        dico.add("Ali");
+        dico.add("Hasan");
+        dico.add("Fakhre");
+        dico.add("Jad");
+        dico.add("Bandar");
+        dico.add("Jozef");
+        dico.addFriend("Bandar", "Jozef");
+        dico.addFriend("Ali", "Ahmad");
+        dico.addFriend("Ali", "Hasan");
+        dico.addFriend("Jad", "Bandar");
+        dico.addFriend("Jad", "Fakhre");
+        dico.addFriend("Jad", "Ali");
+    }
+
+    public static void main(String[] myArgs) {
+        Dictionary<String> dico = new Dictionary<>();
+        dico.Demo();
+    }
 }
