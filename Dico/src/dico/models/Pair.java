@@ -55,7 +55,14 @@ public class Pair<T> {
 
     public void addFriends(Set<T> friends) {
         //Note: in HashSet item can't be duplicated (duplicate value will not be inserted)
-        this.friends.addAll(friends);
+        //this.friends.addAll(friends);
+        for (T elem : friends) {
+            addFriend(elem);
+        }
+    }
+
+    public void addEnemies(Set<T> enemies) {
+        this.enemies.addAll(enemies);
     }
 
     public int addEnemy(T enemy) {
@@ -68,9 +75,9 @@ public class Pair<T> {
         return 1;       // enemy added
     }
 
-    public boolean removeFriends(T friend) {
+    public boolean removeFriend(T friend) {
         if (friends.contains(friend)) {
-            friends.remove(friends);
+            friends.remove(friend);
             return true;
         }
         return false;
