@@ -5,6 +5,7 @@
  */
 package dico.models;
 
+import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -21,8 +22,15 @@ public class Dictionary<T> implements Collection<T>, Iterable<T> {
 
     private Map<T, Pair<T>> elements;
 
-    public Dictionary() {
+    public T Test;
+    
+    public Dictionary(Class<T> type) {       //
+
         elements = new HashMap<>();
+    }
+
+    protected String getGenericName() {
+        return ((Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0]).getTypeName();
     }
 
     @Override
@@ -252,36 +260,4 @@ public class Dictionary<T> implements Collection<T>, Iterable<T> {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public void Demo() {
-        Dictionary<String> dico = new Dictionary<>();
-        dico.add("Ahmad");
-        dico.add("Ali");
-        dico.add("Hasan");
-        dico.add("Fakhre");
-        dico.add("Jad");
-        dico.add("Bandar");
-        dico.add("Jozef");
-        dico.add("Tony");
-
-        dico.addFriend("Bandar", "Jozef");
-        dico.remove("Jozef");
-        dico.addFriend("Ali", "Ahmad");
-        dico.addFriend("Ali", "Hasan");
-        dico.addFriend("Jad", "Bandar");
-        dico.addFriend("Jad", "Fakhre");
-        dico.addFriend("Jad", "Ali");
-        dico.remove("Ali");
-//        dico.addFriend("Jad", "Jozef");
-//        dico.addEnemy("Tony", "Bandar");
-//        dico.addEnemy("Jad", "Bandar");
-//        dico.addFriend("Ali", "Ahmad");
-//        dico.addFriend("Ahmad", "Hasan");
-//        dico.addFriend("Ali", "Jad");
-
-    }
-
-    public static void main(String[] myArgs) {
-        Dictionary<String> dico = new Dictionary<>();
-        dico.Demo();
-    }
 }
