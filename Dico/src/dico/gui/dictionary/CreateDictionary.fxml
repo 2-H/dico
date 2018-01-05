@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.collections.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="259.951171875" prefWidth="550.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="dico.gui.Dictionary.CreateDictionaryController">
+  <children>
+    <ComboBox fx:id="ComboTypes" layoutX="163.0" layoutY="79.0" prefHeight="30.0" prefWidth="283.0" />
+    <Label layoutX="20.0" layoutY="76.0" prefHeight="36.0" prefWidth="129.00009999999747" text="Dictionary Type :" />
+    <Button fx:id="btnCreateDictionary" layoutX="384.0" layoutY="176.0" mnemonicParsing="false" onAction="#CreateDictionary" prefHeight="31.0" prefWidth="138.0" text="CreateDictionary" />
+    <Label layoutX="17.0" layoutY="24.0" prefHeight="30.0" text="Dictionary Name :">
+      <font>
+        <Font size="15.0" />
+      </font>
+    </Label>
+    <TextField fx:id="DictionaryName" layoutX="159.0" layoutY="26.0" prefHeight="31.0" prefWidth="294.0" />
+  </children>
+</AnchorPane>

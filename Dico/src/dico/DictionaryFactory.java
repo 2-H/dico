@@ -5,16 +5,34 @@
  */
 package dico;
 
+import dico.compiler.DicoCompilerIntiator;
+import dico.exceptions.ComplierFailedException;
+import dico.models.ClassModel;
 import dico.models.Dictionary;
+import java.lang.reflect.ParameterizedType;
+import java.util.ArrayList;
 
 /**
  *
  * @author k.shehady
  */
-public class DictionaryFactory<T> {
+public class DictionaryFactory {
+    
+    public static ArrayList<Dictionary> Dictionaries = new ArrayList<>();
+    
+    public static void createDictionary(ClassModel cls) {
+       // ParameterizedType t = (ParameterizedType) cls; // OtherClass<String>
+        //Dictionary<?> dic = (Dictionary<?>) t.getActualTypeArguments()[0]; // Class<String>
 
-    public Dictionary<T> createDictionary(T instance) {
-        Dictionary<T> dic = new Dictionary<>();
-        return dic;
+       // Dictionaries.add(dic);
+    }
+    
+    public static void main(String[] args) throws ComplierFailedException, ClassNotFoundException {
+        ClassFactory.CreateDemoClass();
+         DicoCompilerIntiator.Instance.CreateAndComplieFiles();
+        for (ClassModel c : ClassFactory.Classess) {
+            DictionaryFactory.createDictionary(c);
+        }
+        
     }
 }

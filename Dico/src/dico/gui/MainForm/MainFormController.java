@@ -108,7 +108,7 @@ public class MainFormController implements Initializable {
     @FXML
     private void CreateDico()
     {
-        opener("..//");
+        opener("..//dictionary//CreateDictionary.fxml");
     }
     @FXML
     private void Search()

@@ -16,7 +16,7 @@ public class ClassModel {
     public ClassModel() {
         attribute = new ArrayList<>();
     }
-
+    private Class classReference;
     private String name;
     private ArrayList<Attribute> attribute;
     private ClassModel parent;
@@ -68,9 +68,17 @@ public class ClassModel {
         this.name = name;
     }
 
-    
-    public int compareTo(ClassModel  c){
-        
+    public int compareTo(ClassModel c) {
+
         return 1;
     }
+
+    public Class getClassReference() {
+        return classReference;
+    }
+
+    public void setClassReference(Class classReference) {
+        this.classReference = classReference;
+    }
+
 }

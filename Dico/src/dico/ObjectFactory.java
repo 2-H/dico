@@ -36,7 +36,7 @@ public class ObjectFactory {
         throw new ObjectNotFoundException("Object Not Found");
     }
 
-    public void createObject(ClassModel modelClass, String variableName) throws ComplierFailedException, ObjectCreationException {
+    public void createObject(ClassModel modelClass, String variableName) throws ComplierFailedException, ObjectCreationException, ClassNotFoundException {
         if (Objects.size() == 0) {
             DicoCompilerIntiator.Instance.CreateAndComplieFiles();
         }

@@ -95,7 +95,7 @@ public class DicoCompilerIntiator {
 
             Class thisClass = getClassByReflection(model.getName());
 
-            objectModel.setClassReference(thisClass);
+            objectModel.getClassModel().setClassReference(thisClass);
 
             ArrayList<Class> constructorParamsTypes = new ArrayList<>();
             for (Attribute atr : model.getAttributesWithSuper()) {
@@ -132,7 +132,7 @@ public class DicoCompilerIntiator {
 
     public String InvokeToString(ObjectModel object) {
         try {
-            Method method = object.getClassReference().getDeclaredMethod("toString", null);
+            Method method = object.getClassModel().getClassReference().getDeclaredMethod("toString", null);
             Object str = method.invoke(object.getInstance());
             String text = str.toString();
             System.out.println(text);
@@ -146,7 +146,7 @@ public class DicoCompilerIntiator {
     public boolean InvokeEquals(ObjectModel object1, ObjectModel object2) {
         try {
             Class paramsMethold[] = {Object.class};//thisClass
-            Method equalsMethod = object1.getClassReference().getDeclaredMethod("equals", paramsMethold);
+            Method equalsMethod = object1.getClassModel().getClassReference().getDeclaredMethod("equals", paramsMethold);
             Object o = equalsMethod.invoke(object1.getInstance(), object2.getInstance());
             System.out.println("object1.equals(object2) ==> " + (boolean) o);
             return (boolean) o;
@@ -217,7 +217,7 @@ public class DicoCompilerIntiator {
         return Loader;
     }
 
-    public void CreateAndComplieFiles() throws ComplierFailedException {
+    public void CreateAndComplieFiles() throws ComplierFailedException, ClassNotFoundException {
         ArrayList<File> files = new ArrayList<>();
 
         for (ClassModel cls : ClassFactory.Instance.Classess) {
@@ -227,6 +227,11 @@ public class DicoCompilerIntiator {
         boolean success = CompileFiles(files);
         if (!success) {
             throw new ComplierFailedException("Complier Failed ");
+        } else {
+            for (ClassModel cls : ClassFactory.Instance.Classess) {
+                Class thisClass = getClassByReflection(cls.getName());                
+                cls.setClassReference(thisClass);
+            }
         }
     }
 
@@ -239,7 +244,7 @@ public class DicoCompilerIntiator {
                 ObjectModel object = DicoCompilerIntiator.Instance.createObject(cls, "variable");
                 DicoCompilerIntiator.Instance.InvokeToString(object);
             }
-        } catch (ComplierFailedException | ObjectCreationException ex) {
+        } catch (ComplierFailedException | ObjectCreationException |ClassNotFoundException ex) {
             Logger.getLogger(DicoCompilerIntiator.class.getName()).log(Level.SEVERE, null, ex);
         }
 

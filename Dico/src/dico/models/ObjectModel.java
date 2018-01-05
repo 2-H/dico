@@ -13,17 +13,7 @@ public class ObjectModel {
 
     private ClassModel classModel;
     private String variableName;
-
-    private Class classReference;
-    private Object instance;
-
-    public Class getClassReference() {
-        return classReference;
-    }
-
-    public void setClassReference(Class classReference) {
-        this.classReference = classReference;
-    }
+    private Object instance;   
 
     public Object getInstance() {
         return instance;
