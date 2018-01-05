@@ -9,6 +9,7 @@ import static javafx.application.Application.launch;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 /**
  *
@@ -17,6 +18,7 @@ import javafx.stage.Stage;
 public class ManageFriendEnemey extends Application {
          @Override
     public void start(Stage stage) throws Exception {
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("pic.png")));
         Parent root = FXMLLoader.load(getClass().getResource("ManagerFriendEnemy.fxml"));
 
         Scene scene = new Scene(root);

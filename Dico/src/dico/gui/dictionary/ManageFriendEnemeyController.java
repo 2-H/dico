@@ -20,7 +20,30 @@ import javafx.scene.control.ListView;
  */
 public class ManageFriendEnemeyController implements Initializable {
     
-        @Override
+    
+    @FXML
+    public void CreateDictionary()
+    {
+        
+    }
+    @FXML
+    public void ChooseYourDictionary()
+    {
+        
+    }
+    
+    @FXML
+    public void ChooseYourItem()
+    {
+        
+    }
+     @FXML
+    public void AddEnemy()
+    {
+        
+    }
+    
+    @Override
     public void initialize(URL url, ResourceBundle rb) {
         //get all dictionary names from list of dictionaries
        
