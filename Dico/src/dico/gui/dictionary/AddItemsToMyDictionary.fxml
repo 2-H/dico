@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="412.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="dico.gui.dictionary.AddItemsToDictionaryController">
+  <children>
+    <Button fx:id="btnSaveDictionary" layoutX="420.0" layoutY="361.0" mnemonicParsing="false" onAction="#SaveDictionary" prefHeight="31.0" prefWidth="138.0" text="Save Dictionary" />
+    <Pane id="paneForAddingDictionary" layoutX="38.0" layoutY="45.0" prefHeight="76.0" prefWidth="523.0">
+      <children>
+        <Label layoutX="14.0" layoutY="22.0" prefHeight="30.999908447265625" prefWidth="59.0000084472631" text="Items" textAlignment="CENTER" />
+        <ComboBox fx:id="Items" layoutX="168.0" layoutY="23.0" prefHeight="30.000099999997474" prefWidth="187.0" />
+        <Button fx:id="btnAddToDictionary" layoutX="378.0" layoutY="23.0" mnemonicParsing="false" onAction="#AddToDictionary" prefHeight="30.0" prefWidth="146.0" text="Add To Dictionary" />
+      </children>
+    </Pane>
+    <Label layoutX="50.0" layoutY="8.0" prefHeight="31.0" prefWidth="192.0" text="Choose Dictionary :" />
+    <ComboBox fx:id="ComboBoxDictionaries" layoutX="206.0" layoutY="9.0" onAction="#SelectDictionary" prefHeight="31.0" prefWidth="187.0" />
+    <ListView fx:id="ListviewofItems" layoutX="206.0" layoutY="135.0" prefHeight="200.0" prefWidth="354.0" />
+    <Label layoutX="129.0" layoutY="127.0" prefHeight="30.0" prefWidth="59.0" text="Items :">
+      <font>
+        <Font size="15.0" />
+      </font>
+    </Label>
+  </children>
+</AnchorPane>

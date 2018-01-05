@@ -8,9 +8,9 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="626.0" prefWidth="727.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="dico.Dictionary.CreateDictionaryController">
+<AnchorPane id="AnchorPane" prefHeight="626.0" prefWidth="797.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="dico.gui.dictionary.ManageFriendEnemeyController">
   <children>
-    <Button fx:id="btnCreateDictionary" layoutX="575.0" layoutY="579.0" mnemonicParsing="false" onAction="#CreateDictionary" prefHeight="31.0" prefWidth="138.0" text="Save Item Data" />
+    <Button fx:id="btnCreateDictionary" layoutX="645.0" layoutY="581.0" mnemonicParsing="false" onAction="#CreateDictionary" prefHeight="31.0" prefWidth="138.0" text="Save Item Data" />
     <Label layoutX="26.0" layoutY="31.0" prefHeight="31.0" prefWidth="192.0" text="Choose your Dictionary :">
       <font>
         <Font size="17.0" fx:id="x1" />
@@ -26,7 +26,7 @@
       </items>
     </ComboBox>
     <Label font="$x1" layoutX="26.0" layoutY="84.0" prefHeight="31.0" prefWidth="192.0" text="Choose your Item :" />
-    <ComboBox id="ComboBoxDictionaries" layoutX="237.0" layoutY="85.0" onAction="#ChooseYourDictionary" prefHeight="31.0" prefWidth="192.0">
+    <ComboBox id="ComboBoxDictionaries" fx:id="ComboBoxItems" layoutX="237.0" layoutY="85.0" onAction="#ChooseYourItem" prefHeight="31.0" prefWidth="192.0">
       <items>
         <FXCollections fx:factory="observableArrayList">
           <String fx:value="Item 1" />
@@ -35,9 +35,9 @@
         </FXCollections>
       </items>
     </ComboBox>
-    <TitledPane animated="false" layoutX="33.0" layoutY="162.0" prefHeight="385.0" prefWidth="333.0" text="Friends">
+    <TitledPane animated="false" layoutX="14.0" layoutY="162.0" prefHeight="385.0" prefWidth="352.0" text="Friends">
       <content>
-        <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="271.0" prefWidth="328.0">
+        <AnchorPane id="Content" fx:id="Friendspane" minHeight="0.0" minWidth="0.0" prefHeight="353.0" prefWidth="371.0">
           <children>
             <ListView layoutX="14.0" layoutY="50.0" prefHeight="278.0" prefWidth="280.0" />
             <Button id="btnAddEnemy" layoutX="175.0" layoutY="8.0" mnemonicParsing="false" onAction="#AddEnemy" prefHeight="31.0" prefWidth="54.0" text="Add" />
@@ -55,9 +55,9 @@
         </AnchorPane>
       </content>
     </TitledPane>
-    <TitledPane animated="false" collapsible="true" layoutX="380.0" layoutY="162.0" prefHeight="385.0" prefWidth="333.0" text="Enemeis">
+    <TitledPane fx:id="EnemiesPane" animated="false" collapsible="true" layoutX="426.0" layoutY="162.0" prefHeight="385.0" prefWidth="333.0" text="Enemeis">
       <content>
-        <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="271.0" prefWidth="328.0">
+        <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="353.0" prefWidth="352.0">
           <children>
             <ListView layoutX="14.0" layoutY="50.0" prefHeight="278.0" prefWidth="280.0" />
             <ComboBox id="ComboBoxDictionaries" layoutX="14.0" layoutY="8.0" onAction="#ChooseYourDictionary" prefHeight="31.0" prefWidth="147.0">

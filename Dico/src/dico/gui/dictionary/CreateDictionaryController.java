@@ -38,13 +38,16 @@ public class CreateDictionaryController implements Initializable {
     private ComboBox ComboTypes;
     @FXML
     private Button CreateDictionary;
-
+    @FXML
+    private TextField DictionaryName;
     @FXML
     private void CreateDictionary() {
         
-        String selected = ComboTypes.getSelectionModel().getSelectedItem().toString();
-        try {
-            ClassModel cls= ClassFactory.Instance.GetClass(selected);
+        String selectedtype = ComboTypes.getSelectionModel().getSelectedItem().toString();
+        String selectedname=DictionaryName.getText();
+        
+       try {
+            ClassModel cls= ClassFactory.Instance.GetClass(selectedtype);
             DictionaryFactory.createDictionary(cls);
         } catch (DicoClassNotFoundException ex) {
             Logger.getLogger(CreateDictionaryController.class.getName()).log(Level.SEVERE, null, ex);
