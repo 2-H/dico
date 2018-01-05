@@ -265,11 +265,12 @@ public class Dictionary<T> implements Collection<T>, Iterable<T> {
 
         dico.addFriend("Bandar", "Jozef");
         dico.remove("Jozef");
-//        dico.addFriend("Ali", "Ahmad");
-//        dico.addFriend("Ali", "Hasan");
-//        dico.addFriend("Jad", "Bandar");
-//        dico.addFriend("Jad", "Fakhre");
-//        dico.addFriend("Jad", "Ali");
+        dico.addFriend("Ali", "Ahmad");
+        dico.addFriend("Ali", "Hasan");
+        dico.addFriend("Jad", "Bandar");
+        dico.addFriend("Jad", "Fakhre");
+        dico.addFriend("Jad", "Ali");
+        dico.remove("Ali");
 //        dico.addFriend("Jad", "Jozef");
 //        dico.addEnemy("Tony", "Bandar");
 //        dico.addEnemy("Jad", "Bandar");
