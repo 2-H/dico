@@ -113,7 +113,7 @@ public class MainFormController implements Initializable {
     @FXML
     private void Search()
     {
-        System.out.println("dico.gui.MainForm.MainFormController.Search()");
+        opener("..//dictionary//ManagerFriendEnemy.fxml");
     }
 
     @Override
