@@ -30,6 +30,8 @@ import java.util.ArrayList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.ListView;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 /**
  * FXML Controller class
@@ -48,6 +50,9 @@ public class MainFormController implements Initializable {
     private ListView lstBoxClass;
     @FXML
     private ListView lstBoxObject;
+    @FXML
+    private Button btnCreateDictionary;
+     
 
     public void refreshForm() {
         ArrayList<ObjectModel> Objects = ObjectFactory.Instance.Objects;
@@ -99,6 +104,17 @@ public class MainFormController implements Initializable {
     private void OpenInstantiate() {
         opener("..//CallingMethods//Methods.fxml");
     }
+    
+    @FXML
+    private void CreateDico()
+    {
+        opener("..//");
+    }
+    @FXML
+    private void Search()
+    {
+        System.out.println("dico.gui.MainForm.MainFormController.Search()");
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -108,6 +124,7 @@ public class MainFormController implements Initializable {
         lstBoxClass.setFocusTraversable(false);
         lstBoxObject.setMouseTransparent(true);
         lstBoxObject.setFocusTraversable(false);
+        
     }
 
 }
