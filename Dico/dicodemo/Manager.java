@@ -1,14 +1,14 @@
 package dicodemo; 
 
-public class Manager extends Person {
+public class Manager extends Employee {
 
 	public Manager(){
 	super();
 	}
 
-	public Manager(int id, String name, Double salary) {
-		super(id, name);
-		this.salary = salary;
+	public Manager(int id, String name, Double salary, Double bonus) {
+		super(id, name, salary);
+		this.bonus = bonus;
 	}
 
 	@Override
@@ -17,7 +17,7 @@ public class Manager extends Person {
 			return false;
 		}
 		final Manager other = (Manager) obj;
-		if (!this.salary.equals(other.salary)) {
+		if (!this.bonus.equals(other.bonus)) {
 			return false;
 		}
 		return true;
@@ -25,9 +25,9 @@ public class Manager extends Person {
 
 	@Override
 	public String toString() {
-		return super.toString() +"[salary=" + salary + "]";		
+		return super.toString() +"[bonus=" + bonus + "]";		
 	}
 
-	private Double salary;
+	private Double bonus;
 
 }
