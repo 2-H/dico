@@ -1,38 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="453.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dico.gui.SearchForm.SearchFormController">
-   <children>
-      <SplitPane dividerPositions="0.5" layoutX="3.0" layoutY="102.0" prefHeight="345.0" prefWidth="594.0">
-        <items>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
-               <children>
-                  <Label layoutX="131.0" layoutY="10.0" text="Friends" />
-                  <ListView fx:id="listFriend" layoutX="6.0" layoutY="38.0" prefHeight="261.0" prefWidth="270.0" AnchorPane.bottomAnchor="43.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="43.0" />
-               </children>
-            </AnchorPane>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="322.0" prefWidth="255.0">
-               <children>
-                  <Label layoutX="129.0" layoutY="14.0" text="Enemies" />
-                  <ListView fx:id="listEnemies" layoutX="14.0" layoutY="39.0" prefHeight="261.0" prefWidth="270.0" AnchorPane.bottomAnchor="43.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="43.0" />
-               </children>
-            </AnchorPane>
-        </items>
-      </SplitPane>
-      <Button fx:id="btnSearch" layoutX="300.0" layoutY="46.0" mnemonicParsing="false" onAction="#Search" prefHeight="25.0" prefWidth="66.0" text="Search">
-         <font>
-            <Font name="Arial Bold" size="12.0" />
-         </font>
-      </Button>
-      <ComboBox fx:id="comboItems" layoutX="101.0" layoutY="46.0" prefHeight="25.0" prefWidth="146.0" />
-      <Label layoutX="14.0" layoutY="50.0" text="Objects" />
-      <Label layoutX="14.0" layoutY="21.0" text="Class Name" />
-      <ComboBox fx:id="comboDictionary" layoutX="101.0" layoutY="17.0" onAction="#getObjects" prefHeight="25.0" prefWidth="146.0" />
-   </children>
+<AnchorPane id="AnchorPane" prefHeight="453.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="dico.gui.SearchForm.SearchFormController">
+  <children>
+    <SplitPane dividerPositions="0.5" layoutX="3.0" layoutY="102.0" prefHeight="345.0" prefWidth="594.0">
+      <items>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+          <children>
+            <Label layoutX="131.0" layoutY="10.0" text="Friends" />
+            <ListView  fx:id="listFriends" prefHeight="261.0" prefWidth="270.0" AnchorPane.bottomAnchor="43.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="43.0" />
+          </children>
+        </AnchorPane>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="322.0" prefWidth="255.0">
+          <children>
+            <Label layoutX="129.0" layoutY="14.0" text="Enemies" />
+            <ListView fx:id="listEnemies" prefHeight="261.0" prefWidth="270.0" AnchorPane.bottomAnchor="43.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="43.0" />
+          </children>
+        </AnchorPane>
+      </items>
+    </SplitPane>
+    <Button fx:id="btnFind" layoutX="379.0" layoutY="50.0" mnemonicParsing="false" onAction="#FindFirendsAndEnemies" prefHeight="36.0" prefWidth="81.0" text="Find">
+      <font>
+        <Font name="Arial Bold" size="16.0" />
+      </font>
+    </Button>
+    <ComboBox fx:id="comboItems" layoutX="159.0" layoutY="59.0" onAction="#SelectItem" prefHeight="25.0" prefWidth="180.0" />
+    <Label layoutX="14.0" layoutY="61.0" prefHeight="25.0" prefWidth="91.0" text="Items :" />
+    <Label layoutX="14.0" layoutY="21.0" prefHeight="25.0" text="Dictionary Name :" />
+    <ComboBox fx:id="comboDictionary" layoutX="157.0" layoutY="16.0" onAction="#SelectDictionary" prefHeight="25.0" prefWidth="180.0" />
+  </children>
 </AnchorPane>

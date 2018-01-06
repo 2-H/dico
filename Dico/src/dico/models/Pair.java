@@ -44,10 +44,12 @@ public class Pair<T> {
     }
 
     public int addFriend(T friend) {
+        if(friends!=null){
         if (friends.contains(friend)) {
             return 0;   // friend already exists
         } else if (enemies.contains(friend)) {
             return -1;  // it's an enemy
+        }
         }
         friends.add(friend);
         return 1;       // friend added
