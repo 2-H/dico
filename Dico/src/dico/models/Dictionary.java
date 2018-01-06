@@ -301,10 +301,10 @@ public class Dictionary<T> implements Collection<T>, Iterable<T> {
         return true;
     }
 
-    public ArrayList<String> getKeySet() {
-        ArrayList<String> keySet = new ArrayList<>();
+    public ArrayList<T> getKeySet() {
+        ArrayList<T> keySet = new ArrayList<>();
         for (T o : elements.keySet()) {
-            keySet.add(o.toString());
+            keySet.add(o);
         }
         return keySet;
     }
