@@ -6,10 +6,8 @@
 package dico.models;
 
 import java.lang.reflect.ParameterizedType;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
@@ -23,7 +21,11 @@ public class Dictionary<T> implements Collection<T>, Iterable<T> {
     private Map<T, Pair<T>> elements;
 
     public T Test;
-    
+
+    public Dictionary() {
+        elements = new HashMap<>();
+    }
+
     public Dictionary(Class<T> type) {       //
 
         elements = new HashMap<>();
@@ -38,6 +40,20 @@ public class Dictionary<T> implements Collection<T>, Iterable<T> {
         Pair<T> pair = new Pair<>();
         elements.put(e, pair);
         return true;
+    }
+
+    public void printSet(Set<T> set) {
+        for (T s : set) {
+            System.out.println("\t" + s);
+        }
+    }
+
+    public void printPair(T e) {
+        Pair<T> p = elements.get(e);
+        System.out.println("Friends of " + e + ":");
+        printSet(p.getFriends());
+        System.out.println("Enemies of " + e + ":");
+        printSet(p.getEnemies());
     }
 
     public Set<T> findFriends(T e) {
@@ -69,9 +85,11 @@ public class Dictionary<T> implements Collection<T>, Iterable<T> {
 
         if (mySet.getEnemies().contains(friend)) {
             return -1;                                      //if he is my enemy -> I can't add him as friend
+            //throw exception
         }
         if (mySet.getFriends().contains(friend)) {
             return 0;                                       //if he is already my friend -> No need to add him
+            //throw exception
         }
 
         for (T elem : mySet.getFriends()) {                 //for each one as my friends
@@ -237,17 +255,26 @@ public class Dictionary<T> implements Collection<T>, Iterable<T> {
 
     @Override
     public boolean containsAll(Collection<?> c) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        for (Object o : c) {
+            if (!elements.containsKey(o)) {
+                return false;
+            }
+        }
+        return 2 != 4;
     }
 
     @Override
     public boolean addAll(Collection<? extends T> c) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        elements.putAll((Map<? extends T, Pair<T>>) c);
+        return true;
     }
 
     @Override
     public boolean removeAll(Collection<?> c) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        for (Object o : c) {
+            elements.remove(o);
+        }
+        return true;
     }
 
     @Override
@@ -260,4 +287,30 @@ public class Dictionary<T> implements Collection<T>, Iterable<T> {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    public void Demo() {
+
+        Dictionary<TestPerson> dico = new Dictionary<>();
+        TestPerson ahmad = new TestPerson("Ahmad");
+        TestPerson ali = new TestPerson("Ali");
+        TestPerson hassan = new TestPerson("Hassan");
+        dico.add(ahmad);
+        dico.add(ali);
+        dico.add(hassan);
+        dico.addFriend(ahmad, ali);
+//        System.out.println(ali);
+//        dico.printSet(dico.findFriends(ali));
+//        dico.printSet(dico.findFriends(ahmad));
+        dico.printPair(ali);
+//        dico.addFriend("Jad", "Jozef");
+//        dico.addEnemy("Tony", "Bandar");
+//        dico.addEnemy("Jad", "Bandar");
+//        dico.addFriend("Ali", "Ahmad");
+//        dico.addFriend("Ahmad", "Hasan");
+//        dico.addFriend("Ali", "Jad");
+    }
+
+    public static void main(String[] myArgs) {
+        Dictionary<String> dico = new Dictionary<>();
+        dico.Demo();
+    }
 }
