@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -36,7 +37,6 @@ public class AddItemsToDictionaryController implements Initializable {
     @FXML
     private ListView ListviewofItems;
 
-    
     private static int counter = 0;
 
     public ArrayList<String> Person = new ArrayList<>();
@@ -49,7 +49,8 @@ public class AddItemsToDictionaryController implements Initializable {
 
     @FXML
     private void RemoveItem() {
-        
+        String selected = ListviewofItems.getSelectionModel().getSelectedItem().toString();
+        ListviewofItems.getItems().remove(selected);
     }
 
     @FXML
@@ -57,8 +58,10 @@ public class AddItemsToDictionaryController implements Initializable {
         Items.getSelectionModel().clearSelection();
         //Add all Items(objects) of this type of Dictionary.
         String selectedDictionary = ComboBoxDictionaries.getSelectionModel().getSelectedItem().toString();
-       Dictionary dic= DictionaryFactory.Instance.getDictionary(selectedDictionary);
+        Dictionary dic = DictionaryFactory.Instance.getDictionary(selectedDictionary);
         Items.getItems().setAll(dic.getKeySet());
+        Items.getItems().add("Hasan");
+
     }
 
     @FXML
@@ -68,23 +71,22 @@ public class AddItemsToDictionaryController implements Initializable {
                 ComboBoxDictionaries.setDisable(true);
             }
             String selectedItem = Items.getSelectionModel().getSelectedItem().toString();
-            System.out.println(selectedItem);
+            Items.getItems().remove(Items.getSelectionModel().getSelectedItem());
             ListviewofItems.getItems().add(selectedItem);
-            Items.getItems().remove(selectedItem);
+
             if (Items.getItems().size() == 0) {
                 btnAddToDictionary.setDisable(true);
             }
             //add the item to Dictionary
         }
+
     }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        DictionaryFactory.createDemoDictionaries();
         for (String d : DictionaryFactory.Instance.getDictionaryNames()) {
             ComboBoxDictionaries.getItems().add(d);
         }
-        
 
         if (ComboBoxDictionaries.getItems().size() == 0) {
             btnAddToDictionary.setDisable(true);
