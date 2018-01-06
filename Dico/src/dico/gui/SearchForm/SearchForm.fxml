@@ -14,7 +14,7 @@
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
           <children>
             <Label layoutX="131.0" layoutY="10.0" text="Friends" />
-            <ListView  fx:id="listFriends" prefHeight="261.0" prefWidth="270.0" AnchorPane.bottomAnchor="43.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="43.0" />
+            <ListView fx:id="listFriends" prefHeight="261.0" prefWidth="270.0" AnchorPane.bottomAnchor="43.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="43.0" />
           </children>
         </AnchorPane>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="322.0" prefWidth="255.0">
@@ -25,11 +25,6 @@
         </AnchorPane>
       </items>
     </SplitPane>
-    <Button fx:id="btnFind" layoutX="379.0" layoutY="50.0" mnemonicParsing="false" onAction="#FindFirendsAndEnemies" prefHeight="36.0" prefWidth="81.0" text="Find">
-      <font>
-        <Font name="Arial Bold" size="16.0" />
-      </font>
-    </Button>
     <ComboBox fx:id="comboItems" layoutX="159.0" layoutY="59.0" onAction="#SelectItem" prefHeight="25.0" prefWidth="180.0" />
     <Label layoutX="14.0" layoutY="61.0" prefHeight="25.0" prefWidth="91.0" text="Items :" />
     <Label layoutX="14.0" layoutY="21.0" prefHeight="25.0" text="Dictionary Name :" />

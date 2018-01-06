@@ -27,8 +27,6 @@ public class SearchFormController implements Initializable {
     @FXML
     private ListView listEnemies;
     @FXML
-    private Button btnFind;
-    @FXML
     private ComboBox comboItems;
     @FXML
     private ComboBox comboDictionary;
@@ -70,10 +68,7 @@ public class SearchFormController implements Initializable {
         comboItems.getItems().setAll(DictionaryFactory.Instance.getObjectsByType(dictionary));
     }
 
-    @FXML
-    private void FindFirendsAndEnemies() {
-
-    }
+    
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
