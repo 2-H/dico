@@ -23,15 +23,15 @@ import javafx.scene.control.ListView;
 public class SearchFormController implements Initializable {
 
     @FXML
-    private ListView listFriend;
+    private ListView listFriends;
     @FXML
     private ListView listEnemies;
-    @FXML
-    private Button btnSearch;
     @FXML
     private ComboBox comboItems;
     @FXML
     private ComboBox comboDictionary;
+
+    Dictionary dictionary;
 
     @FXML
     public void Search() {
@@ -46,11 +46,29 @@ public class SearchFormController implements Initializable {
     }
 
     @FXML
-    public void getObjects() {
+    private void getObjects() {
         String selected = comboDictionary.getSelectionModel().getSelectedItem().toString();
         Dictionary dic = DictionaryFactory.Instance.getDictionary(selected);
         comboItems.getItems().setAll(dic.getKeySet());
     }
+
+    @FXML
+    private void SelectItem() {
+        Object selectedItem = comboItems.getSelectionModel().getSelectedItem();
+        System.out.println(selectedItem.toString());
+        System.out.println(dictionary.findFriends(selectedItem));
+        listFriends.getItems().setAll(dictionary.findFriends(selectedItem.toString()));
+        listEnemies.getItems().setAll(dictionary.findEnemies(selectedItem));
+    }
+
+    @FXML
+    private void SelectDictionary() {
+        String selectedDictionary = comboDictionary.getSelectionModel().getSelectedItem().toString();
+        dictionary = DictionaryFactory.Instance.getDictionary(selectedDictionary);
+        comboItems.getItems().setAll(DictionaryFactory.Instance.getObjectsByType(dictionary));
+    }
+
+    
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

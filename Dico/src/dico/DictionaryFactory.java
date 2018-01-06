@@ -39,8 +39,23 @@ public class DictionaryFactory {
 
     public ArrayList<String> getObjectsByType(Dictionary d) {
         ArrayList<String> list = new ArrayList<>();
-        list.add("person 1");
-        list.add("person 2");
+        // TestPerson ali = new TestPerson("Ali");
+        //TestPerson hassan = new TestPerson("Hassan");
+        // TestPerson zahi = new TestPerson("zahi");
+
+        d.add("Person 1");
+        d.add("Person 2");
+        d.add("Person 3");
+        d.add("Person 4");
+        list.add("Person 1");
+        list.add("Person 2");
+        list.add("Person 3");
+        list.add("Person 4");
+        d.addFriend("Person 1", "Person 2");
+        d.addFriend("Person 1", "Person 3");
+        d.addEnemy("Person 1", "Person 4");
+
+        // d.addEnemy(hassan, zahi);
         return list;
     }
 
@@ -63,16 +78,15 @@ public class DictionaryFactory {
         Dictionary d = new Dictionary(TestPerson.class);
         TestPerson ali = new TestPerson("Ali");
         TestPerson hassan = new TestPerson("Hassan");
-        d.add(ali);
-        d.add(hassan);
+
         d.setName("Person");
+
         DictionaryFactory.Instance.Dictionaries.put(d.getName(), d);
 
         Dictionary d2 = new Dictionary(TestShape.class);
         TestShape square = new TestShape("Square");
         TestShape circle = new TestShape("Circle");
-        d2.add(square);
-        d2.add(circle);
+
         d2.setName("Shape");
 
         DictionaryFactory.Instance.Dictionaries.put(d2.getName(), d2);
