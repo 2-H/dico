@@ -9,39 +9,72 @@ import dico.compiler.DicoCompilerIntiator;
 import dico.exceptions.ComplierFailedException;
 import dico.models.ClassModel;
 import dico.models.Dictionary;
-import dico.models.TestGeneric;
-import java.lang.reflect.Field;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
+import dico.models.MainType;
+import dico.models.TestPerson;
+import dico.models.TestShape;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
  * @author k.shehady
  */
-public class DictionaryFactory<T> {
+public class DictionaryFactory {
 
-    public static ArrayList<Dictionary> Dictionaries = new ArrayList<>();
-    public ArrayList<T> Test = new ArrayList<>();
+    public static final DictionaryFactory Instance = new DictionaryFactory();
 
-    public static void createDictionary(ClassModel cls) {
+    private Map<String, Dictionary> Dictionaries;
+
+    private DictionaryFactory() {
+        Dictionaries = new HashMap<>();
+    }
+
+    public void createDictionary(ClassModel cls) {
         Dictionary d = new Dictionary(cls.getClassReference());
-        //Dictionary a = new Dictionary<TestGeneric>(TestGeneric.class) {};      
-       // System.out.println(((ParameterizedType) a.getClass().getGenericSuperclass()).getActualTypeArguments()[0]);
-        
-        
-        Dictionaries.add(d);
+        d.setName(cls.getName());
+        //Check for duplicates
+        Dictionaries.put(d.getName(), d);
+    }
+
+    public ArrayList<String> getDictionaryNames() {
+        ArrayList<String> list = new ArrayList<>();
+        for (Dictionary d : Dictionaries.values()) {
+            list.add(d.getName());
+        }
+        return list;
+    }
+
+    public Dictionary getDictionary(String name) {
+        return Dictionaries.get(name);
+    }
+
+    public static void createDemoDictionaries() {
+        Dictionary d = new Dictionary(TestPerson.class);
+        TestPerson ali = new TestPerson("Ali");
+        TestPerson hassan = new TestPerson("Hassan");
+        d.add(ali);
+        d.add(hassan);
+        d.setName("Person");
+        DictionaryFactory.Instance.Dictionaries.put(d.getName(), d);
+
+        Dictionary d2 = new Dictionary(TestShape.class);
+        TestShape square = new TestShape("Square");
+        TestShape circle = new TestShape("Circle");
+        d2.add(square);
+        d2.add(circle);
+        d2.setName("Shape");
+
+        DictionaryFactory.Instance.Dictionaries.put(d2.getName(), d2);
+
     }
 
     public static void main(String[] args) throws ComplierFailedException, ClassNotFoundException, Exception {
         ClassFactory.CreateDemoClass();
         DicoCompilerIntiator.Instance.CreateAndComplieFiles();
         for (ClassModel c : ClassFactory.Classess) {
-            DictionaryFactory.createDictionary(c);
+            DictionaryFactory.Instance.createDictionary(c);
         }
-
     }
 }
 
