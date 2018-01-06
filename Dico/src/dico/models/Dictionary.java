@@ -66,17 +66,17 @@ public class Dictionary<T> implements Collection<T>, Iterable<T> {
         System.out.println("Enemies of " + e + ":");
         printSet(p.getEnemies());
     }
+    
+     public Pair<T> getPair(T e) {
+        return elements.get(e);
+    }
 
     public Set<T> findFriends(T e) {
-        //  Set<T> friends = new HashSet<>();
         if (elements.containsKey(e)) {
             Pair<T> p = elements.get(e);
             return p.getFriends();
         }
         return null;
-//        (a)The	friend	of	my	friend	is	my	friend. 
-//        (b)The	friend	of	my	enemy	is	my	enemy. 
-
     }
 
     public Set<T> findEnemies(T e) {
@@ -283,7 +283,7 @@ public class Dictionary<T> implements Collection<T>, Iterable<T> {
     @Override
     public boolean removeAll(Collection<?> c) {
         for (Object o : c) {
-            elements.remove(o);
+            remove(o);
         }
         return true;
     }
@@ -293,9 +293,16 @@ public class Dictionary<T> implements Collection<T>, Iterable<T> {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    public ArrayList<String> getKeySet(){
+        ArrayList<String>keySet = new ArrayList<>();
+        for(T o : elements.keySet()){
+            keySet.add(o.getClass().getName());
+        }
+        return keySet;
+    }
     @Override
     public void clear() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        elements.clear();
     }
 
     public void Demo() {
@@ -315,7 +322,10 @@ public class Dictionary<T> implements Collection<T>, Iterable<T> {
         dico.add(mofeed);
         dico.add(lotfi);
         dico.addFriend(lotfi, mofeed);
-        dico.addFriend(mofeed, sobhe);
+        dico.addFriend(mofeed, fathe);
+        for(TestPerson o : dico){
+            dico.findFriends(o);
+        }
         //System.out.println(dico.contains(mofeed));
         ArrayList<TestPerson> list = new ArrayList<>();
         list.add(mofeed);
