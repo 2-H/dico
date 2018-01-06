@@ -29,7 +29,7 @@ public class Dictionary<T> implements Collection<T>, Iterable<T> {
         elements = new HashMap<>();
     }
 
-    public Dictionary(Class<T> type) {       //
+    public Dictionary(Class<T> type) {       
 
         elements = new HashMap<>();
     }
@@ -238,12 +238,12 @@ public class Dictionary<T> implements Collection<T>, Iterable<T> {
 
     @Override
     public Object[] toArray() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return elements.keySet().toArray();
     }
 
     @Override
     public <T> T[] toArray(T[] a) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return elements.keySet().toArray(a);
     }
 
     @Override
@@ -290,13 +290,10 @@ public class Dictionary<T> implements Collection<T>, Iterable<T> {
 
     @Override
     public boolean retainAll(Collection<?> c) {
-
         for (Object o : c) {
-
             if (!elements.containsKey(o)) {
                 elements.remove(o);
             }
-
         }
         return true;
     }
