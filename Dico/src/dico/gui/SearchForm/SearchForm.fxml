@@ -30,9 +30,9 @@
             <Font name="Arial Bold" size="12.0" />
          </font>
       </Button>
-      <ComboBox fx:id="comboObjects" layoutX="101.0" layoutY="46.0" prefHeight="25.0" prefWidth="146.0" />
+      <ComboBox fx:id="comboItems" layoutX="101.0" layoutY="46.0" prefHeight="25.0" prefWidth="146.0" />
       <Label layoutX="14.0" layoutY="50.0" text="Objects" />
       <Label layoutX="14.0" layoutY="21.0" text="Class Name" />
-      <ComboBox fx:id="comboClasses" layoutX="101.0" layoutY="17.0" onAction="#getObjects" prefHeight="25.0" prefWidth="146.0" />
+      <ComboBox fx:id="comboDictionary" layoutX="101.0" layoutY="17.0" onAction="#getObjects" prefHeight="25.0" prefWidth="146.0" />
    </children>
 </AnchorPane>

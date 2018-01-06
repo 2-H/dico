@@ -38,6 +38,9 @@ public class DictionaryFactory {
     }
 
     public ArrayList<String> getDictionaryNames() {
+        if (Dictionaries.size() == 0) {
+            createDemoDictionaries();
+        }
         ArrayList<String> list = new ArrayList<>();
         for (Dictionary d : Dictionaries.values()) {
             list.add(d.getName());

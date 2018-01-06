@@ -6,7 +6,9 @@
 package dico.gui.SearchForm;
 
 import dico.ClassFactory;
+import dico.DictionaryFactory;
 import dico.ObjectFactory;
+import dico.models.Dictionary;
 import dico.models.ObjectModel;
 import java.net.URL;
 import java.util.ArrayList;
@@ -27,9 +29,9 @@ public class SearchFormController implements Initializable {
     @FXML
     private Button btnSearch;
     @FXML
-    private ComboBox comboObjects;
+    private ComboBox comboItems;
     @FXML
-    private ComboBox comboClasses;
+    private ComboBox comboDictionary;
 
     @FXML
     public void Search() {
@@ -42,27 +44,21 @@ public class SearchFormController implements Initializable {
             combo.getItems().add(str);
         }
     }
+
     @FXML
     public void getObjects() {
-        String selectedClass = comboClasses.getSelectionModel().getSelectedItem().toString();
-        ArrayList<ObjectModel> objList = ObjectFactory.Instance.Objects;
-        ArrayList<String> list = new ArrayList<>();
-        
-        for (ObjectModel o : objList) {
-            if (o.getClassModel().getName().equals(selectedClass)) {
-                list.add(o.getVariableName());
-            }
-        }
-        addToComboBox(comboObjects, list);
+        String selected = comboDictionary.getSelectionModel().getSelectedItem().toString();
+        Dictionary dic = DictionaryFactory.Instance.getDictionary(selected);
+        comboItems.getItems().setAll(dic.getKeySet());
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        addToComboBox(comboClasses, ClassFactory.Instance.GetClassNames());
+        addToComboBox(comboDictionary, DictionaryFactory.Instance.getDictionaryNames());
     }
 
     public static void main(String[] args) {
-        
+
         launch(args);
     }
 
