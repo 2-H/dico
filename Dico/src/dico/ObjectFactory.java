@@ -23,13 +23,14 @@ public class ObjectFactory {
     public static final ObjectFactory Instance = new ObjectFactory();
     public static ArrayList<ObjectModel> Objects;
 
-    private ObjectFactory() {
+    public ObjectFactory() {
         Objects = new ArrayList<>();
     }
 
     public ObjectModel GetObject(String name) throws ObjectNotFoundException {
         for (ObjectModel cls : Objects) {
-            if (cls.getVariableName().equals(name)) {
+            String s=cls.toString();
+            if (s.equals(name)) {
                 return cls;
             }
         }

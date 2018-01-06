@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="626.0" prefWidth="797.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="dico.gui.dictionary.ManageFriendEnemeyController">
+<AnchorPane id="AnchorPane" prefHeight="626.0" prefWidth="797.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dico.gui.dictionary.ManageFriendEnemeyController">
   <children>
     <Button fx:id="btnCreateDictionary" layoutX="645.0" layoutY="581.0" mnemonicParsing="false" onAction="#SaveDictionary" prefHeight="31.0" prefWidth="138.0" text="Save Item Data" />
     <Label layoutX="26.0" layoutY="31.0" prefHeight="31.0" prefWidth="192.0" text="Choose your Dictionary :">
@@ -16,7 +16,7 @@
         <Font size="17.0" fx:id="x1" />
       </font>
     </Label>
-    <ComboBox fx:id="ComboBoxDic" onAction="#fillItems" layoutX="237.0" layoutY="32.0"  prefHeight="31.0" prefWidth="192.0">
+    <ComboBox fx:id="ComboBoxDic" layoutX="237.0" layoutY="32.0" onAction="#fillItems" prefHeight="31.0" prefWidth="192.0">
       <items>
         <FXCollections fx:factory="observableArrayList">
           
@@ -24,7 +24,7 @@
       </items>
     </ComboBox>
     <Label font="$x1" layoutX="26.0" layoutY="84.0" prefHeight="31.0" prefWidth="192.0" text="Choose your Item :" />
-    <ComboBox  fx:id="ComboBoxIt"  onAction="#editLists" layoutX="237.0" layoutY="85.0"  prefHeight="31.0" prefWidth="192.0">
+    <ComboBox fx:id="ComboBoxIt" layoutX="237.0" layoutY="85.0" onAction="#editLists" prefHeight="31.0" prefWidth="192.0">
       <items>
         <FXCollections fx:factory="observableArrayList">
           
@@ -36,15 +36,14 @@
         <AnchorPane id="Content" fx:id="Friendspane" minHeight="0.0" minWidth="0.0" prefHeight="353.0" prefWidth="371.0">
           <children>
             <ListView fx:id="myFriends" layoutX="14.0" layoutY="50.0" prefHeight="278.0" prefWidth="280.0" />
-            <Button id="btnAddEnemy" layoutX="175.0" layoutY="8.0" mnemonicParsing="false"  prefHeight="31.0" prefWidth="54.0" text="Add" />
-            <ComboBox id="ComboBoxDictionaries" layoutX="14.0" layoutY="8.0"  prefHeight="31.0" prefWidth="147.0">
+            <Button id="btnAddFriend" fx:id="btnAddFriend" onAction="#addFriend" layoutX="175.0" layoutY="8.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="54.0" text="Add" />
+            <ComboBox fx:id="ComboBoxF" layoutX="14.0" layoutY="8.0" prefHeight="31.0" prefWidth="147.0">
               <items>
                 <FXCollections fx:factory="observableArrayList">
                   
                 </FXCollections>
               </items>
             </ComboBox>
-            <Button id="btnAddEnemy" layoutX="240.0" layoutY="8.0" mnemonicParsing="false"  prefHeight="31.0" prefWidth="54.0" text="X" />
           </children>
         </AnchorPane>
       </content>
@@ -54,15 +53,14 @@
         <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="353.0" prefWidth="352.0">
           <children>
             <ListView fx:id="myEnemies" layoutX="14.0" layoutY="50.0" prefHeight="278.0" prefWidth="280.0" />
-            <ComboBox id="ComboBoxDictionaries" layoutX="14.0" layoutY="8.0"  prefHeight="31.0" prefWidth="147.0">
+            <ComboBox fx:id="ComboBoxE" layoutX="14.0" layoutY="8.0" prefHeight="31.0" prefWidth="147.0">
               <items>
                 <FXCollections fx:factory="observableArrayList">
                  
                 </FXCollections>
               </items>
             </ComboBox>
-            <Button id="btnAddEnemy" layoutX="175.0" layoutY="8.0" mnemonicParsing="false"  prefHeight="31.0" prefWidth="54.0" text="Add" />
-            <Button id="btnAddEnemy" layoutX="240.0" layoutY="8.0" mnemonicParsing="false"  prefHeight="31.0" prefWidth="54.0" text="X" />
+            <Button fx:id="btnAddEnemy" layoutX="175.0" layoutY="8.0" onAction="#addEnemy" mnemonicParsing="false" prefHeight="31.0" prefWidth="54.0" text="Add" />
           </children>
         </AnchorPane>
       </content>
