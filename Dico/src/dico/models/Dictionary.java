@@ -66,8 +66,8 @@ public class Dictionary<T> implements Collection<T>, Iterable<T> {
         System.out.println("Enemies of " + e + ":");
         printSet(p.getEnemies());
     }
-    
-     public Pair<T> getPair(T e) {
+
+    public Pair<T> getPair(T e) {
         return elements.get(e);
     }
 
@@ -290,16 +290,25 @@ public class Dictionary<T> implements Collection<T>, Iterable<T> {
 
     @Override
     public boolean retainAll(Collection<?> c) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+        for (Object o : c) {
+
+            if (!elements.containsKey(o)) {
+                elements.remove(o);
+            }
+
+        }
+        return true;
     }
 
-    public ArrayList<String> getKeySet(){
-        ArrayList<String>keySet = new ArrayList<>();
-        for(T o : elements.keySet()){
-            keySet.add(o.getClass().getName());
+    public ArrayList<String> getKeySet() {
+        ArrayList<String> keySet = new ArrayList<>();
+        for (T o : elements.keySet()) {
+            keySet.add(o.toString());
         }
         return keySet;
     }
+
     @Override
     public void clear() {
         elements.clear();
@@ -323,7 +332,7 @@ public class Dictionary<T> implements Collection<T>, Iterable<T> {
         dico.add(lotfi);
         dico.addFriend(lotfi, mofeed);
         dico.addFriend(mofeed, fathe);
-        for(TestPerson o : dico){
+        for (TestPerson o : dico) {
             dico.findFriends(o);
         }
         //System.out.println(dico.contains(mofeed));
