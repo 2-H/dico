@@ -6,8 +6,10 @@
 package dico.gui.dictionary;
 
 import dico.DictionaryFactory;
+import dico.ObjectFactory;
 import dico.gui.classCreator.AttributeRow;
 import dico.models.Dictionary;
+import dico.models.ObjectModel;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,6 +21,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
+import javafx.stage.Stage;
 
 /**
  *
@@ -38,19 +41,30 @@ public class AddItemsToDictionaryController implements Initializable {
     private ListView ListviewofItems;
 
     private static int counter = 0;
-
-    public ArrayList<String> Person = new ArrayList<>();
-    public ArrayList<String> Animal = new ArrayList<>();
+    Dictionary dic;
 
     @FXML
     private void SaveDictionary() {
+        dic.clear();
         //Save all addding 
+        for (Object o : ListviewofItems.getItems()) {
+            dic.add(o);
+        }
+        System.out.println(dic.size() + "");
+        Stage stage = (Stage) btnSaveDictionary.getScene().getWindow();
+        // do what you have to do
+        stage.close();
     }
 
     @FXML
     private void RemoveItem() {
-        String selected = ListviewofItems.getSelectionModel().getSelectedItem().toString();
+        Object selected = ListviewofItems.getSelectionModel().getSelectedItem();
+        Items.getItems().add(selected);
         ListviewofItems.getItems().remove(selected);
+
+        if (Items.getItems().size() != 0) {
+            btnAddToDictionary.setDisable(false);
+        }
     }
 
     @FXML
@@ -58,15 +72,15 @@ public class AddItemsToDictionaryController implements Initializable {
         Items.getSelectionModel().clearSelection();
         //Add all Items(objects) of this type of Dictionary.
         String selectedDictionary = ComboBoxDictionaries.getSelectionModel().getSelectedItem().toString();
-        Dictionary dic = DictionaryFactory.Instance.getDictionary(selectedDictionary);
-        Items.getItems().setAll(dic.getKeySet());
-        Items.getItems().add("Hasan");
+        dic = DictionaryFactory.Instance.getDictionary(selectedDictionary);
+
+        Items.getItems().setAll(DictionaryFactory.Instance.getObjectsByType(dic));
 
     }
 
     @FXML
     private void AddToDictionary() {
-        if (Items.getSelectionModel().getSelectedItem().toString() != null) {
+        if (Items.getSelectionModel().getSelectedItem() != null) {
             if (counter == 0) {
                 ComboBoxDictionaries.setDisable(true);
             }
