@@ -6,6 +6,7 @@
 package dico.models;
 
 import java.lang.reflect.ParameterizedType;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -14,7 +15,7 @@ import java.util.Set;
 
 /**
  *
- * 
+ *
  * @author k.shehady
  */
 public class Dictionary<T> implements Collection<T>, Iterable<T> {
@@ -22,6 +23,7 @@ public class Dictionary<T> implements Collection<T>, Iterable<T> {
     private Map<T, Pair<T>> elements;
 
     public T Test;
+    public String name;
 
     public Dictionary() {
         elements = new HashMap<>();
@@ -30,6 +32,14 @@ public class Dictionary<T> implements Collection<T>, Iterable<T> {
     public Dictionary(Class<T> type) {       //
 
         elements = new HashMap<>();
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     protected String getGenericName() {
@@ -291,23 +301,28 @@ public class Dictionary<T> implements Collection<T>, Iterable<T> {
     public void Demo() {
 
         Dictionary<TestPerson> dico = new Dictionary<>();
-        TestPerson ahmad = new TestPerson("Ahmad");
-        TestPerson ali = new TestPerson("Ali");
-        TestPerson hassan = new TestPerson("Hassan");
-        dico.add(ahmad);
-        dico.add(ali);
-        dico.add(hassan);
-        dico.addFriend(ahmad, ali);
-//        System.out.println(ali);
-//        dico.printSet(dico.findFriends(ali));
-//        dico.printSet(dico.findFriends(ahmad));
-        dico.printPair(ali);
-//        dico.addFriend("Jad", "Jozef");
-//        dico.addEnemy("Tony", "Bandar");
-//        dico.addEnemy("Jad", "Bandar");
-//        dico.addFriend("Ali", "Ahmad");
-//        dico.addFriend("Ahmad", "Hasan");
-//        dico.addFriend("Ali", "Jad");
+        TestPerson fawze = new TestPerson("Fawze");
+        TestPerson fakhre = new TestPerson("Fakhre");
+        TestPerson fathe = new TestPerson("Fathe");
+        TestPerson jawad = new TestPerson("Jawad");
+        TestPerson mofeed = new TestPerson("Mofeed");
+        TestPerson sobhe = new TestPerson("Sobhe");
+        TestPerson lotfi = new TestPerson("Lotfi");
+        dico.add(fawze);
+        dico.add(fakhre);
+        dico.add(fathe);
+        dico.add(sobhe);
+        dico.add(mofeed);
+        dico.add(lotfi);
+        dico.addFriend(lotfi, mofeed);
+        dico.addFriend(mofeed, sobhe);
+        //System.out.println(dico.contains(mofeed));
+        ArrayList<TestPerson> list = new ArrayList<>();
+        list.add(mofeed);
+        list.add(sobhe);
+        dico.removeAll(list);
+        System.out.println(dico.contains(mofeed));
+        System.out.println(dico.contains(fakhre));
     }
 
     public static void main(String[] myArgs) {
