@@ -37,6 +37,13 @@ public class DictionaryFactory {
         Dictionaries.put(d.getName(), d);
     }
 
+    public ArrayList<String> getObjectsByType(Dictionary d) {
+        ArrayList<String> list = new ArrayList<>();
+        list.add("person 1");
+        list.add("person 2");
+        return list;
+    }
+
     public ArrayList<String> getDictionaryNames() {
         if (Dictionaries.size() == 0) {
             createDemoDictionaries();
