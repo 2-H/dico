@@ -5,6 +5,9 @@
  */
 package dico.gui.dictionary;
 
+import dico.DictionaryFactory;
+import dico.gui.classCreator.AttributeRow;
+import dico.models.Dictionary;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,9 +36,8 @@ public class AddItemsToDictionaryController implements Initializable {
     @FXML
     private ListView ListviewofItems;
 
-    private static int counter=0;
-    
-    public Map<String, ArrayList<String>> Dictionaries = new HashMap<>();
+    private static int counter = 0;
+
     public ArrayList<String> Person = new ArrayList<>();
     public ArrayList<String> Animal = new ArrayList<>();
 
@@ -45,47 +47,48 @@ public class AddItemsToDictionaryController implements Initializable {
     }
 
     @FXML
+    private void RemoveItem() {
+        
+    }
+
+    @FXML
     private void SelectDictionary() {
         Items.getSelectionModel().clearSelection();
         //Add all Items(objects) of this type of Dictionary.
         String selectedDictionary = ComboBoxDictionaries.getSelectionModel().getSelectedItem().toString();
-        Items.getItems().setAll(Dictionaries.get(selectedDictionary));
+       Dictionary dic= DictionaryFactory.Instance.getDictionary(selectedDictionary);
+        Items.getItems().setAll(dic.getKeySet());
     }
 
     @FXML
     private void AddToDictionary() {
-        if(Items.getSelectionModel().getSelectedItem().toString()!=null){
-            if(counter==0){
+        if (Items.getSelectionModel().getSelectedItem().toString() != null) {
+            if (counter == 0) {
                 ComboBoxDictionaries.setDisable(true);
             }
-        String selectedItem=Items.getSelectionModel().getSelectedItem().toString();
-        System.out.println(selectedItem);
-        ListviewofItems.getItems().add(selectedItem);
-        Items.getItems().remove(selectedItem);
-        if(Items.getItems().size()==0){
-            btnAddToDictionary.setDisable(true);
-        }
-        //add the item to Dictionary
+            String selectedItem = Items.getSelectionModel().getSelectedItem().toString();
+            System.out.println(selectedItem);
+            ListviewofItems.getItems().add(selectedItem);
+            Items.getItems().remove(selectedItem);
+            if (Items.getItems().size() == 0) {
+                btnAddToDictionary.setDisable(true);
+            }
+            //add the item to Dictionary
         }
     }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        //get all dictionary names from list of dictionaries
-        Person.add("ALi");
-        Person.add("Hasan");
-        Person.add("fadi");
-        Animal.add("dog");
-        Animal.add("Monkey");
-        Dictionaries.put("Person", Person);
-        Dictionaries.put("Animal", Animal);
-        ComboBoxDictionaries.getItems().add("Person");
-        ComboBoxDictionaries.getItems().add("Animal");
-
-        if(ComboBoxDictionaries.getItems().size()==0){
-        btnAddToDictionary.setDisable(true);
-        btnSaveDictionary.setDisable(true);
+        DictionaryFactory.createDemoDictionaries();
+        for (String d : DictionaryFactory.Instance.getDictionaryNames()) {
+            ComboBoxDictionaries.getItems().add(d);
         }
         
+
+        if (ComboBoxDictionaries.getItems().size() == 0) {
+            btnAddToDictionary.setDisable(true);
+            btnSaveDictionary.setDisable(true);
+        }
+
     }
 }
