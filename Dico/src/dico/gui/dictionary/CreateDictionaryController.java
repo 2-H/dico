@@ -48,7 +48,7 @@ public class CreateDictionaryController implements Initializable {
         
        try {
             ClassModel cls= ClassFactory.Instance.GetClass(selectedtype);
-            DictionaryFactory.createDictionary(cls);
+            DictionaryFactory.Instance.createDictionary(cls);
         } catch (DicoClassNotFoundException ex) {
             Logger.getLogger(CreateDictionaryController.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -9,12 +9,12 @@ import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
 /**
+ *
  *
  * @author k.shehady
  */
@@ -23,10 +23,23 @@ public class Dictionary<T> implements Collection<T>, Iterable<T> {
     private Map<T, Pair<T>> elements;
 
     public T Test;
-    
+    public String name;
+
+    public Dictionary() {
+        elements = new HashMap<>();
+    }
+
     public Dictionary(Class<T> type) {       //
 
         elements = new HashMap<>();
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     protected String getGenericName() {
@@ -40,16 +53,30 @@ public class Dictionary<T> implements Collection<T>, Iterable<T> {
         return true;
     }
 
+    public void printSet(Set<T> set) {
+        for (T s : set) {
+            System.out.println("\t" + s);
+        }
+    }
+
+    public void printPair(T e) {
+        Pair<T> p = elements.get(e);
+        System.out.println("Friends of " + e + ":");
+        printSet(p.getFriends());
+        System.out.println("Enemies of " + e + ":");
+        printSet(p.getEnemies());
+    }
+
+    public Pair<T> getPair(T e) {
+        return elements.get(e);
+    }
+
     public Set<T> findFriends(T e) {
-        //  Set<T> friends = new HashSet<>();
         if (elements.containsKey(e)) {
             Pair<T> p = elements.get(e);
             return p.getFriends();
         }
         return null;
-//        (a)The	friend	of	my	friend	is	my	friend. 
-//        (b)The	friend	of	my	enemy	is	my	enemy. 
-
     }
 
     public Set<T> findEnemies(T e) {
@@ -69,9 +96,11 @@ public class Dictionary<T> implements Collection<T>, Iterable<T> {
 
         if (mySet.getEnemies().contains(friend)) {
             return -1;                                      //if he is my enemy -> I can't add him as friend
+            //throw exception
         }
         if (mySet.getFriends().contains(friend)) {
             return 0;                                       //if he is already my friend -> No need to add him
+            //throw exception
         }
 
         for (T elem : mySet.getFriends()) {                 //for each one as my friends
@@ -237,27 +266,86 @@ public class Dictionary<T> implements Collection<T>, Iterable<T> {
 
     @Override
     public boolean containsAll(Collection<?> c) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        for (Object o : c) {
+            if (!elements.containsKey(o)) {
+                return false;
+            }
+        }
+        return 2 != 4;
     }
 
     @Override
     public boolean addAll(Collection<? extends T> c) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        elements.putAll((Map<? extends T, Pair<T>>) c);
+        return true;
     }
 
     @Override
     public boolean removeAll(Collection<?> c) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        for (Object o : c) {
+            remove(o);
+        }
+        return true;
     }
 
     @Override
     public boolean retainAll(Collection<?> c) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+        for (Object o : c) {
+
+            if (!elements.containsKey(o)) {
+                elements.remove(o);
+            }
+
+        }
+        return true;
+    }
+
+    public ArrayList<T> getKeySet() {
+        ArrayList<T> keySet = new ArrayList<>();
+        for (T o : elements.keySet()) {
+            keySet.add(o);
+        }
+        return keySet;
     }
 
     @Override
     public void clear() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        elements.clear();
     }
 
+    public void Demo() {
+
+        Dictionary<TestPerson> dico = new Dictionary<>();
+        TestPerson fawze = new TestPerson("Fawze");
+        TestPerson fakhre = new TestPerson("Fakhre");
+        TestPerson fathe = new TestPerson("Fathe");
+        TestPerson jawad = new TestPerson("Jawad");
+        TestPerson mofeed = new TestPerson("Mofeed");
+        TestPerson sobhe = new TestPerson("Sobhe");
+        TestPerson lotfi = new TestPerson("Lotfi");
+        dico.add(fawze);
+        dico.add(fakhre);
+        dico.add(fathe);
+        dico.add(sobhe);
+        dico.add(mofeed);
+        dico.add(lotfi);
+        dico.addFriend(lotfi, mofeed);
+        dico.addFriend(mofeed, fathe);
+        for (TestPerson o : dico) {
+            dico.findFriends(o);
+        }
+        //System.out.println(dico.contains(mofeed));
+        ArrayList<TestPerson> list = new ArrayList<>();
+        list.add(mofeed);
+        list.add(sobhe);
+        dico.removeAll(list);
+        System.out.println(dico.contains(mofeed));
+        System.out.println(dico.contains(fakhre));
+    }
+
+    public static void main(String[] myArgs) {
+        Dictionary<String> dico = new Dictionary<>();
+        dico.Demo();
+    }
 }
