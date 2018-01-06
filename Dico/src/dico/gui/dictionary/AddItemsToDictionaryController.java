@@ -36,6 +36,7 @@ public class AddItemsToDictionaryController implements Initializable {
     @FXML
     private ListView ListviewofItems;
 
+    
     private static int counter = 0;
 
     public ArrayList<String> Person = new ArrayList<>();
