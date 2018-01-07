@@ -13,14 +13,18 @@ import dico.exceptions.ObjectNotFoundException;
 import dico.models.ClassModel;
 import dico.models.Dictionary;
 import dico.models.ObjectModel;
+import dico.models.Pair;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -61,12 +65,27 @@ public class ManageFriendEnemeyController implements Initializable {
 
     public ArrayList<String> Person = new ArrayList<>();
     public ArrayList<String> Animal = new ArrayList<>();
+    public Dictionary dic;
+
+    public <T> void addToListView(Pair<? extends T> pair) {
+        Set<? extends T> friends = pair.getFriends();
+        Set<? extends T> enemies = pair.getEnemies();
+        for (T elem : friends) {
+            if (!myFriends.getItems().contains(elem.toString())) {
+                myFriends.getItems().add(elem.toString());
+            }
+        }
+        for (T elem : enemies) {
+            if (!myEnemies.getItems().contains(elem.toString())) {
+                myEnemies.getItems().add(elem.toString());
+            }
+        }
+    }
 
     @FXML
     private void addFriend() {
         Object obj = ComboBoxF.getSelectionModel().getSelectedItem();
-        ObservableList<Object> nameE = myEnemies.getItems();
-        if (!nameE.contains(obj)) {
+        if (!myEnemies.getItems().contains(obj)) {
             myFriends.getItems().add(obj.toString());
             ComboBoxF.getItems().remove(obj);
         }
@@ -75,8 +94,7 @@ public class ManageFriendEnemeyController implements Initializable {
     @FXML
     private void addEnemy() {
         Object obj = ComboBoxE.getSelectionModel().getSelectedItem();
-        ObservableList<Object> nameF = myFriends.getItems();
-        if (!nameF.contains(obj)) {
+        if (!myFriends.getItems().contains(obj)) {
             myEnemies.getItems().add(obj.toString());
             ComboBoxE.getItems().remove(obj);
         }
@@ -84,7 +102,14 @@ public class ManageFriendEnemeyController implements Initializable {
 
     @FXML
     private void SaveDictionary() {
-        //Save all addding 
+        Object[] friends = myFriends.getItems().toArray();
+        Object[] enemies = myEnemies.getItems().toArray();
+        for (Object o : friends) {
+            dic.addFriend(ComboBoxIt.getSelectionModel().getSelectedItem(), o);
+        }
+        for (Object o : enemies) {
+            dic.addEnemy(ComboBoxIt.getSelectionModel().getSelectedItem(), o);
+        }
     }
 
     @FXML
@@ -96,8 +121,7 @@ public class ManageFriendEnemeyController implements Initializable {
     private void fillItems() {
         ComboBoxIt.getItems().clear();
         String selectedDictionary = (ComboBoxDic.getSelectionModel().getSelectedItem()).toString();
-        Dictionary dic = DictionaryFactory.Instance.getDictionary(selectedDictionary);
-        ComboBoxIt.getItems().clear();
+        dic = DictionaryFactory.Instance.getDictionary(selectedDictionary);
         ComboBoxIt.getItems().addAll(dic.getKeySet());
     }
 
