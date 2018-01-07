@@ -9,12 +9,12 @@ package dico.exceptions;
  *
  * @author Ali Al-Jobouri
  */
-public class FriendOrEnemeyAlreadyExistException extends Exception {
+public class FriendOrEnemyAlreadyExistsException extends Exception {
 
-    public FriendOrEnemeyAlreadyExistException() {
+    public FriendOrEnemyAlreadyExistsException() {
     }
 
-    public FriendOrEnemeyAlreadyExistException(String message) {
+    public FriendOrEnemyAlreadyExistsException(String message) {
         super(message);
     }
 }

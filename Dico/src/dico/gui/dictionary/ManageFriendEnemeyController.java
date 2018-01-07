@@ -9,6 +9,8 @@ import dico.ClassFactory;
 import dico.DictionaryFactory;
 import dico.ObjectFactory;
 import static dico.ObjectFactory.Objects;
+import dico.exceptions.FriendIsEnemyOrEnemyIsFriendException;
+import dico.exceptions.FriendOrEnemyAlreadyExistsException;
 import dico.exceptions.ObjectNotFoundException;
 import dico.models.ClassModel;
 import dico.models.Dictionary;
@@ -84,6 +86,9 @@ public class ManageFriendEnemeyController implements Initializable {
 
     @FXML
     private void addFriend() {
+        if (ComboBoxF.getValue() == null) {
+            return;
+        }
         Object obj = ComboBoxF.getSelectionModel().getSelectedItem();
         if (!myEnemies.getItems().contains(obj)) {
             myFriends.getItems().add(obj.toString());
@@ -93,6 +98,9 @@ public class ManageFriendEnemeyController implements Initializable {
 
     @FXML
     private void addEnemy() {
+        if (ComboBoxE.getValue() == null) {
+            return;
+        }
         Object obj = ComboBoxE.getSelectionModel().getSelectedItem();
         if (!myFriends.getItems().contains(obj)) {
             myEnemies.getItems().add(obj.toString());
@@ -104,11 +112,19 @@ public class ManageFriendEnemeyController implements Initializable {
     private void SaveDictionary() {
         Object[] friends = myFriends.getItems().toArray();
         Object[] enemies = myEnemies.getItems().toArray();
-        for (Object o : friends) {
-            dic.addFriend(ComboBoxIt.getSelectionModel().getSelectedItem(), o);
-        }
-        for (Object o : enemies) {
-            dic.addEnemy(ComboBoxIt.getSelectionModel().getSelectedItem(), o);
+        try {
+            if (friends != null) {
+                for (Object o : friends) {
+                    dic.addFriend(ComboBoxIt.getSelectionModel().getSelectedItem(), o);
+                }
+            }
+            if (enemies != null) {
+                for (Object o : enemies) {
+                    dic.addEnemy(ComboBoxIt.getSelectionModel().getSelectedItem(), o);
+                }
+            }
+        } catch (FriendOrEnemyAlreadyExistsException | FriendIsEnemyOrEnemyIsFriendException | NullPointerException ex) {
+            System.out.println(ex.getMessage());
         }
     }
 

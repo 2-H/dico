@@ -7,6 +7,8 @@ package dico;
 
 import dico.compiler.DicoCompilerIntiator;
 import dico.exceptions.ComplierFailedException;
+import dico.exceptions.FriendIsEnemyOrEnemyIsFriendException;
+import dico.exceptions.FriendOrEnemyAlreadyExistsException;
 import dico.models.ClassModel;
 import dico.models.Dictionary;
 import dico.models.MainType;
@@ -16,6 +18,8 @@ import dico.models.TestShape;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -39,25 +43,32 @@ public class DictionaryFactory {
     }
 
     public ArrayList<String> getObjectsByType(Dictionary d) {
-        ArrayList<String> list = new ArrayList<>();
-        // TestPerson ali = new TestPerson("Ali");
-        //TestPerson hassan = new TestPerson("Hassan");
-        // TestPerson zahi = new TestPerson("zahi");
-
-        d.add("Person 1");
-        d.add("Person 2");
-        d.add("Person 3");
-        d.add("Person 4");
-        list.add("Person 1");
-        list.add("Person 2");
-        list.add("Person 3");
-        list.add("Person 4");
-        d.addFriend("Person 1", "Person 2");
-        d.addFriend("Person 1", "Person 3");
-        d.addEnemy("Person 1", "Person 4");
-
-        // d.addEnemy(hassan, zahi);
-        return list;
+        try {
+            ArrayList<String> list = new ArrayList<>();
+            // TestPerson ali = new TestPerson("Ali");
+            //TestPerson hassan = new TestPerson("Hassan");
+            // TestPerson zahi = new TestPerson("zahi");
+            
+            d.add("Person 1");
+            d.add("Person 2");
+            d.add("Person 3");
+            d.add("Person 4");
+            list.add("Person 1");
+            list.add("Person 2");
+            list.add("Person 3");
+            list.add("Person 4");
+            d.addFriend("Person 1", "Person 2");
+            d.addFriend("Person 1", "Person 3");
+            d.addEnemy("Person 1", "Person 4");
+            
+            // d.addEnemy(hassan, zahi);
+            return list;
+        } catch (FriendIsEnemyOrEnemyIsFriendException ex) {
+            Logger.getLogger(DictionaryFactory.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (FriendOrEnemyAlreadyExistsException ex) {
+            Logger.getLogger(DictionaryFactory.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
 
     public ArrayList<String> getDictionaryNames() {
