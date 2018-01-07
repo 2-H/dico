@@ -86,7 +86,9 @@ public class DictionaryFactory {
         Dictionary d2 = new Dictionary(TestShape.class);
         TestShape square = new TestShape("Square");
         TestShape circle = new TestShape("Circle");
-
+        d2.add("Person 1");
+        d2.add("Person 2");
+        d2.addFriend("Person 1", "Person 2");
         d2.setName("Shape");
 
         DictionaryFactory.Instance.Dictionaries.put(d2.getName(), d2);
