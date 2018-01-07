@@ -240,7 +240,7 @@ public class DicoCompilerIntiator {
     }
 
     public static void Demo() {
-        ClassFactory.CreateDemoClass();
+        ClassFactory.Demo();
         try {
             DicoCompilerIntiator.Instance.CreateAndComplieFiles();
         } catch (ClassNotFoundException | ComplierFailedException ex) {

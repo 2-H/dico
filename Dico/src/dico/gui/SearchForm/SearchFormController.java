@@ -58,7 +58,7 @@ public class SearchFormController implements Initializable {
         Object selectedItem = comboItems.getSelectionModel().getSelectedItem();
         System.out.println(selectedItem.toString());
         System.out.println(dictionary.findFriends(selectedItem));
-        listFriends.getItems().setAll(dictionary.findFriends(selectedItem.toString()));
+        listFriends.getItems().setAll(dictionary.findFriends(selectedItem));
         listEnemies.getItems().setAll(dictionary.findEnemies(selectedItem));
     }
 

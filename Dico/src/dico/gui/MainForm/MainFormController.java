@@ -77,12 +77,12 @@ public class MainFormController implements Initializable {
         if (ClassFactory.Instance.Classess.size() > 0) {
             btnCreateObject.setDisable(false);
             btnCompileClasses.setDisable(false);
-            
+
         }
         if (ObjectFactory.Instance.Objects.size() > 0) {
             btnCallMethods.setDisable(false);
             btnCreateDictionary.setDisable(false);
-            
+
         }
         ObservableList<String> list = FXCollections.observableArrayList();
         for (String str : ClassFactory.Instance.GetClassNames()) {
@@ -94,14 +94,14 @@ public class MainFormController implements Initializable {
         }
         lstBoxObject.setItems(names);
         lstBoxDictionaries.getItems().clear();
-        lstBoxDictionaries.getItems().setAll(DictionaryFactory.Instance.getDictionaryNames()); 
-          if(lstBoxDictionaries.getItems().size()!=0){
-              btnAddToDictionary.setDisable(false);
-              btnCallDictionaryMethods.setDisable(false);
-              btnSearchDictionary.setDisable(false);
+        lstBoxDictionaries.getItems().setAll(DictionaryFactory.Instance.getDictionaryNames());
+        if (lstBoxDictionaries.getItems().size() != 0) {
+            btnAddToDictionary.setDisable(false);
+            btnCallDictionaryMethods.setDisable(false);
+            btnSearchDictionary.setDisable(false);
             btnManageDictionary.setDisable(false);
-          }
-        
+        }
+
     }
 
     private void opener(String str) {
@@ -132,7 +132,13 @@ public class MainFormController implements Initializable {
 
     @FXML
     private void Demo() {
-        ObjectFactory.Demo();
+        try {
+            DictionaryFactory.Demo();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(MainFormController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(MainFormController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         refreshForm();
     }
 
@@ -178,13 +184,13 @@ public class MainFormController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        lstBoxClass.setStyle("-fx-align: CENTER;");
+        /*lstBoxClass.setStyle("-fx-align: CENTER;");
         lstBoxObject.setStyle("-fx-alignment: CENTER;");
         lstBoxClass.setMouseTransparent(true);
         lstBoxClass.setFocusTraversable(false);
         lstBoxObject.setMouseTransparent(true);
         lstBoxObject.setFocusTraversable(false);
-
+         */
     }
 
 }

@@ -52,17 +52,20 @@ public class ObjectFactory {
     }
 
     public static void Demo() {
-        ClassFactory.CreateDemoClass();
+        ClassFactory.Demo();
         try {
             DicoCompilerIntiator.Instance.CreateAndComplieFiles();
 
             for (ClassModel cls : ClassFactory.Instance.Classess) {
-                ObjectModel object = ObjectFactory.Instance.createObject(cls, cls.getName().toLowerCase());
-                DicoCompilerIntiator.Instance.InvokeToString(object);
+                for (int i = 0; i < 10; i++) {
+                    ObjectModel object = ObjectFactory.Instance.createObject(cls, cls.getName().toLowerCase() + i);
+                    DicoCompilerIntiator.Instance.InvokeToString(object);
+                }
+
             }
-        } catch (ComplierFailedException | ObjectCreationException | ClassNotFoundException  ex) {
+        } catch (ComplierFailedException | ObjectCreationException | ClassNotFoundException ex) {
             Logger.getLogger(DicoCompilerIntiator.class.getName()).log(Level.SEVERE, null, ex);
-        } 
+        }
     }
 
     public static void main(String[] args) {

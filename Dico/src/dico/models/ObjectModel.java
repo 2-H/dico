@@ -41,7 +41,7 @@ public class ObjectModel {
 
     @Override
     public String toString() {
-        return getClass().getName() + " " + getVariableName();
+        return this.classModel.getName() + " " + getVariableName();
     }
 
 }

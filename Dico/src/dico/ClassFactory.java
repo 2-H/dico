@@ -334,7 +334,7 @@ public class ClassFactory {
         Classess.add(model);
     }
 
-    public static void CreateDemoClass() {
+    public static void Demo() {
         try {
             ClassModel person = new ClassModel();
             person.setName("Person");
@@ -383,7 +383,7 @@ public class ClassFactory {
 
     public static void main(String[] args) {
 
-        CreateDemoClass();
+        Demo();
 
     }
 

@@ -11,6 +11,7 @@ import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
@@ -28,9 +29,20 @@ public class Dictionary<T> implements Collection<T>, Iterable<T> {
 
     public T Test;
     public String name;
+    public ClassModel classModel;
 
-    public Dictionary() {
-        elements = new HashMap<>();
+    public Dictionary(String name, ClassModel classModel) {
+        this.name = name;
+        this.classModel = classModel;
+        this.elements = new HashMap<>();
+    }
+
+    public ClassModel getClassModel() {
+        return classModel;
+    }
+
+    public void setClassModel(ClassModel classModel) {
+        this.classModel = classModel;
     }
 
     /*public Dictionary() {(Class<T> type) {     
@@ -93,21 +105,25 @@ public class Dictionary<T> implements Collection<T>, Iterable<T> {
         /*to understand the comments:
           consider I'am the variable 'element' and I want to add the variable 'friend' to my friends*/
 
-        Pair<T> mySet = elements.get(element);              //my pair
-        Pair<T> friendSet = elements.get(friend);           //his pair
-        System.out.println(mySet);
+        
+        Pair<T> elementPair = elements.get(element);              //my pair
+        Pair<T> friendSet = elements.get(friend);           //his pair        
+        
+       
+        System.out.println(elementPair);
 
-        if (mySet == null || friendSet == null || mySet.getFriends() == null || mySet.getEnemies() == null || friendSet.getEnemies() == null || friendSet.getFriends() == null) {
-            throw new NullPointerException("Sets are still null.");
+        if (elementPair == null || friendSet==null ) {
+            throw new NullPointerException("Element not added to dictionary!");
         }
-        if (mySet.getEnemies().contains(friend)) {
+        //|| friendSet == null || mySet.getFriends() == null || mySet.getEnemies() == null || friendSet.getEnemies() == null || friendSet.getFriends() == null
+        if (elementPair.getEnemies()!=null &&  elementPair.getEnemies().contains(friend)) {
             throw new FriendIsEnemyOrEnemyIsFriendException("A chosen friend is already an enemy or a chosen enemy is already a friend.");
         }
-        if (mySet.getFriends().contains(friend)) {
+        if (elementPair.getFriends()!=null && elementPair.getFriends().contains(friend)) {
             throw new FriendOrEnemyAlreadyExistsException("A chosen friend or a chosen enemy already exists.");
         }
 
-        for (T elem : mySet.getFriends()) {                 //for each one as my friends
+        for (T elem : elementPair.getFriends()) {                 //for each one as my friends
             Pair<T> individual = elements.get(elem);
             individual.addFriend(friend);                   //add him
             individual.addFriends(friendSet.getFriends());  //add his friends
@@ -117,11 +133,11 @@ public class Dictionary<T> implements Collection<T>, Iterable<T> {
         for (T elem : friendSet.getFriends()) {             //for each one as his friends
             Pair<T> individual = elements.get(elem);
             individual.addFriend(element);                  //add myself
-            individual.addFriends(mySet.getFriends());      //add my friends
-            individual.addEnemies(mySet.getEnemies());      //add my enemies
+            individual.addFriends(elementPair.getFriends());      //add my friends
+            individual.addEnemies(elementPair.getEnemies());      //add my enemies
         }
 
-        for (T elem : mySet.getEnemies()) {                 //for each one as my enemy
+        for (T elem : elementPair.getEnemies()) {                 //for each one as my enemy
             Pair<T> individual = elements.get(elem);
             individual.addEnemy(friend);                    //add him
             individual.addEnemies(friendSet.getFriends());  //add his friends (to enemies)
@@ -130,16 +146,16 @@ public class Dictionary<T> implements Collection<T>, Iterable<T> {
         for (T elem : friendSet.getEnemies()) {             //for each one as his enemy
             Pair<T> individual = elements.get(elem);
             individual.addEnemy(element);                   //add me
-            individual.addEnemies(mySet.getFriends());      //add my friends (to enemies)
+            individual.addEnemies(elementPair.getFriends());      //add my friends (to enemies)
         }
 
-        friendSet.addFriends(mySet.getFriends());           //my friends must be his friends
-        friendSet.addEnemies(mySet.getEnemies());           //my enemies must be his enemies
-        mySet.addFriends(friendSet.getFriends());           //his friends must be my friends
-        mySet.addEnemies(friendSet.getEnemies());           //his enemies must be my enemies
+        friendSet.addFriends(elementPair.getFriends());           //my friends must be his friends
+        friendSet.addEnemies(elementPair.getEnemies());           //my enemies must be his enemies
+        elementPair.addFriends(friendSet.getFriends());           //his friends must be my friends
+        elementPair.addEnemies(friendSet.getEnemies());           //his enemies must be my enemies
 
         friendSet.addFriend(element);                       //i must be his friend
-        mySet.addFriend(friend);                            //he must be my friend
+        elementPair.addFriend(friend);                            //he must be my friend
         return true;
     }
 
@@ -149,9 +165,10 @@ public class Dictionary<T> implements Collection<T>, Iterable<T> {
 
         Pair<T> mySet = elements.get(element);              //my pair
         Pair<T> enemySet = elements.get(enemy);             //his pair
-        if (mySet == null || enemySet == null || mySet.getFriends() == null || mySet.getEnemies() == null || enemySet.getEnemies() == null || enemySet.getFriends() == null) {
+        if (mySet == null || enemySet == null ) {
             throw new NullPointerException("Sets are still null.");
         }
+        //|| mySet.getFriends() == null || mySet.getEnemies() == null || enemySet.getEnemies() == null || enemySet.getFriends() == null
         if (mySet.getFriends().contains(enemy)) {
             throw new FriendIsEnemyOrEnemyIsFriendException("A chosen friend is already an enemy or a chosen enemy is already a friend.");
         }
@@ -317,10 +334,12 @@ public class Dictionary<T> implements Collection<T>, Iterable<T> {
         elements.clear();
     }
 
-    public void Demo() {
+    public static void Demo() {
 
         try {
-            Dictionary<TestPerson> dico = new Dictionary<>();
+            ClassModel cls = new ClassModel();
+            cls.setName("TestPerson");
+            Dictionary<TestPerson> dico = new Dictionary<>("TestPerson Dictionary", cls);
             TestPerson fawze = new TestPerson("Fawze");
             TestPerson fakhre = new TestPerson("Fakhre");
             TestPerson fathe = new TestPerson("Fathe");
@@ -354,7 +373,6 @@ public class Dictionary<T> implements Collection<T>, Iterable<T> {
     }
 
     public static void main(String[] myArgs) {
-        Dictionary<String> dico = new Dictionary<>();
-        dico.Demo();
+        Demo();
     }
 }
