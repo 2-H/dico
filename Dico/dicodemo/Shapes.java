@@ -1,11 +1,11 @@
 package dicodemo; 
 
-public class Person {
+public class Shapes {
 
-	public Person(){
+	public Shapes(){
 	}
 
-	public Person(int id) {
+	public Shapes(int id) {
 		this.id = id;
 	}
 
@@ -20,7 +20,7 @@ public class Person {
 		if (getClass() != obj.getClass()) {
 			return false;
 		}
-		final Person other = (Person) obj;
+		final Shapes other = (Shapes) obj;
 		if (this.id != other.id) {
 			return false;
 		}

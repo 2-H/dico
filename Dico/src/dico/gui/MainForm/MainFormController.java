@@ -76,9 +76,13 @@ public class MainFormController implements Initializable {
         ObservableList<String> names = FXCollections.observableArrayList();
         if (ClassFactory.Instance.Classess.size() > 0) {
             btnCreateObject.setDisable(false);
+            btnCompileClasses.setDisable(false);
+            
         }
         if (ObjectFactory.Instance.Objects.size() > 0) {
             btnCallMethods.setDisable(false);
+            btnCreateDictionary.setDisable(false);
+            
         }
         ObservableList<String> list = FXCollections.observableArrayList();
         for (String str : ClassFactory.Instance.GetClassNames()) {
@@ -91,7 +95,12 @@ public class MainFormController implements Initializable {
         lstBoxObject.setItems(names);
         lstBoxDictionaries.getItems().clear();
         lstBoxDictionaries.getItems().setAll(DictionaryFactory.Instance.getDictionaryNames()); 
-          
+          if(lstBoxDictionaries.getItems().size()!=0){
+              btnAddToDictionary.setDisable(false);
+              btnCallDictionaryMethods.setDisable(false);
+              btnSearchDictionary.setDisable(false);
+            btnManageDictionary.setDisable(false);
+          }
         
     }
 
@@ -154,12 +163,12 @@ public class MainFormController implements Initializable {
 
     @FXML
     private void SearchDictionary() {
-        opener("..//dictionary//SearchForm.fxml");
+        opener("..//SearchForm//SearchForm.fxml");
     }
 
     @FXML
     private void ManageDictionary() {
-        opener("..//dictionary//ManageDictionary.fxml");
+        opener("..//dictionary//ManagerFriendEnemy.fxml");
     }
 
     @FXML
