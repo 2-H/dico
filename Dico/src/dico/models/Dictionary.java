@@ -29,11 +29,9 @@ public class Dictionary<T> implements Collection<T>, Iterable<T> {
         elements = new HashMap<>();
     }
 
-    public Dictionary(Class<T> type) {       
-
-        elements = new HashMap<>();
-    }
-
+    /*public Dictionary() {(Class<T> type) {     
+       elements = new HashMap<>();
+    }*/
     public String getName() {
         return name;
     }
@@ -94,8 +92,8 @@ public class Dictionary<T> implements Collection<T>, Iterable<T> {
         Pair<T> mySet = elements.get(element);              //my pair
         Pair<T> friendSet = elements.get(friend);           //his pair
         System.out.println(mySet);
-     
-        if ( mySet.getEnemies().contains(friend)) {
+
+        if (mySet.getEnemies().contains(friend)) {
             return -1;                                      //if he is my enemy -> I can't add him as friend
             //throw exception
         }
@@ -103,7 +101,6 @@ public class Dictionary<T> implements Collection<T>, Iterable<T> {
             return 0;                                       //if he is already my friend -> No need to add him
             //throw exception
         }
-        
 
         for (T elem : mySet.getFriends()) {                 //for each one as my friends
             Pair<T> individual = elements.get(elem);
@@ -130,12 +127,12 @@ public class Dictionary<T> implements Collection<T>, Iterable<T> {
             individual.addEnemy(element);                   //add me
             individual.addEnemies(mySet.getFriends());      //add my friends (to enemies)
         }
-        
+
         friendSet.addFriends(mySet.getFriends());           //my friends must be his friends
         friendSet.addEnemies(mySet.getEnemies());           //my enemies must be his enemies
         mySet.addFriends(friendSet.getFriends());           //his friends must be my friends
         mySet.addEnemies(friendSet.getEnemies());           //his enemies must be my enemies
-      
+
         friendSet.addFriend(element);                       //i must be his friend
         mySet.addFriend(friend);                            //he must be my friend
         return 1;

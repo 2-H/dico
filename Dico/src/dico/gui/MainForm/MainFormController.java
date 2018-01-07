@@ -6,6 +6,7 @@
 package dico.gui.MainForm;
 
 import dico.ClassFactory;
+import dico.DictionaryFactory;
 import dico.ObjectFactory;
 import dico.compiler.DicoCompilerIntiator;
 import dico.exceptions.ComplierFailedException;
@@ -27,6 +28,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import dico.gui.classCreator.*;
 import dico.models.ClassModel;
+import dico.models.Dictionary;
 import dico.models.ObjectModel;
 import java.util.ArrayList;
 import javafx.collections.FXCollections;
@@ -87,6 +89,10 @@ public class MainFormController implements Initializable {
             names.add(str.getVariableName());
         }
         lstBoxObject.setItems(names);
+        lstBoxDictionaries.getItems().clear();
+        lstBoxDictionaries.getItems().setAll(DictionaryFactory.Instance.getDictionaryNames()); 
+          
+        
     }
 
     private void opener(String str) {

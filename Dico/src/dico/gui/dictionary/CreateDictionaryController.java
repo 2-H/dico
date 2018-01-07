@@ -17,12 +17,15 @@ import dico.models.ObjectModel;
 import dico.ClassFactory;
 import dico.ObjectFactory;
 import dico.exceptions.DicoClassNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.scene.control.Alert;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -37,28 +40,36 @@ public class CreateDictionaryController implements Initializable {
     @FXML
     private ComboBox ComboTypes;
     @FXML
-    private Button CreateDictionary;
+    private Button btnCreateDictionary;
     @FXML
     private TextField DictionaryName;
+
     @FXML
     private void CreateDictionary() {
-        
-        String selectedtype = ComboTypes.getSelectionModel().getSelectedItem().toString();
-        String selectedname=DictionaryName.getText();
-        
-       try {
-            ClassModel cls= ClassFactory.Instance.GetClass(selectedtype);
-            DictionaryFactory.Instance.createDictionary(cls);
-        } catch (DicoClassNotFoundException ex) {
-            Logger.getLogger(CreateDictionaryController.class.getName()).log(Level.SEVERE, null, ex);
+        Object selectedtype = ComboTypes.getSelectionModel().getSelectedItem();
+        String selectedname = DictionaryName.getText();
+        try {
+            if (selectedname == null || !selectedname.equals("")) {
+                throw new IOException("Name is required");
+            }
+            ClassModel cls = ClassFactory.Instance.GetClass(selectedtype.toString());
+            DictionaryFactory.Instance.createDictionary(cls, selectedname);
+            Stage stage = (Stage) btnCreateDictionary.getScene().getWindow();
+            // do what you have to do
+            stage.close();
+        } catch (IOException ex) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error Dialog");
+            alert.setHeaderText(null);
+            alert.setContentText(ex.getMessage());
+            alert.showAndWait();
         }
-
     }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         ClassFactory.CreateDemoClass();
-        
+
         for (ClassModel c : ClassFactory.Classess) {
             ComboTypes.getItems().add(c.getName());
         }
