@@ -49,8 +49,11 @@ public class CreateDictionaryController implements Initializable {
         Object selectedtype = ComboTypes.getSelectionModel().getSelectedItem();
         String selectedname = DictionaryName.getText();
         try {
-            if (selectedname == null || !selectedname.equals("")) {
+            if (selectedname == null || selectedname.equals("")) {
                 throw new IOException("Name is required");
+            }
+            if (selectedtype == null) {
+                throw new IOException("Type is required");
             }
             ClassModel cls = ClassFactory.Instance.GetClass(selectedtype.toString());
             DictionaryFactory.Instance.createDictionary(cls, selectedname);
