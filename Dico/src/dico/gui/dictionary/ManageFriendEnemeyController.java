@@ -86,7 +86,7 @@ public class ManageFriendEnemeyController implements Initializable {
         }
         Object obj = ComboBoxF.getSelectionModel().getSelectedItem();
         if (!myEnemies.getItems().contains(obj)) {
-            myFriends.getItems().add(obj.toString());
+            myFriends.getItems().add(obj);
             ComboBoxF.getItems().remove(obj);
             ComboBoxE.getItems().remove(obj);
         }
@@ -99,7 +99,7 @@ public class ManageFriendEnemeyController implements Initializable {
         }
         Object obj = ComboBoxE.getSelectionModel().getSelectedItem();
         if (!myFriends.getItems().contains(obj)) {
-            myEnemies.getItems().add(obj.toString());
+            myEnemies.getItems().add(obj);
             ComboBoxE.getItems().remove(obj);
             ComboBoxF.getItems().remove(obj);
         }
@@ -107,16 +107,14 @@ public class ManageFriendEnemeyController implements Initializable {
 
     @FXML
     private void SaveDictionary() {
-        Object[] friends = myFriends.getItems().toArray();
-        Object[] enemies = myEnemies.getItems().toArray();
         try {
-            if (friends != null) {
-                for (Object o : friends) {
+            if (myFriends.getItems() != null) {
+                for (Object o : myFriends.getItems()) {
                     dic.addFriend(ComboBoxIt.getSelectionModel().getSelectedItem(), o);
                 }
             }
-            if (enemies != null) {
-                for (Object o : enemies) {
+            if (myEnemies.getItems() != null) {
+                for (Object o : myEnemies.getItems()) {
                     dic.addEnemy(ComboBoxIt.getSelectionModel().getSelectedItem(), o);
                 }
             }
@@ -159,11 +157,6 @@ public class ManageFriendEnemeyController implements Initializable {
     }
 
     public void editLists() {
-
-        Object usr = null;
-
-        String selectedDictionary = ComboBoxDic.getSelectionModel().getSelectedItem().toString();
-        Dictionary dic = DictionaryFactory.Instance.getDictionary(selectedDictionary);
         ComboBoxF.getItems().clear();
         ComboBoxE.getItems().clear();
         for (Object obj : dic.getKeySet()) {

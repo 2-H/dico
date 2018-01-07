@@ -105,21 +105,22 @@ public class Dictionary<T> implements Collection<T>, Iterable<T> {
         /*to understand the comments:
           consider I'am the variable 'element' and I want to add the variable 'friend' to my friends*/
 
-        
         Pair<T> elementPair = elements.get(element);              //my pair
         Pair<T> friendSet = elements.get(friend);           //his pair        
-        
-       
+
         System.out.println(elementPair);
 
-        if (elementPair == null || friendSet==null ) {
-            throw new NullPointerException("Element not added to dictionary!");
+        if (elementPair == null) {
+            throw new NullPointerException(" elementPair not added to dictionary!");
+        }
+        if (friendSet == null) {
+            throw new NullPointerException( " friendSet not added to dictionary!");
         }
         //|| friendSet == null || mySet.getFriends() == null || mySet.getEnemies() == null || friendSet.getEnemies() == null || friendSet.getFriends() == null
-        if (elementPair.getEnemies()!=null &&  elementPair.getEnemies().contains(friend)) {
+        if (elementPair.getEnemies() != null && elementPair.getEnemies().contains(friend)) {
             throw new FriendIsEnemyOrEnemyIsFriendException("A chosen friend is already an enemy or a chosen enemy is already a friend.");
         }
-        if (elementPair.getFriends()!=null && elementPair.getFriends().contains(friend)) {
+        if (elementPair.getFriends() != null && elementPair.getFriends().contains(friend)) {
             throw new FriendOrEnemyAlreadyExistsException("A chosen friend or a chosen enemy already exists.");
         }
 
@@ -165,7 +166,7 @@ public class Dictionary<T> implements Collection<T>, Iterable<T> {
 
         Pair<T> mySet = elements.get(element);              //my pair
         Pair<T> enemySet = elements.get(enemy);             //his pair
-        if (mySet == null || enemySet == null ) {
+        if (mySet == null || enemySet == null) {
             throw new NullPointerException("Sets are still null.");
         }
         //|| mySet.getFriends() == null || mySet.getEnemies() == null || enemySet.getEnemies() == null || enemySet.getFriends() == null
