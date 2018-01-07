@@ -5,6 +5,8 @@
  */
 package dico.models;
 
+import dico.exceptions.FriendIsEnemyOrEnemyIsFriendException;
+import dico.exceptions.FriendOrEnemyAlreadyExistsException;
 import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -12,6 +14,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -85,7 +89,7 @@ public class Dictionary<T> implements Collection<T>, Iterable<T> {
         return null;
     }
 
-    public int addFriend(T element, T friend) {
+    public boolean addFriend(T element, T friend) throws FriendIsEnemyOrEnemyIsFriendException, FriendOrEnemyAlreadyExistsException {
         /*to understand the comments:
           consider I'am the variable 'element' and I want to add the variable 'friend' to my friends*/
 
@@ -93,13 +97,14 @@ public class Dictionary<T> implements Collection<T>, Iterable<T> {
         Pair<T> friendSet = elements.get(friend);           //his pair
         System.out.println(mySet);
 
+        if (mySet == null || friendSet == null || mySet.getFriends() == null || mySet.getEnemies() == null || friendSet.getEnemies() == null || friendSet.getFriends() == null) {
+            throw new NullPointerException("Sets are still null.");
+        }
         if (mySet.getEnemies().contains(friend)) {
-            return -1;                                      //if he is my enemy -> I can't add him as friend
-            //throw exception
+            throw new FriendIsEnemyOrEnemyIsFriendException("A chosen friend is already an enemy or a chosen enemy is already a friend.");
         }
         if (mySet.getFriends().contains(friend)) {
-            return 0;                                       //if he is already my friend -> No need to add him
-            //throw exception
+            throw new FriendOrEnemyAlreadyExistsException("A chosen friend or a chosen enemy already exists.");
         }
 
         for (T elem : mySet.getFriends()) {                 //for each one as my friends
@@ -135,21 +140,23 @@ public class Dictionary<T> implements Collection<T>, Iterable<T> {
 
         friendSet.addFriend(element);                       //i must be his friend
         mySet.addFriend(friend);                            //he must be my friend
-        return 1;
+        return true;
     }
 
-    public int addEnemy(T element, T enemy) {
+    public boolean addEnemy(T element, T enemy) throws FriendIsEnemyOrEnemyIsFriendException, FriendOrEnemyAlreadyExistsException {
         /*to understand the comments:
           consider I'am the variable 'element' and I want to add the variable 'enemy' to my enemies*/
 
         Pair<T> mySet = elements.get(element);              //my pair
         Pair<T> enemySet = elements.get(enemy);             //his pair
-
+        if (mySet == null || enemySet == null || mySet.getFriends() == null || mySet.getEnemies() == null || enemySet.getEnemies() == null || enemySet.getFriends() == null) {
+            throw new NullPointerException("Sets are still null.");
+        }
         if (mySet.getFriends().contains(enemy)) {
-            return -1;                                      //if he is in my friends' list
+            throw new FriendIsEnemyOrEnemyIsFriendException("A chosen friend is already an enemy or a chosen enemy is already a friend.");
         }
         if (mySet.getEnemies().contains(enemy)) {
-            return 0;                                       //if he is already an enemy
+            throw new FriendOrEnemyAlreadyExistsException("A chosen friend or a chosen enemy already exists.");
         }
 
         for (T elem : mySet.getFriends()) {                 //for each one as my friend
@@ -185,7 +192,7 @@ public class Dictionary<T> implements Collection<T>, Iterable<T> {
 
         enemySet.addEnemy(element);                         //i must be his enemey
         mySet.addEnemy(enemy);                              //he must be my enemy
-        return 1;
+        return true;
     }
 
     @Override
@@ -312,32 +319,38 @@ public class Dictionary<T> implements Collection<T>, Iterable<T> {
 
     public void Demo() {
 
-        Dictionary<TestPerson> dico = new Dictionary<>();
-        TestPerson fawze = new TestPerson("Fawze");
-        TestPerson fakhre = new TestPerson("Fakhre");
-        TestPerson fathe = new TestPerson("Fathe");
-        TestPerson jawad = new TestPerson("Jawad");
-        TestPerson mofeed = new TestPerson("Mofeed");
-        TestPerson sobhe = new TestPerson("Sobhe");
-        TestPerson lotfi = new TestPerson("Lotfi");
-        dico.add(fawze);
-        dico.add(fakhre);
-        dico.add(fathe);
-        dico.add(sobhe);
-        dico.add(mofeed);
-        dico.add(lotfi);
-        dico.addFriend(lotfi, mofeed);
-        dico.addFriend(mofeed, fathe);
-        for (TestPerson o : dico) {
-            dico.findFriends(o);
+        try {
+            Dictionary<TestPerson> dico = new Dictionary<>();
+            TestPerson fawze = new TestPerson("Fawze");
+            TestPerson fakhre = new TestPerson("Fakhre");
+            TestPerson fathe = new TestPerson("Fathe");
+            TestPerson jawad = new TestPerson("Jawad");
+            TestPerson mofeed = new TestPerson("Mofeed");
+            TestPerson sobhe = new TestPerson("Sobhe");
+            TestPerson lotfi = new TestPerson("Lotfi");
+            dico.add(fawze);
+            dico.add(fakhre);
+            dico.add(fathe);
+            dico.add(sobhe);
+            dico.add(mofeed);
+            dico.add(lotfi);
+            dico.addFriend(lotfi, mofeed);
+            dico.addFriend(mofeed, fathe);
+            for (TestPerson o : dico) {
+                dico.findFriends(o);
+            }
+            //System.out.println(dico.contains(mofeed));
+            ArrayList<TestPerson> list = new ArrayList<>();
+            list.add(mofeed);
+            list.add(sobhe);
+            dico.removeAll(list);
+            System.out.println(dico.contains(mofeed));
+            System.out.println(dico.contains(fakhre));
+        } catch (FriendIsEnemyOrEnemyIsFriendException ex) {
+            Logger.getLogger(Dictionary.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (FriendOrEnemyAlreadyExistsException ex) {
+            Logger.getLogger(Dictionary.class.getName()).log(Level.SEVERE, null, ex);
         }
-        //System.out.println(dico.contains(mofeed));
-        ArrayList<TestPerson> list = new ArrayList<>();
-        list.add(mofeed);
-        list.add(sobhe);
-        dico.removeAll(list);
-        System.out.println(dico.contains(mofeed));
-        System.out.println(dico.contains(fakhre));
     }
 
     public static void main(String[] myArgs) {
