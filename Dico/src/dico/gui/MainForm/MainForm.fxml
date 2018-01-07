@@ -11,8 +11,8 @@
 <AnchorPane fx:id="AnchorPane" prefHeight="696.0" prefWidth="1056.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="dico.gui.MainForm.MainFormController">
   <children>
     <Button fx:id="btnCreateClass" layoutX="37.0" layoutY="32.0" mnemonicParsing="false" onAction="#CreateClass" prefHeight="39.0" prefWidth="197.0" text="Create Class" />
-    <Button fx:id="btnCreateObject" disable="false" layoutX="37.0" layoutY="166.0" mnemonicParsing="false" onAction="#CreateObject" prefHeight="39.0" prefWidth="197.0" text="Create Objects" />
-    <Button id="btnInstantiate" fx:id="btnCallMethods" disable="false" layoutX="37.0" layoutY="233.0" mnemonicParsing="false" onAction="#CallMethods" prefHeight="39.0" prefWidth="197.0" text="Call Methods" />
+    <Button fx:id="btnCreateObject" disable="true" layoutX="37.0" layoutY="166.0" mnemonicParsing="false" onAction="#CreateObject" prefHeight="39.0" prefWidth="197.0" text="Create Objects" />
+    <Button id="btnInstantiate" fx:id="btnCallMethods" disable="true" layoutX="37.0" layoutY="233.0" mnemonicParsing="false" onAction="#CallMethods" prefHeight="39.0" prefWidth="197.0" text="Call Methods" />
     <ListView id="lstBoxClass" fx:id="lstBoxObject" layoutX="537.0" layoutY="62.0" prefHeight="553.0" prefWidth="216.0" />
     <Label fx:id="lblAvailableClasses" layoutX="291.0" layoutY="32.0" text="Available classes">
       <font>
@@ -21,14 +21,14 @@
     </Label>
     <ListView fx:id="lstBoxClass" layoutX="291.0" layoutY="62.0" prefHeight="553.0" prefWidth="216.0" />
     <Label font="$x1" layoutX="537.0" layoutY="32.0" text="Created objects (POOL)" />
-    <Button id="" fx:id="btnCreateDictionary" disable="false" layoutX="37.0" layoutY="300.0" mnemonicParsing="false" onAction="#CreateDictionary" prefHeight="39.0" prefWidth="197.0" text="Create Dictionary" />
-    <Button id="btnCreateObject" fx:id="btnCompileClasses" disable="false" layoutX="37.0" layoutY="100.0" mnemonicParsing="false" onAction="#CompileClasses" prefHeight="39.0" prefWidth="197.0" text="Compile Classes" />
-    <Button id="" fx:id="btnAddToDictionary" disable="false" layoutX="37.0" layoutY="369.0" mnemonicParsing="false" onAction="#AddToDictionary" prefHeight="39.0" prefWidth="197.0" text="Add To Dictionary" />
-    <Button fx:id="btnSearchDictionary" disable="false" layoutX="37.0" layoutY="507.0" mnemonicParsing="false" onAction="#SearchDictionary" prefHeight="39.0" prefWidth="197.0" text="Search Dictionary" />
+    <Button id="" fx:id="btnCreateDictionary" disable="true" layoutX="37.0" layoutY="300.0" mnemonicParsing="false" onAction="#CreateDictionary" prefHeight="39.0" prefWidth="197.0" text="Create Dictionary" />
+    <Button id="btnCreateObject" fx:id="btnCompileClasses" disable="true" layoutX="37.0" layoutY="100.0" mnemonicParsing="false" onAction="#CompileClasses" prefHeight="39.0" prefWidth="197.0" text="Compile Classes" />
+    <Button id="" fx:id="btnAddToDictionary" disable="true" layoutX="37.0" layoutY="369.0" mnemonicParsing="false" onAction="#AddToDictionary" prefHeight="39.0" prefWidth="197.0" text="Add To Dictionary" />
+    <Button fx:id="btnSearchDictionary" disable="true" layoutX="37.0" layoutY="507.0" mnemonicParsing="false" onAction="#SearchDictionary" prefHeight="39.0" prefWidth="197.0" text="Search Dictionary" />
     <ListView id="lstBoxClass" fx:id="lstBoxDictionaries" layoutX="781.0" layoutY="62.0" prefHeight="553.0" prefWidth="216.0" />
     <Label font="$x1" layoutX="782.0" layoutY="32.0" text="Dictionaries" />
-    <Button id="" fx:id="btnCallDictionaryMethods" disable="false" layoutX="37.0" layoutY="576.0" mnemonicParsing="false" onAction="#CallDictionaryMethods" prefHeight="39.0" prefWidth="197.0" text="Call Dictionary Methods" />
-    <Button id="" fx:id="btnManageDictionary" disable="false" layoutX="37.0" layoutY="437.0" mnemonicParsing="false" onAction="#ManageDictionary" prefHeight="39.0" prefWidth="197.0" text="Friends &amp; Enemies" />
+    <Button id="" fx:id="btnCallDictionaryMethods" disable="true" layoutX="37.0" layoutY="576.0" mnemonicParsing="false" onAction="#CallDictionaryMethods" prefHeight="39.0" prefWidth="197.0" text="Call Dictionary Methods" />
+    <Button id="" fx:id="btnManageDictionary" disable="true" layoutX="37.0" layoutY="437.0" mnemonicParsing="false" onAction="#ManageDictionary" prefHeight="39.0" prefWidth="197.0" text="Friends &amp; Enemies" />
     <Button fx:id="btnDemo" layoutX="14.0" layoutY="655.0" mnemonicParsing="false" onAction="#Demo" text="Demo" />
   </children>
 </AnchorPane>

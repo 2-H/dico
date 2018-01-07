@@ -60,10 +60,7 @@ public class DictionaryFactory {
         return list;
     }
 
-    public ArrayList<String> getDictionaryNames() {
-        if (Dictionaries.size() == 0) {
-            createDemoDictionaries();
-        }
+    public ArrayList<String> getDictionaryNames() {        
         ArrayList<String> list = new ArrayList<>();
         for (Dictionary d : Dictionaries.values()) {
             list.add(d.getName());

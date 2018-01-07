@@ -40,6 +40,11 @@ public class ObjectFactory {
     }
 
     public ObjectModel createObject(ClassModel modelClass, String variableName) throws ComplierFailedException, ObjectCreationException, ClassNotFoundException {
+
+        if (modelClass.getClassReference() == null) {
+            throw new ComplierFailedException("Compile First");
+        }
+
         ObjectModel object = DicoCompilerIntiator.Instance.createObject(modelClass, variableName);
         Objects.add(object);
         return object;
@@ -55,9 +60,9 @@ public class ObjectFactory {
                 ObjectModel object = ObjectFactory.Instance.createObject(cls, cls.getName().toLowerCase());
                 DicoCompilerIntiator.Instance.InvokeToString(object);
             }
-        } catch (ComplierFailedException | ObjectCreationException | ClassNotFoundException ex) {
+        } catch (ComplierFailedException | ObjectCreationException | ClassNotFoundException  ex) {
             Logger.getLogger(DicoCompilerIntiator.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        } 
     }
 
     public static void main(String[] args) {

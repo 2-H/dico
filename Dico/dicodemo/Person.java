@@ -5,9 +5,8 @@ public class Person {
 	public Person(){
 	}
 
-	public Person(int id, String name) {
+	public Person(int id) {
 		this.id = id;
-		this.name = name;
 	}
 
 	@Override
@@ -25,18 +24,14 @@ public class Person {
 		if (this.id != other.id) {
 			return false;
 		}
-		if (!this.name.equals(other.name)) {
-			return false;
-		}
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return getClass().getName() +"[id=" + id + ", name=" + name + "]";		
+		return getClass().getName() +"[id=" + id + "]";		
 	}
 
 	private int id;
-	private String name;
 
 }
