@@ -6,7 +6,10 @@
 package dico.gui.MainForm;
 
 import dico.ClassFactory;
+import dico.DictionaryFactory;
 import dico.ObjectFactory;
+import dico.compiler.DicoCompilerIntiator;
+import dico.exceptions.ComplierFailedException;
 import dico.gui.classCreator.ClassCreator;
 import java.io.IOException;
 import java.net.URL;
@@ -25,6 +28,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import dico.gui.classCreator.*;
 import dico.models.ClassModel;
+import dico.models.Dictionary;
 import dico.models.ObjectModel;
 import java.util.ArrayList;
 import javafx.collections.FXCollections;
@@ -41,18 +45,31 @@ import javafx.scene.image.ImageView;
 public class MainFormController implements Initializable {
 
     @FXML
+    private Button btnDemo;
+    @FXML
     private Button btnCreateClass;
+    @FXML
+    private Button btnCompileClasses;
     @FXML
     private Button btnCreateObject;
     @FXML
-    private Button btnInstantiate;
+    private Button btnCallMethods;
+    @FXML
+    private Button btnCreateDictionary;
+    @FXML
+    private Button btnAddToDictionary;
+    @FXML
+    private Button btnCallDictionaryMethods;
+    @FXML
+    private Button btnSearchDictionary;
+    @FXML
+    private Button btnManageDictionary;
     @FXML
     private ListView lstBoxClass;
     @FXML
     private ListView lstBoxObject;
     @FXML
-    private Button btnCreateDictionary;
-     
+    private ListView lstBoxDictionaries;
 
     public void refreshForm() {
         ArrayList<ObjectModel> Objects = ObjectFactory.Instance.Objects;
@@ -61,7 +78,7 @@ public class MainFormController implements Initializable {
             btnCreateObject.setDisable(false);
         }
         if (ObjectFactory.Instance.Objects.size() > 0) {
-            btnInstantiate.setDisable(false);
+            btnCallMethods.setDisable(false);
         }
         ObservableList<String> list = FXCollections.observableArrayList();
         for (String str : ClassFactory.Instance.GetClassNames()) {
@@ -70,9 +87,12 @@ public class MainFormController implements Initializable {
         lstBoxClass.setItems(list);
         for (ObjectModel str : Objects) {
             names.add(str.getVariableName());
-
         }
         lstBoxObject.setItems(names);
+        lstBoxDictionaries.getItems().clear();
+        lstBoxDictionaries.getItems().setAll(DictionaryFactory.Instance.getDictionaryNames()); 
+          
+        
     }
 
     private void opener(String str) {
@@ -91,28 +111,59 @@ public class MainFormController implements Initializable {
     }
 
     @FXML
-    private void OpenCreateClass() {
+    private void CompileClasses() {
+        try {
+            DicoCompilerIntiator.Instance.CreateAndComplieFiles();
+        } catch (ComplierFailedException ex) {
+            Logger.getLogger(MainFormController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(MainFormController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @FXML
+    private void Demo() {
+        ObjectFactory.Demo();
+        refreshForm();
+    }
+
+    @FXML
+    private void CreateClass() {
         opener("..//classCreator//ClassCreator.fxml");
     }
 
     @FXML
-    private void OpenCreateObject() {
+    private void CreateObject() {
         opener("..//classInitiation//ClassInitiation.fxml");
     }
 
     @FXML
-    private void OpenInstantiate() {
+    private void CallMethods() {
         opener("..//CallingMethods//Methods.fxml");
     }
-    
+
     @FXML
-    private void CreateDico()
-    {
+    private void CreateDictionary() {
         opener("..//dictionary//CreateDictionary.fxml");
     }
+
     @FXML
-    private void Search()
-    {
+    private void AddToDictionary() {
+        opener("..//dictionary//AddItemsToMyDictionary.fxml");
+    }
+
+    @FXML
+    private void SearchDictionary() {
+        opener("..//dictionary//SearchForm.fxml");
+    }
+
+    @FXML
+    private void ManageDictionary() {
+        opener("..//dictionary//ManageDictionary.fxml");
+    }
+
+    @FXML
+    private void CallDictionaryMethods() {
         opener("..//dictionary//ManagerFriendEnemy.fxml");
     }
 
@@ -124,7 +175,7 @@ public class MainFormController implements Initializable {
         lstBoxClass.setFocusTraversable(false);
         lstBoxObject.setMouseTransparent(true);
         lstBoxObject.setFocusTraversable(false);
-        
+
     }
 
 }

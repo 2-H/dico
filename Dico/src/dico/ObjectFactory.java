@@ -13,6 +13,8 @@ import dico.exceptions.ObjectNotFoundException;
 import dico.models.ClassModel;
 import dico.models.ObjectModel;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -29,7 +31,7 @@ public class ObjectFactory {
 
     public ObjectModel GetObject(String name) throws ObjectNotFoundException {
         for (ObjectModel cls : Objects) {
-            String s=cls.toString();
+            String s = cls.getVariableName();
             if (s.equals(name)) {
                 return cls;
             }
@@ -37,14 +39,28 @@ public class ObjectFactory {
         throw new ObjectNotFoundException("Object Not Found");
     }
 
-    public void createObject(ClassModel modelClass, String variableName) throws ComplierFailedException, ObjectCreationException, ClassNotFoundException {
-        if (Objects.size() == 0) {
-            DicoCompilerIntiator.Instance.CreateAndComplieFiles();
-        }
-
+    public ObjectModel createObject(ClassModel modelClass, String variableName) throws ComplierFailedException, ObjectCreationException, ClassNotFoundException {
         ObjectModel object = DicoCompilerIntiator.Instance.createObject(modelClass, variableName);
-
         Objects.add(object);
+        return object;
 
+    }
+
+    public static void Demo() {
+        ClassFactory.CreateDemoClass();
+        try {
+            DicoCompilerIntiator.Instance.CreateAndComplieFiles();
+
+            for (ClassModel cls : ClassFactory.Instance.Classess) {
+                ObjectModel object = ObjectFactory.Instance.createObject(cls, cls.getName().toLowerCase());
+                DicoCompilerIntiator.Instance.InvokeToString(object);
+            }
+        } catch (ComplierFailedException | ObjectCreationException | ClassNotFoundException ex) {
+            Logger.getLogger(DicoCompilerIntiator.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public static void main(String[] args) {
+        Demo();
     }
 }

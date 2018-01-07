@@ -157,6 +157,10 @@ public class DicoCompilerIntiator {
     }
 
     public boolean CompileFiles(ArrayList<File> javaFiles) {
+
+        if (javaFiles == null || javaFiles.size() == 0) {
+            return false;
+        }
         try {
             MyDiagnosticListener c = new MyDiagnosticListener();
 
@@ -229,24 +233,22 @@ public class DicoCompilerIntiator {
             throw new ComplierFailedException("Complier Failed ");
         } else {
             for (ClassModel cls : ClassFactory.Instance.Classess) {
-                Class thisClass = getClassByReflection(cls.getName());                
+                Class thisClass = getClassByReflection(cls.getName());
                 cls.setClassReference(thisClass);
             }
         }
     }
 
-    public static void main(String[] args) {
+    public static void Demo() {
         ClassFactory.CreateDemoClass();
         try {
             DicoCompilerIntiator.Instance.CreateAndComplieFiles();
-
-            for (ClassModel cls : ClassFactory.Instance.Classess) {
-                ObjectModel object = DicoCompilerIntiator.Instance.createObject(cls, "variable");
-                DicoCompilerIntiator.Instance.InvokeToString(object);
-            }
-        } catch (ComplierFailedException | ObjectCreationException |ClassNotFoundException ex) {
+        } catch (ClassNotFoundException | ComplierFailedException ex) {
             Logger.getLogger(DicoCompilerIntiator.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
 
+    public static void main(String[] args) {
+        Demo();
     }
 }

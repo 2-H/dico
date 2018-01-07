@@ -47,6 +47,7 @@ public class SearchFormController implements Initializable {
 
     @FXML
     private void getObjects() {
+        comboItems.getItems().clear();
         String selected = comboDictionary.getSelectionModel().getSelectedItem().toString();
         Dictionary dic = DictionaryFactory.Instance.getDictionary(selected);
         comboItems.getItems().setAll(dic.getKeySet());

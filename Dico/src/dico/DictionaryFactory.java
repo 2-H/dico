@@ -10,6 +10,7 @@ import dico.exceptions.ComplierFailedException;
 import dico.models.ClassModel;
 import dico.models.Dictionary;
 import dico.models.MainType;
+import dico.models.ObjectModel;
 import dico.models.TestPerson;
 import dico.models.TestShape;
 import java.util.ArrayList;
@@ -30,9 +31,9 @@ public class DictionaryFactory {
         Dictionaries = new HashMap<>();
     }
 
-    public void createDictionary(ClassModel cls) {
-        Dictionary d = new Dictionary(cls.getClassReference());
-        d.setName(cls.getName());
+    public void createDictionary(ClassModel cls, String Dicname) {
+        Dictionary<ObjectModel> d = new Dictionary<ObjectModel>();//cls.getClassReference()
+        d.setName(Dicname);
         //Check for duplicates
         Dictionaries.put(d.getName(), d);
     }
@@ -75,7 +76,7 @@ public class DictionaryFactory {
     }
 
     public static void createDemoDictionaries() {
-        Dictionary d = new Dictionary(TestPerson.class);
+        Dictionary d = new Dictionary<TestPerson>();
         TestPerson ali = new TestPerson("Ali");
         TestPerson hassan = new TestPerson("Hassan");
 
@@ -83,7 +84,7 @@ public class DictionaryFactory {
 
         DictionaryFactory.Instance.Dictionaries.put(d.getName(), d);
 
-        Dictionary d2 = new Dictionary(TestShape.class);
+        Dictionary d2 = new Dictionary<TestPerson>();
         TestShape square = new TestShape("Square");
         TestShape circle = new TestShape("Circle");
 
@@ -97,7 +98,7 @@ public class DictionaryFactory {
         ClassFactory.CreateDemoClass();
         DicoCompilerIntiator.Instance.CreateAndComplieFiles();
         for (ClassModel c : ClassFactory.Classess) {
-            DictionaryFactory.Instance.createDictionary(c);
+            DictionaryFactory.Instance.createDictionary(c, "Dictionary " + c.getName());
         }
     }
 }
