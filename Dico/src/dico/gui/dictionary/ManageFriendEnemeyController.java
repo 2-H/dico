@@ -30,6 +30,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
@@ -68,20 +70,13 @@ public class ManageFriendEnemeyController implements Initializable {
     public ArrayList<String> Person = new ArrayList<>();
     public ArrayList<String> Animal = new ArrayList<>();
     public Dictionary dic;
-
-    public <T> void addToListView(Pair<? extends T> pair) {
-        Set<? extends T> friends = pair.getFriends();
-        Set<? extends T> enemies = pair.getEnemies();
-        for (T elem : friends) {
-            if (!myFriends.getItems().contains(elem.toString())) {
-                myFriends.getItems().add(elem.toString());
-            }
-        }
-        for (T elem : enemies) {
-            if (!myEnemies.getItems().contains(elem.toString())) {
-                myEnemies.getItems().add(elem.toString());
-            }
-        }
+    
+    public void showAlert(String title, String content, AlertType alertType) {
+        Alert alert = new Alert(alertType);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
 
     @FXML
@@ -93,6 +88,7 @@ public class ManageFriendEnemeyController implements Initializable {
         if (!myEnemies.getItems().contains(obj)) {
             myFriends.getItems().add(obj.toString());
             ComboBoxF.getItems().remove(obj);
+            ComboBoxE.getItems().remove(obj);
         }
     }
 
@@ -105,6 +101,7 @@ public class ManageFriendEnemeyController implements Initializable {
         if (!myFriends.getItems().contains(obj)) {
             myEnemies.getItems().add(obj.toString());
             ComboBoxE.getItems().remove(obj);
+            ComboBoxF.getItems().remove(obj);
         }
     }
 
@@ -124,12 +121,32 @@ public class ManageFriendEnemeyController implements Initializable {
                 }
             }
         } catch (FriendOrEnemyAlreadyExistsException | FriendIsEnemyOrEnemyIsFriendException | NullPointerException ex) {
-            System.out.println(ex.getMessage());
+            showAlert("Fatal Error",ex.getMessage(),AlertType.ERROR);
         }
     }
 
     @FXML
-    private void RemoveItem() {
+    private void RemoveFriend() {
+
+        Object o = myFriends.getSelectionModel().getSelectedItem();
+
+        myFriends.getItems().remove(o);
+        ComboBoxF.getItems().add(o);
+        ComboBoxE.getItems().add(o);
+
+    }
+
+    @FXML
+    private void RemoveEnemy() {
+
+        Object o = myEnemies.getSelectionModel().getSelectedItem();
+
+        myEnemies.getItems().remove(o);
+//        ComboBoxF.getItems().clear();
+//        ComboBoxE.getItems().clear();
+
+        ComboBoxF.getItems().add(o);
+        ComboBoxE.getItems().add(o);
 
     }
 
@@ -147,25 +164,6 @@ public class ManageFriendEnemeyController implements Initializable {
 
         String selectedDictionary = ComboBoxDic.getSelectionModel().getSelectedItem().toString();
         Dictionary dic = DictionaryFactory.Instance.getDictionary(selectedDictionary);
-
-//            Object o = ComboBoxIt.getSelectionModel().getSelectedItem().toString();
-//            String s=(String) o;
-//       ObjectModel o2 = ObjectFactory.Instance.GetObject(s);
-//            ArrayList<Object> OurKeys = dic.getKeySet();
-//            ObservableList<String> nameF = (ObservableList<String>) new ArrayList();
-//            ObservableList<String> nameE = (ObservableList<String>) new ArrayList();
-//            for(Object obj:OurKeys){
-//                String ss=obj.toString();
-//                if(ss.equals(s))
-//                    usr=obj;
-//                
-//            }
-//            for (Object elem : dic.findFriends(usr)) {
-//                nameF.add(elem.toString());
-//            }
-//            for (Object elem : dic.findEnemies(usr)) {
-//                nameE.add(elem.toString());
-//            }
         ComboBoxF.getItems().clear();
         ComboBoxE.getItems().clear();
         for (Object obj : dic.getKeySet()) {

@@ -36,7 +36,7 @@
         <AnchorPane id="Content" fx:id="Friendspane" minHeight="0.0" minWidth="0.0" prefHeight="353.0" prefWidth="371.0">
           <children>
             <ListView fx:id="myFriends" layoutX="14.0" layoutY="50.0" prefHeight="278.0" prefWidth="280.0" />
-            <Button id="btnAddFriend" fx:id="btnAddFriend" onAction="#addFriend" layoutX="175.0" layoutY="8.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="54.0" text="Add" />
+            <Button id="btnAddFriend" fx:id="btnAddFriend" layoutX="175.0" layoutY="8.0" mnemonicParsing="false" onAction="#addFriend" prefHeight="31.0" prefWidth="54.0" text="Add" />
             <ComboBox fx:id="ComboBoxF" layoutX="14.0" layoutY="8.0" prefHeight="31.0" prefWidth="147.0">
               <items>
                 <FXCollections fx:factory="observableArrayList">
@@ -44,6 +44,7 @@
                 </FXCollections>
               </items>
             </ComboBox>
+                  <Button id="btnAddFriend" fx:id="btnFriendRemove" layoutX="240.0" layoutY="8.0" mnemonicParsing="false" onAction="#RemoveFriend" prefHeight="31.0" prefWidth="54.0" text="X" />
           </children>
         </AnchorPane>
       </content>
@@ -60,7 +61,8 @@
                 </FXCollections>
               </items>
             </ComboBox>
-            <Button fx:id="btnAddEnemy" layoutX="175.0" layoutY="8.0" onAction="#addEnemy" mnemonicParsing="false" prefHeight="31.0" prefWidth="54.0" text="Add" />
+            <Button fx:id="btnAddEnemy" layoutX="175.0" layoutY="8.0" mnemonicParsing="false" onAction="#addEnemy" prefHeight="31.0" prefWidth="54.0" text="Add" />
+                  <Button id="btnAddFriend" fx:id="btnEnemyRemove" layoutX="240.0" layoutY="8.0" mnemonicParsing="false" onAction="#RemoveEnemy" prefHeight="31.0" prefWidth="54.0" text="X" />
           </children>
         </AnchorPane>
       </content>
