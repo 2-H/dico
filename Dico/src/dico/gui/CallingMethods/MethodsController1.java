@@ -101,7 +101,9 @@ public class MethodsController1 implements Initializable {
 
     @FXML
     private void ApplyMethodHandler(ActionEvent event) {
-
+        if (comboMethods.getValue() == null) {
+            return;
+        }
         try {
             String method = comboMethods.getSelectionModel().getSelectedItem().toString();
             String second = comboSecondObject.getSelectionModel().getSelectedItem().toString();
