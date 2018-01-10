@@ -24,6 +24,18 @@ public class Manager extends Person {
 	}
 
 	@Override
+	public int compareTo(Object other) {
+		if(getClass() != other.getClass()) {
+			throw new ClassCastException();
+		}
+		Manager tmp = (Manager) other;
+		if (!this.salary.equals(tmp.salary)) {
+			return this.salary.compareTo(tmp.salary);
+		}
+		return super.compareTo(tmp);
+	}
+
+	@Override
 	public String toString() {
 		return super.toString() +"[salary=" + salary + "]";		
 	}

@@ -24,6 +24,18 @@ public class CTO extends Manager {
 	}
 
 	@Override
+	public int compareTo(Object other) {
+		if(getClass() != other.getClass()) {
+			throw new ClassCastException();
+		}
+		CTO tmp = (CTO) other;
+		if (!(this.yearsOfExperience == tmp.yearsOfExperience)) {
+			return this.yearsOfExperience - tmp.yearsOfExperience;
+		}
+		return super.compareTo(tmp);
+	}
+
+	@Override
 	public String toString() {
 		return super.toString() +"[yearsOfExperience=" + yearsOfExperience + "]";		
 	}

@@ -1,6 +1,6 @@
 package dicodemo; 
 
-public class Person {
+public class Person implements Comparable  {
 
 	public Person(){
 	}
@@ -29,6 +29,21 @@ public class Person {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	public int compareTo(Object other) {
+		if(getClass() != other.getClass()) {
+			throw new ClassCastException();
+		}
+		Person tmp = (Person) other;
+		if (!(this.id == tmp.id)) {
+			return this.id - tmp.id;
+		}
+		if (!this.name.equals(tmp.name)) {
+			return this.name.compareTo(tmp.name);
+		}
+		return 0;
 	}
 
 	@Override

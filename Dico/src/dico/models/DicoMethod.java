@@ -15,11 +15,13 @@ public class DicoMethod {
 
     public static DicoMethod TOSTRING = new DicoMethod("toString", 0);
     public static DicoMethod EQUALS = new DicoMethod("equals", 1);
+    public static DicoMethod COMPARETO = new DicoMethod("compareTo", 2);
 
     public static ArrayList<DicoMethod> getMethods() {
         ArrayList<DicoMethod> list = new ArrayList<>();
         list.add(TOSTRING);
         list.add(EQUALS);
+        list.add(COMPARETO);
         return list;
     }
 

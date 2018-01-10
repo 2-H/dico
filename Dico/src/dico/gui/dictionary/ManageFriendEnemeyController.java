@@ -5,29 +5,13 @@
  */
 package dico.gui.dictionary;
 
-import dico.ClassFactory;
 import dico.DictionaryFactory;
-import dico.ObjectFactory;
-import static dico.ObjectFactory.Objects;
 import dico.exceptions.FriendIsEnemyOrEnemyIsFriendException;
 import dico.exceptions.FriendOrEnemyAlreadyExistsException;
-import dico.exceptions.ObjectNotFoundException;
-import dico.models.ClassModel;
 import dico.models.Dictionary;
-import dico.models.ObjectModel;
-import dico.models.Pair;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;

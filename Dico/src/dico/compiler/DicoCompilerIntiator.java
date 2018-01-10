@@ -156,6 +156,22 @@ public class DicoCompilerIntiator {
         return false;
     }
 
+    public Integer InvokeCompareTo(ObjectModel object1, ObjectModel object2) {
+        if (!object1.getClassModel().getName().equals(object2.getClassModel().getName())) {
+            throw new ClassCastException("Error casting different types.");
+        }
+        try {
+            Class paramsMethold[] = {Object.class};//thisClass
+            Method equalsMethod = object1.getClassModel().getClassReference().getDeclaredMethod("compareTo", paramsMethold);
+            Object o = equalsMethod.invoke(object1.getInstance(), object2.getInstance());
+            System.out.println("object1.compareTo(object2) ==> " + (Integer) o);
+            return (Integer) o;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return null;
+    }
+
     public boolean CompileFiles(ArrayList<File> javaFiles) {
 
         if (javaFiles == null || javaFiles.size() == 0) {

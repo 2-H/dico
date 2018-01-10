@@ -5,6 +5,7 @@
  */
 package dico.gui.CallingMethods;
 
+import Message.Message;
 import dico.ObjectFactory;
 import dico.compiler.DicoCompilerIntiator;
 import dico.exceptions.ObjectNotFoundException;
@@ -19,6 +20,8 @@ import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
@@ -110,13 +113,24 @@ public class MethodsController1 implements Initializable {
             if (method.equals("toString")) {
                 tf.setText(DicoCompilerIntiator.Instance.InvokeToString(firstObject));
             } else if (method.equals("equals")) {
-                if (DicoCompilerIntiator.Instance.InvokeEquals(firstObject,secondObject)) {
+                if (DicoCompilerIntiator.Instance.InvokeEquals(firstObject, secondObject)) {
                     tf.setText(first + " is equal to " + second);
                 } else {
                     tf.setText(first + " is not equal to " + second);
                 }
+            } else if (method.equals("compareTo")) {
+                Integer res = DicoCompilerIntiator.Instance.InvokeCompareTo(firstObject, secondObject);
+                if (res == 0) {
+                    tf.setText(first + " is equal to " + second);
+                } else if (res > 0) {
+                    tf.setText(first + " is greater than " + second);
+                } else if (res < 0) {
+                    tf.setText(first + " is less than " + second);
+                } else {
+                    tf.setText("Failed to invoke compareTo.");
+                }
             }
-            /*
+        } /*
             //
             if (s.equals("compareTo")) {
                 if (c1.getClass() == c2.getClass()) {
@@ -143,9 +157,9 @@ public class MethodsController1 implements Initializable {
             }
 
            
-             */
-        } catch (ObjectNotFoundException ex) {
-            Logger.getLogger(MethodsController1.class.getName()).log(Level.SEVERE, null, ex);
+         */ catch (ObjectNotFoundException | ClassCastException ex) {
+            Message.show("Fatal Error", ex.getMessage(), AlertType.ERROR);
+            tf.clear();
         }
 
     }
