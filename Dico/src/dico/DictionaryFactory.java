@@ -64,18 +64,30 @@ public class DictionaryFactory {
         return list;
     }
 
+    public ArrayList<Dictionary> getDictionaries() {
+        ArrayList<Dictionary> list = new ArrayList<>();
+        for (Map.Entry<String, Dictionary> entry : Dictionaries.entrySet()) {
+            list.add(entry.getValue());
+        }
+        return list;
+    }
+
     public Dictionary getDictionary(String name) {
         return Dictionaries.get(name);
     }
 
     public static void Demo() throws ComplierFailedException, ClassNotFoundException, Exception {
         ObjectFactory.Demo();
-        
+
         for (ClassModel c : ClassFactory.Classess) {
             Dictionary<ObjectModel> dic = DictionaryFactory.Instance.createDictionary(c, "Dictionary " + c.getName());
             for (ObjectModel objectModel : DictionaryFactory.Instance.getObjectsByType(dic)) {
                 dic.add(objectModel);
+
             }
+            ArrayList<ObjectModel> arr =  dic.getKeySet();
+            dic.addFriend(arr.get(0), arr.get(1));
+
         }
     }
 
