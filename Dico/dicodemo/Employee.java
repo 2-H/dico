@@ -1,13 +1,14 @@
 package dicodemo; 
 
-public class Employee extends Person {
+public class employee extends person {
 
-	public Employee(){
+	public employee(){
 	super();
 	}
 
-	public Employee(int id, String name, Double salary) {
-		super(id, name);
+	public employee(int id, String name, String salary) {
+		super(id);
+		this.name = name;
 		this.salary = salary;
 	}
 
@@ -16,7 +17,10 @@ public class Employee extends Person {
 		if (!super.equals(obj)) {
 			return false;
 		}
-		final Employee other = (Employee) obj;
+		final employee other = (employee) obj;
+		if (!this.name.equals(other.name)) {
+			return false;
+		}
 		if (!this.salary.equals(other.salary)) {
 			return false;
 		}
@@ -24,10 +28,26 @@ public class Employee extends Person {
 	}
 
 	@Override
-	public String toString() {
-		return super.toString() +"[salary=" + salary + "]";		
+	public int compareTo(Object other) {
+		if(getClass() != other.getClass()) {
+			throw new ClassCastException();
+		}
+		employee tmp = (employee) other;
+		if (!this.name.equals(tmp.name)) {
+			return this.name.compareTo(tmp.name);
+		}
+		if (!this.salary.equals(tmp.salary)) {
+			return this.salary.compareTo(tmp.salary);
+		}
+		return super.compareTo(tmp);
 	}
 
-	private Double salary;
+	@Override
+	public String toString() {
+		return super.toString() +"[name=" + name + ", salary=" + salary + "]";		
+	}
+
+	private String name;
+	private String salary;
 
 }

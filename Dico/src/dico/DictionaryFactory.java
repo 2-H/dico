@@ -41,10 +41,22 @@ public class DictionaryFactory {
         Dictionaries.put(d.getName(), d);
         return d;
     }
-
+    
+//    public ArrayList<ClassModel> getKids(ClassModel cm){
+//        ArrayList <ClassModel> kids = new ArrayList <>();
+//        kids.add(cm);
+//        for(ClassModel cls : ClassFactory.Instance.Classess){
+//            if(kids.contains(cls.getParent()) && !kids.contains(cls.getParent()))
+//                kids.add(cls);
+//        }
+//        return kids;
+//    }
+    
     public ArrayList<ObjectModel> getObjectsByType(Dictionary d) {
         ArrayList<ObjectModel> list = new ArrayList<>();
+       // ArrayList<ClassModel> test = new ArrayList<>();
         for (ObjectModel obj : ObjectFactory.Instance.Objects) {
+//           test.addAll(getKids(obj.getClassModel()));
             if (obj.getClassModel().getName().equals(d.getClassModel().getName())) {
                 list.add(obj);
             }

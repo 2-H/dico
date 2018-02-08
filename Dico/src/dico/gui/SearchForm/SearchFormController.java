@@ -58,8 +58,12 @@ public class SearchFormController implements Initializable {
         Object selectedItem = comboItems.getSelectionModel().getSelectedItem();
         System.out.println(selectedItem.toString());
         System.out.println(dictionary.findFriends(selectedItem));
-        listFriends.getItems().setAll(dictionary.findFriends(selectedItem));
-        listEnemies.getItems().setAll(dictionary.findEnemies(selectedItem));
+        if (dictionary.findFriends(selectedItem) != null) {
+            listFriends.getItems().setAll(dictionary.findFriends(selectedItem));
+        }
+        if (dictionary.findEnemies(selectedItem) != null) {
+            listEnemies.getItems().setAll(dictionary.findEnemies(selectedItem));
+        }
     }
 
     @FXML
@@ -68,8 +72,6 @@ public class SearchFormController implements Initializable {
         dictionary = DictionaryFactory.Instance.getDictionary(selectedDictionary);
         comboItems.getItems().setAll(DictionaryFactory.Instance.getObjectsByType(dictionary));
     }
-
-    
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

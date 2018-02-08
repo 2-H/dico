@@ -45,7 +45,7 @@ public class AddItemsToDictionaryController implements Initializable {
 
     @FXML
     private void SaveDictionary() {
-        dic.clear();
+        //dic.clear();
         //Save all addding 
         for (Object o : ListviewofItems.getItems()) {
             dic.add(o);
@@ -73,7 +73,7 @@ public class AddItemsToDictionaryController implements Initializable {
         //Add all Items(objects) of this type of Dictionary.
         String selectedDictionary = ComboBoxDictionaries.getSelectionModel().getSelectedItem().toString();
         dic = DictionaryFactory.Instance.getDictionary(selectedDictionary);
-
+        
         Items.getItems().setAll(DictionaryFactory.Instance.getObjectsByType(dic));
 
     }
@@ -84,7 +84,7 @@ public class AddItemsToDictionaryController implements Initializable {
             if (counter == 0) {
                 ComboBoxDictionaries.setDisable(true);
             }
-            String selectedItem = Items.getSelectionModel().getSelectedItem().toString();
+            Object selectedItem = Items.getSelectionModel().getSelectedItem();
             Items.getItems().remove(Items.getSelectionModel().getSelectedItem());
             ListviewofItems.getItems().add(selectedItem);
 

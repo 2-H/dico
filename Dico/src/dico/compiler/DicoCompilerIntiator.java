@@ -10,8 +10,6 @@ package dico.compiler;
  * @author Me
  */
 import dico.ClassFactory;
-import dico.ObjectFactory;
-import static dico.ObjectFactory.Objects;
 import dico.exceptions.ComplierFailedException;
 import dico.exceptions.ObjectCreationException;
 import dico.models.Attribute;
@@ -26,14 +24,12 @@ import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.tools.Diagnostic;
-import javax.tools.DiagnosticCollector;
 import javax.tools.DiagnosticListener;
 import javax.tools.JavaCompiler;
 import javax.tools.JavaFileObject;
