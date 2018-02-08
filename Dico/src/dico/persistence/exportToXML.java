@@ -12,13 +12,12 @@ import dico.models.ObjectModel;
 import dico.models.Pair;
 import java.io.IOException;
 import java.io.StringWriter;
-import java.util.ArrayList;
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
 /**
- *
+ *https://www.tutorialspoint.com/java_xml/java_dom_parse_document.htm
  * @author k.shehady
  */
 public class exportToXML {
