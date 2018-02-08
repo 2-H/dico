@@ -5,6 +5,7 @@
  */
 package dico.models;
 
+import dico.gui.Media.Media;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -12,17 +13,27 @@ import java.util.Set;
  *
  * @author k.shehady
  */
-public class Pair<T> {
+public class Triplet<T> {
 
     private Set<T> friends = null;
     private Set<T> enemies = null;
+    private Set<Media> medias = null;
 
-    public Pair() {
+    public Triplet() {
         friends = new HashSet<>();
         enemies = new HashSet<>();
+        medias = new HashSet<>();
     }
 
-    public Pair(Set<T> friends, Set<T> enemies) {
+    public Set<Media> getMedias() {
+        return medias;
+    }
+
+    public void setMedias(Set<Media> medias) {
+        this.medias = medias;
+    }
+
+    public Triplet(Set<T> friends, Set<T> enemies) {
         this.friends = friends;
         this.enemies = enemies;
     }
@@ -44,12 +55,12 @@ public class Pair<T> {
     }
 
     public int addFriend(T friend) {
-        if(friends!=null){
-        if (friends.contains(friend)) {
-            return 0;   // friend already exists
-        } else if (enemies.contains(friend)) {
-            return -1;  // it's an enemy
-        }
+        if (friends != null) {
+            if (friends.contains(friend)) {
+                return 0;   // friend already exists
+            } else if (enemies.contains(friend)) {
+                return -1;  // it's an enemy
+            }
         }
         friends.add(friend);
         return 1;       // friend added
@@ -88,6 +99,22 @@ public class Pair<T> {
     public boolean removeEnemy(T enemy) {
         if (enemies.contains(enemy)) {
             enemies.remove(enemy);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean addMedia(Media media) {
+        if (!medias.contains(media)) {
+            medias.add(media);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean removeMedia(Media media) {
+        if (medias.contains(media)) {
+            medias.remove(media);
             return true;
         }
         return false;

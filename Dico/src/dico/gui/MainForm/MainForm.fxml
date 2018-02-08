@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="AnchorPane" prefHeight="696.0" prefWidth="1056.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="dico.gui.MainForm.MainFormController">
+<AnchorPane fx:id="AnchorPane" prefHeight="748.0" prefWidth="1089.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dico.gui.MainForm.MainFormController">
   <children>
     <Button fx:id="btnCreateClass" layoutX="37.0" layoutY="32.0" mnemonicParsing="false" onAction="#CreateClass" prefHeight="39.0" prefWidth="197.0" text="Create Class" />
     <Button fx:id="btnCreateObject" disable="true" layoutX="37.0" layoutY="166.0" mnemonicParsing="false" onAction="#CreateObject" prefHeight="39.0" prefWidth="197.0" text="Create Objects" />
@@ -29,6 +29,7 @@
     <Label font="$x1" layoutX="782.0" layoutY="32.0" text="Dictionaries" />
     <Button id="" fx:id="btnCallDictionaryMethods" disable="true" layoutX="37.0" layoutY="576.0" mnemonicParsing="false" onAction="#CallDictionaryMethods" prefHeight="39.0" prefWidth="197.0" text="Call Dictionary Methods" />
     <Button id="" fx:id="btnManageDictionary" disable="true" layoutX="37.0" layoutY="437.0" mnemonicParsing="false" onAction="#ManageDictionary" prefHeight="39.0" prefWidth="197.0" text="Friends &amp; Enemies" />
-    <Button fx:id="btnDemo" layoutX="14.0" layoutY="655.0" mnemonicParsing="false" onAction="#Demo" text="Demo" />
+    <Button fx:id="btnDemo" layoutX="13.0" layoutY="703.0" mnemonicParsing="false" onAction="#Demo" text="Demo" />
+      <Button fx:id="btnMedia" layoutX="37.0" layoutY="627.0" mnemonicParsing="false" onAction="#Media" prefHeight="39.0" prefWidth="197.0" text="Media" />
   </children>
 </AnchorPane>

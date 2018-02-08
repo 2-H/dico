@@ -5,21 +5,13 @@
  */
 package dico;
 
-import dico.compiler.DicoCompilerIntiator;
 import dico.exceptions.ComplierFailedException;
-import dico.exceptions.FriendIsEnemyOrEnemyIsFriendException;
-import dico.exceptions.FriendOrEnemyAlreadyExistsException;
 import dico.models.ClassModel;
 import dico.models.Dictionary;
-import dico.models.MainType;
 import dico.models.ObjectModel;
-import dico.models.TestPerson;
-import dico.models.TestShape;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *

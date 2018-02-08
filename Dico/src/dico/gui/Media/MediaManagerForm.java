@@ -3,10 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package dico.gui.dictionary;
+package dico.gui.Media;
 
 import javafx.application.Application;
-import static javafx.application.Application.launch;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -15,18 +14,26 @@ import javafx.stage.Stage;
 
 /**
  *
- * @author User
+ * @author Ali Al-Jobouri
  */
-public class ManageFriendEnemey extends Application {
-
-    @Override
+public class MediaManagerForm extends Application {
+     @Override
     public void start(Stage stage) throws Exception {
-        stage.getIcons().add(new Image(getClass().getResourceAsStream("pic.png")));
-        Parent root = FXMLLoader.load(getClass().getResource("ManagerFriendEnemy.fxml"));
-
+    
+        //stage.getIcons().add(new Image(getClass().getResourceAsStream("pic.png")));
+        Parent root=new Parent() {
+};
+        try{
+         root = FXMLLoader.load (getClass().getResource("MediaManagerFXML.fxml"));
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        
         Scene scene = new Scene(root);
+        stage.setTitle("2H - Dico");
         stage.setScene(scene);
-        stage.setTitle("2H - Dictionary");
         stage.show();
     }
 

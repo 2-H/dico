@@ -25,7 +25,7 @@ import java.util.logging.Logger;
  */
 public class Dictionary<T> implements Collection<T>, Iterable<T> {
 
-    private Map<T, Pair<T>> elements;
+    private Map<T, Triplet<T>> elements;
 
     public T Test;
     public String name;
@@ -62,7 +62,7 @@ public class Dictionary<T> implements Collection<T>, Iterable<T> {
 
     @Override
     public boolean add(T e) {
-        Pair<T> pair = new Pair<>();
+        Triplet<T> pair = new Triplet<>();
         elements.put(e, pair);
         return true;
     }
@@ -74,20 +74,20 @@ public class Dictionary<T> implements Collection<T>, Iterable<T> {
     }
 
     public void printPair(T e) {
-        Pair<T> p = elements.get(e);
+        Triplet<T> p = elements.get(e);
         System.out.println("Friends of " + e + ":");
         printSet(p.getFriends());
         System.out.println("Enemies of " + e + ":");
         printSet(p.getEnemies());
     }
 
-    public Pair<T> getPair(T e) {
+    public Triplet<T> getPair(T e) {
         return elements.get(e);
     }
 
     public Set<T> findFriends(T e) {
         if (elements.containsKey(e)) {
-            Pair<T> p = elements.get(e);
+            Triplet<T> p = elements.get(e);
             return p.getFriends();
         }
         return null;
@@ -95,7 +95,7 @@ public class Dictionary<T> implements Collection<T>, Iterable<T> {
 
     public Set<T> findEnemies(T e) {
         if (elements.containsKey(e)) {
-            Pair<T> p = elements.get(e);
+            Triplet<T> p = elements.get(e);
             return p.getEnemies();
         }
         return null;
@@ -105,8 +105,8 @@ public class Dictionary<T> implements Collection<T>, Iterable<T> {
         /*to understand the comments:
           consider I'am the variable 'element' and I want to add the variable 'friend' to my friends*/
 
-        Pair<T> elementPair = elements.get(element);              //my pair
-        Pair<T> friendSet = elements.get(friend);           //his pair        
+        Triplet<T> elementPair = elements.get(element);              //my pair
+        Triplet<T> friendSet = elements.get(friend);           //his pair        
 
         System.out.println(elementPair);
 
@@ -125,27 +125,27 @@ public class Dictionary<T> implements Collection<T>, Iterable<T> {
         }
 
         for (T elem : elementPair.getFriends()) {                 //for each one as my friends
-            Pair<T> individual = elements.get(elem);
+            Triplet<T> individual = elements.get(elem);
             individual.addFriend(friend);                   //add him
             individual.addFriends(friendSet.getFriends());  //add his friends
             individual.addEnemies(friendSet.getEnemies());  //add his enemies
         }
 
         for (T elem : friendSet.getFriends()) {             //for each one as his friends
-            Pair<T> individual = elements.get(elem);
+            Triplet<T> individual = elements.get(elem);
             individual.addFriend(element);                  //add myself
             individual.addFriends(elementPair.getFriends());      //add my friends
             individual.addEnemies(elementPair.getEnemies());      //add my enemies
         }
 
         for (T elem : elementPair.getEnemies()) {                 //for each one as my enemy
-            Pair<T> individual = elements.get(elem);
+            Triplet<T> individual = elements.get(elem);
             individual.addEnemy(friend);                    //add him
             individual.addEnemies(friendSet.getFriends());  //add his friends (to enemies)
         }
 
         for (T elem : friendSet.getEnemies()) {             //for each one as his enemy
-            Pair<T> individual = elements.get(elem);
+            Triplet<T> individual = elements.get(elem);
             individual.addEnemy(element);                   //add me
             individual.addEnemies(elementPair.getFriends());      //add my friends (to enemies)
         }
@@ -164,8 +164,8 @@ public class Dictionary<T> implements Collection<T>, Iterable<T> {
         /*to understand the comments:
           consider I'am the variable 'element' and I want to add the variable 'enemy' to my enemies*/
 
-        Pair<T> mySet = elements.get(element);              //my pair
-        Pair<T> enemySet = elements.get(enemy);             //his pair
+        Triplet<T> mySet = elements.get(element);              //my pair
+        Triplet<T> enemySet = elements.get(enemy);             //his pair
         if (mySet == null || enemySet == null) {
             throw new NullPointerException("Sets are still null.");
         }
@@ -178,27 +178,27 @@ public class Dictionary<T> implements Collection<T>, Iterable<T> {
         }
 
         for (T elem : mySet.getFriends()) {                 //for each one as my friend
-            Pair<T> individual = elements.get(elem);
+            Triplet<T> individual = elements.get(elem);
             individual.addEnemy(enemy);                     //add the enemy (to enemies)
             individual.addEnemies(enemySet.getFriends());   //add friends of enemy (to enemies)
             individual.addFriends(enemySet.getEnemies());   //add enemies of enemy (to friends)
         }
 
         for (T elem : enemySet.getFriends()) {              //for each one as his friend
-            Pair<T> individual = elements.get(elem);
+            Triplet<T> individual = elements.get(elem);
             individual.addEnemy(element);                   //add me (to enemies)
             individual.addEnemies(mySet.getFriends());      //add my friends (to enemies)
             individual.addFriends(mySet.getEnemies());      //add my enemies (to friends)
         }
 
         for (T elem : mySet.getFriends()) {                 //for each one as my friends
-            Pair<T> individual = elements.get(elem);
+            Triplet<T> individual = elements.get(elem);
             individual.addEnemy(enemy);                     //add him to enemies
             individual.addEnemies(enemySet.getFriends());   //add his friends (to enemies)
         }
 
         for (T elem : enemySet.getEnemies()) {              //for each one as his enemy
-            Pair<T> individual = elements.get(elem);
+            Triplet<T> individual = elements.get(elem);
             individual.addFriend(element);                  //add me (to friends)
             individual.addFriends(mySet.getFriends());      //add my friends (to friends)
         }
@@ -273,13 +273,13 @@ public class Dictionary<T> implements Collection<T>, Iterable<T> {
     @Override
     public boolean remove(Object o) {
         T element = (T) o;
-        Pair<T> mySet = elements.get(o);
+        Triplet<T> mySet = elements.get(o);
         for (T elem : mySet.getFriends()) {
-            Pair<T> individual = elements.get(elem);
+            Triplet<T> individual = elements.get(elem);
             individual.removeFriend(element);
         }
         for (T elem : mySet.getEnemies()) {
-            Pair<T> individual = elements.get(elem);
+            Triplet<T> individual = elements.get(elem);
             individual.removeEnemy(element);
         }
         if (elements.remove(element) != null) {
@@ -300,7 +300,7 @@ public class Dictionary<T> implements Collection<T>, Iterable<T> {
 
     @Override
     public boolean addAll(Collection<? extends T> c) {
-        elements.putAll((Map<? extends T, Pair<T>>) c);
+        elements.putAll((Map<? extends T, Triplet<T>>) c);
         return true;
     }
 

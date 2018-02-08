@@ -65,6 +65,8 @@ public class MainFormController implements Initializable {
     @FXML
     private Button btnManageDictionary;
     @FXML
+    private Button btnMedia;
+    @FXML
     private ListView lstBoxClass;
     @FXML
     private ListView lstBoxObject;
@@ -95,7 +97,7 @@ public class MainFormController implements Initializable {
         lstBoxObject.setItems(names);
         lstBoxDictionaries.getItems().clear();
         lstBoxDictionaries.getItems().setAll(DictionaryFactory.Instance.getDictionaryNames());
-        if (lstBoxDictionaries.getItems().size() != 0) {
+        if (!lstBoxDictionaries.getItems().isEmpty()) {
             btnAddToDictionary.setDisable(false);
             btnCallDictionaryMethods.setDisable(false);
             btnSearchDictionary.setDisable(false);
@@ -182,6 +184,11 @@ public class MainFormController implements Initializable {
         opener("..//dictionary//ManagerFriendEnemy.fxml");
     }
 
+    @FXML
+    private void Media(){
+        opener("..//Media//MediaManagerFXML.fxml");
+    }
+    
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         /*lstBoxClass.setStyle("-fx-align: CENTER;");
