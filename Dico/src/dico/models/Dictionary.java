@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -114,7 +115,7 @@ public class Dictionary<T> implements Collection<T>, Iterable<T> {
             throw new NullPointerException(" elementPair not added to dictionary!");
         }
         if (friendSet == null) {
-            throw new NullPointerException( " friendSet not added to dictionary!");
+            throw new NullPointerException(" friendSet not added to dictionary!");
         }
         //|| friendSet == null || mySet.getFriends() == null || mySet.getEnemies() == null || friendSet.getEnemies() == null || friendSet.getFriends() == null
         if (elementPair.getEnemies() != null && elementPair.getEnemies().contains(friend)) {
@@ -233,16 +234,24 @@ public class Dictionary<T> implements Collection<T>, Iterable<T> {
         Iterator<T> it = new Iterator<T>() {
             private boolean usedNext = false;
             private T current;
+            private int counter = 0;
+            private int size = elements.size();
 
             @Override
             public boolean hasNext() {
-                return elements.keySet().iterator().hasNext();
+                //return elements.keySet().iterator().hasNext();
+                return (counter < size);
             }
 
             @Override
             public T next() {
+                if (counter >= size) {
+                    throw new NoSuchElementException();
+                }
                 usedNext = true;
-                current = elements.keySet().iterator().next();
+
+                current = getKeySet().get(counter++);
+                //current = elements.keySet().iterator().next();
                 return current;
             }
 
