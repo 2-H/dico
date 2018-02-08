@@ -9,7 +9,7 @@ import dico.DictionaryFactory;
 import dico.models.Attribute;
 import dico.models.Dictionary;
 import dico.models.ObjectModel;
-import dico.models.Pair;
+import dico.models.Triplet;
 import java.io.IOException;
 import java.io.StringWriter;
 import javax.xml.stream.XMLOutputFactory;
@@ -53,7 +53,7 @@ public class exportToXML {
                 //start Element
                 xMLStreamWriter.writeStartElement("Element");
 
-                Pair<ObjectModel> elementPair = dic.getPair(element);              //my pair
+                Triplet<ObjectModel> elementPair = dic.getPair(element);              //my pair
 
                 ObjectToXML(xMLStreamWriter, element);
 
