@@ -6,16 +6,15 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="340.0" prefWidth="378.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="dico.gui.Media.MediaManagerFXMLController">
+<AnchorPane id="AnchorPane" prefHeight="370.0" prefWidth="515.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dico.gui.Media.MediaManagerFXMLController">
    <children>
-      <Button fx:id="btnSave" layoutX="288.0" layoutY="296.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="70.0" text="Save" />
-      <Button fx:id="btnRemove" layoutX="233.0" layoutY="264.0" mnemonicParsing="false" text="Remove" />
-      <ListView fx:id="lstFileNames" layoutX="24.0" layoutY="99.0" prefHeight="190.0" prefWidth="200.0" />
-      <Button fx:id="btnAdd" layoutX="299.0" layoutY="66.0" mnemonicParsing="false" text="Add" />
+      <Button fx:id="btnSave" layoutX="417.0" layoutY="325.0" mnemonicParsing="false" onAction="#save" prefHeight="25.0" prefWidth="74.0" text="Save" />
+      <Button fx:id="btnRemove" layoutX="433.0" layoutY="295.0" mnemonicParsing="false" onAction="#remove" text="Remove" />
+      <ListView fx:id="lstFileNames" layoutX="24.0" layoutY="99.0" prefHeight="190.0" prefWidth="471.0" />
+      <Button fx:id="btnAdd" layoutX="454.0" layoutY="57.0" mnemonicParsing="false" onAction="#addPathToListBox" text="Add" />
       <Label fx:id="lblFileName" layoutX="123.0" layoutY="61.0" text="Label" />
-      <Button fx:id="btnBrowse" layoutX="24.0" layoutY="57.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="90.0" text="Browse" />
-      <ComboBox fx:id="comboUsers" layoutX="187.0" layoutY="24.0" prefHeight="25.0" prefWidth="150.0" promptText="Objects..." />
+      <Button fx:id="btnBrowse" layoutX="24.0" layoutY="57.0" mnemonicParsing="false" onAction="#browse" prefHeight="25.0" prefWidth="90.0" text="Browse" />
+      <ComboBox fx:id="comboUsers" layoutX="187.0" layoutY="24.0" onAction="#fillOldMedias" prefHeight="25.0" prefWidth="150.0" promptText="Objects..." />
       <ComboBox fx:id="comboDictionary" layoutX="24.0" layoutY="24.0" onAction="#selectDictionary" prefWidth="150.0" promptText="Dictionary..." />
    </children>
 </AnchorPane>

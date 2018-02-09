@@ -36,6 +36,7 @@ public class Triplet<T> {
     public Triplet(Set<T> friends, Set<T> enemies) {
         this.friends = friends;
         this.enemies = enemies;
+        medias = new HashSet<>();
     }
 
     public Set<T> getFriends() {

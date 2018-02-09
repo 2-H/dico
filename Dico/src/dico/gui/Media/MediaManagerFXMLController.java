@@ -5,18 +5,31 @@
  */
 package dico.gui.Media;
 
+import Message.Message;
 import dico.DictionaryFactory;
+import dico.ObjectFactory;
+import dico.exceptions.ObjectNotFoundException;
 import dico.models.Dictionary;
+import dico.models.ObjectModel;
 import dico.models.Triplet;
+import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.ResourceBundle;
+import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -44,6 +57,9 @@ public class MediaManagerFXMLController implements Initializable {
     private ComboBox comboDictionary;
     @FXML
     private Label lblFileName;
+    private String currentPath = null;
+    private String selectedDictionary = null;
+    private Dictionary dic = null;
 
     private void addToComboBox(ComboBox combo, ArrayList<String> myArrStr) {
         combo.getItems().clear();
@@ -51,30 +67,101 @@ public class MediaManagerFXMLController implements Initializable {
             combo.getItems().add(str);
         }
     }
-    
+
     @FXML
     private void selectDictionary() {
-        String selectedDictionary = comboDictionary.getSelectionModel().getSelectedItem().toString();
+        selectedDictionary = comboDictionary.getSelectionModel().getSelectedItem().toString();
         Dictionary dictionary = DictionaryFactory.Instance.getDictionary(selectedDictionary);
-        comboUsers.getItems().setAll(DictionaryFactory.Instance.getObjectsByType(dictionary));
+        ArrayList<ObjectModel> arr = DictionaryFactory.Instance.getObjectsByType(dictionary);
+        for (ObjectModel o : arr) {
+            comboUsers.getItems().add(o.getVariableName());
+        }
     }
 
     @FXML
     public void fillObjects() {
-        String chosenDictionary = comboDictionary.getSelectionModel().getSelectedItem().toString();
-        Dictionary dictionary = DictionaryFactory.Instance.getDictionary(chosenDictionary);
-        for (Object o : dictionary.getKeySet()) {
+//        String chosenDictionary = comboDictionary.getSelectionModel().getSelectedItem().toString();
+//        Dictionary dictionary = DictionaryFactory.Instance.getDictionary(chosenDictionary);
+//        for (Object o : dictionary.getKeySet()) {
+//
+//        }
+    }
 
+    @FXML
+    public void browse() {
+        Stage stage = (Stage) btnBrowse.getScene().getWindow();
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Open Resource File");
+        File selectedFile = fileChooser.showOpenDialog(null);
+        if (selectedFile != null) {
+            lblFileName.setText(selectedFile.getName());
+            currentPath = selectedFile.getAbsolutePath();
         }
+    }
+
+    @FXML
+    public void addPathToListBox() {
+        if (currentPath == null || lstFileNames.getItems().contains(currentPath)) {
+            return;
+        }
+        lstFileNames.getItems().add(currentPath);
+        currentPath = null;
+        lblFileName.setText("");
+    }
+
+    @FXML
+    public void fillOldMedias() {
+        lstFileNames.getItems().clear();
+        try {
+            dic = DictionaryFactory.Instance.getDictionary(selectedDictionary);
+            String selectedObject = comboUsers.getSelectionModel().getSelectedItem().toString();
+            Object o = ObjectFactory.Instance.GetObject(selectedObject);
+            Triplet<Object> t = dic.getPair(o);
+            for (Media m : t.getMedias()) {
+                lstFileNames.getItems().add(m.getAddress());
+            }
+        } catch (ObjectNotFoundException ex) {
+            Message.show("Fatal Error", "Object not found.", AlertType.ERROR);
+        }
+    }
+
+    @FXML
+    public void remove() {
+        if (lstFileNames.getItems() != null && lstFileNames.getSelectionModel().getSelectedItem() != null) {
+            lstFileNames.getItems().remove(lstFileNames.getSelectionModel().getSelectedItem());
+        }
+    }
+
+    @FXML
+    public void save() {
+        if(lstFileNames.getItems().size()==0)
+            return;
+        try {
+            dic = DictionaryFactory.Instance.getDictionary(selectedDictionary);
+            String selectedObject = comboUsers.getSelectionModel().getSelectedItem().toString();
+            Object o = ObjectFactory.Instance.GetObject(selectedObject);
+            Triplet<Object> t = dic.getPair(o);
+            Set<Media> set = new HashSet<>();
+            Media m;
+            for (Object tmp : lstFileNames.getItems()) {
+                m = new Media(tmp.toString(), null);
+                set.add(m);
+            }
+            t.setMedias(set);
+        } catch (ObjectNotFoundException ex) {
+            Message.show("Fatal Error", "Object not found.", AlertType.ERROR);
+        }
+        Stage stage = (Stage) btnSave.getScene().getWindow();
+        stage.close();
     }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        lblFileName.setText("");
         //Fill combobox with dictionaries
-//        for (String str : DictionaryFactory.Instance.getDictionaryNames()) {
-//            comboDictionary.getItems().add(str);
-//        }
-
+        for (String str : DictionaryFactory.Instance.getDictionaryNames()) {
+            comboDictionary.getItems().add(str);
+        }
     }
 
 }
