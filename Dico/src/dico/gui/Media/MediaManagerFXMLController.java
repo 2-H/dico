@@ -60,16 +60,17 @@ public class MediaManagerFXMLController implements Initializable {
     private String currentPath = null;
     private String selectedDictionary = null;
     private Dictionary dic = null;
-
+    
     private void addToComboBox(ComboBox combo, ArrayList<String> myArrStr) {
         combo.getItems().clear();
         for (String str : myArrStr) {
             combo.getItems().add(str);
         }
     }
-
+    
     @FXML
     private void selectDictionary() {
+        comboUsers.getItems().clear();
         selectedDictionary = comboDictionary.getSelectionModel().getSelectedItem().toString();
         Dictionary dictionary = DictionaryFactory.Instance.getDictionary(selectedDictionary);
         ArrayList<ObjectModel> arr = DictionaryFactory.Instance.getObjectsByType(dictionary);
@@ -77,7 +78,7 @@ public class MediaManagerFXMLController implements Initializable {
             comboUsers.getItems().add(o.getVariableName());
         }
     }
-
+    
     @FXML
     public void fillObjects() {
 //        String chosenDictionary = comboDictionary.getSelectionModel().getSelectedItem().toString();
@@ -86,19 +87,20 @@ public class MediaManagerFXMLController implements Initializable {
 //
 //        }
     }
-
+    
     @FXML
     public void browse() {
         Stage stage = (Stage) btnBrowse.getScene().getWindow();
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open Resource File");
         File selectedFile = fileChooser.showOpenDialog(null);
-        if (selectedFile != null) {
+        if (selectedFile != null && Media.getMediaType(Media.getFileExtension(selectedFile)) != null) {
+            //String ext = getFileExtension(selectedFile);
             lblFileName.setText(selectedFile.getName());
             currentPath = selectedFile.getAbsolutePath();
         }
     }
-
+    
     @FXML
     public void addPathToListBox() {
         if (currentPath == null || lstFileNames.getItems().contains(currentPath)) {
@@ -108,7 +110,7 @@ public class MediaManagerFXMLController implements Initializable {
         currentPath = null;
         lblFileName.setText("");
     }
-
+    
     @FXML
     public void fillOldMedias() {
         lstFileNames.getItems().clear();
@@ -124,18 +126,19 @@ public class MediaManagerFXMLController implements Initializable {
             Message.show("Fatal Error", "Object not found.", AlertType.ERROR);
         }
     }
-
+    
     @FXML
     public void remove() {
         if (lstFileNames.getItems() != null && lstFileNames.getSelectionModel().getSelectedItem() != null) {
             lstFileNames.getItems().remove(lstFileNames.getSelectionModel().getSelectedItem());
         }
     }
-
+    
     @FXML
     public void save() {
-        if(lstFileNames.getItems().size()==0)
+        if (lstFileNames.getItems().size() == 0 || comboUsers.getSelectionModel().getSelectedItem() == null) {
             return;
+        }
         try {
             dic = DictionaryFactory.Instance.getDictionary(selectedDictionary);
             String selectedObject = comboUsers.getSelectionModel().getSelectedItem().toString();
@@ -144,7 +147,7 @@ public class MediaManagerFXMLController implements Initializable {
             Set<Media> set = new HashSet<>();
             Media m;
             for (Object tmp : lstFileNames.getItems()) {
-                m = new Media(tmp.toString(), null);
+                m = new Media(tmp.toString(), Media.getMediaType(Media.getFileExtension(new File((String) tmp))));
                 set.add(m);
             }
             t.setMedias(set);
@@ -154,7 +157,7 @@ public class MediaManagerFXMLController implements Initializable {
         Stage stage = (Stage) btnSave.getScene().getWindow();
         stage.close();
     }
-
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         lblFileName.setText("");
@@ -163,5 +166,5 @@ public class MediaManagerFXMLController implements Initializable {
             comboDictionary.getItems().add(str);
         }
     }
-
+    
 }

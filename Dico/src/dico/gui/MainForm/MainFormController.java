@@ -65,7 +65,9 @@ public class MainFormController implements Initializable {
     @FXML
     private Button btnManageDictionary;
     @FXML
-    private Button btnMedia;
+    private Button btnAddMedia;
+    @FXML
+    private Button btnViewMedia;
     @FXML
     private ListView lstBoxClass;
     @FXML
@@ -185,10 +187,15 @@ public class MainFormController implements Initializable {
     }
 
     @FXML
-    private void Media(){
+    private void ViewMedia() {
+        opener("..//MediaShow//MediaShowFXML.fxml");
+    }
+
+    @FXML
+    private void AddMedia() {
         opener("..//Media//MediaManagerFXML.fxml");
     }
-    
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         /*lstBoxClass.setStyle("-fx-align: CENTER;");
