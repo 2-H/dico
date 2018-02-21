@@ -26,6 +26,7 @@ public class MainForm extends Application {
         stage.setScene(scene);
         stage.setTitle("2H - Dico");
         stage.show();
+        
     }
 
     public static void main(String[] args) {

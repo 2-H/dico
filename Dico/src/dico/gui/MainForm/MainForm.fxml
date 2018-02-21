@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane fx:id="AnchorPane" prefHeight="748.0" prefWidth="1089.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dico.gui.MainForm.MainFormController">
+<AnchorPane fx:id="AnchorPane" prefHeight="748.0" prefWidth="1089.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="dico.gui.MainForm.MainFormController">
   <children>
     <Button fx:id="btnCreateClass" layoutX="37.0" layoutY="30.0" mnemonicParsing="false" onAction="#CreateClass" prefHeight="39.0" prefWidth="197.0" text="Create Class" />
     <Button fx:id="btnCreateObject" disable="true" layoutX="37.0" layoutY="130.0" mnemonicParsing="false" onAction="#CreateObject" prefHeight="39.0" prefWidth="197.0" text="Create Objects" />
@@ -30,7 +30,8 @@
     <Button id="" fx:id="btnCallDictionaryMethods" disable="true" layoutX="37.0" layoutY="430.0" mnemonicParsing="false" onAction="#CallDictionaryMethods" prefHeight="39.0" prefWidth="197.0" text="Call Dictionary Methods" />
     <Button id="" fx:id="btnManageDictionary" disable="true" layoutX="37.0" layoutY="330.0" mnemonicParsing="false" onAction="#ManageDictionary" prefHeight="39.0" prefWidth="197.0" text="Friends &amp; Enemies" />
     <Button fx:id="btnDemo" layoutX="37.0" layoutY="590.0" mnemonicParsing="false" onAction="#Demo" text="Demo" />
-      <Button fx:id="btnAddMedia" layoutX="37.0" layoutY="480.0" mnemonicParsing="false" onAction="#AddMedia" prefHeight="39.0" prefWidth="197.0" text="Add Media" />
-      <Button fx:id="btnViewMedia" layoutX="37.0" layoutY="530.0" mnemonicParsing="false" onAction="#ViewMedia" prefHeight="39.0" prefWidth="197.0" text="View Media" />
+    <Button fx:id="btnAddMedia" layoutX="37.0" layoutY="480.0" mnemonicParsing="false" onAction="#AddMedia" prefHeight="39.0" prefWidth="197.0" text="Add Media" />
+    <Button fx:id="btnViewMedia" layoutX="37.0" layoutY="530.0" mnemonicParsing="false" onAction="#ViewMedia" prefHeight="39.0" prefWidth="197.0" text="View Media" />
+    <Button fx:id="btnexport" layoutX="33.0" layoutY="645.0" mnemonicParsing="false" onAction="#exportDictionary" text="export" />
   </children>
 </AnchorPane>

@@ -30,13 +30,22 @@ import dico.gui.classCreator.*;
 import dico.models.ClassModel;
 import dico.models.Dictionary;
 import dico.models.ObjectModel;
+import static java.awt.SystemColor.window;
+import java.io.File;
 import java.util.ArrayList;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-
+import javafx.stage.FileChooser;
+import java.nio.file.Files ;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
+import dico.persistence.exportToXML;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import javax.xml.stream.XMLStreamException;
 /**
  * FXML Controller class
  *
@@ -74,6 +83,8 @@ public class MainFormController implements Initializable {
     private ListView lstBoxObject;
     @FXML
     private ListView lstBoxDictionaries;
+    @FXML
+    private Button btnexport;
 
     public void refreshForm() {
         ArrayList<ObjectModel> Objects = ObjectFactory.Instance.Objects;
@@ -151,6 +162,35 @@ public class MainFormController implements Initializable {
         opener("..//classCreator//ClassCreator.fxml");
     }
 
+    @FXML
+    private void exportDictionary() throws XMLStreamException, IOException{
+        
+       Stage stage = (Stage) btnexport.getScene().getWindow();
+        //FileChooser fileChooser = new FileChooser();
+        //fileChooser.setTitle("Open Resource File");
+        //File selectedFile = fileChooser.showOpenDialog(null);
+        DirectoryChooser dirChooser = new DirectoryChooser();
+        File selectedDirectory = dirChooser.showDialog(stage);
+        if(selectedDirectory != null )
+        {
+            String code=exportToXML.ExportToXml();
+            try{
+                // Create file 
+                String path=selectedDirectory.getAbsolutePath()+"/test.xml";
+                FileWriter fstream = new FileWriter(path);
+                BufferedWriter out = new BufferedWriter(fstream);
+                out.write(code);
+                //Close the output stream
+                out.close();
+            }catch (Exception e)
+            {//Catch exception if any
+                System.err.println("Error: " + e.getMessage());
+            }
+        }
+   
+    }
+    
+    
     @FXML
     private void CreateObject() {
         opener("..//classInitiation//ClassInitiation.fxml");

@@ -36,7 +36,14 @@ public class ClassFactory {
         }
         throw new DicoClassNotFoundException("Class Not Found");
     }
-
+    public boolean CheckClass(String name)  {
+        for (ClassModel cls : Classess) {
+            if (cls.getName().equals(name)) {
+                return true;
+            }
+        }
+        return false;
+    }
     public void addDefaultConstructor(ClassModel model, StringBuilder sb) {
         //Start Render Default Constructer
         sb.append("\t")
