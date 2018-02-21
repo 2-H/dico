@@ -19,8 +19,6 @@ import java.io.FileNotFoundException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert.AlertType;
@@ -91,6 +89,9 @@ public class MediaShowFXMLController implements Initializable {
         imageView.setVisible(true);
         mediaView.setVisible(false);
         btnPausePlay.setVisible(false);
+        if (mp != null) {
+            mp.stop();
+        }
         Image image = null;
         try {
             image = new Image(new FileInputStream(source));
@@ -140,7 +141,7 @@ public class MediaShowFXMLController implements Initializable {
         String ext = Media.getFileExtension(new File(path));
         if (Media.getMediaType(ext).equals(Media.MediaType.VIDEO) || Media.getMediaType(ext).equals(Media.MediaType.AUDIO)) {
             runVideoAudio(path);
-        } else if (Media.getMediaType(ext).equals(Media.MediaType.PHOTO)) {
+        } else if (path != null && Media.getMediaType(ext).equals(Media.MediaType.PHOTO)) {
             showImage(path);
         }
         btnPausePlay.setText("Pause");
@@ -191,5 +192,4 @@ public class MediaShowFXMLController implements Initializable {
         btnPausePlay.setVisible(false);
         comboMedia.getItems().addAll("All", "Videos", "Images", "Audio");
     }
-
 }

@@ -7,6 +7,7 @@ package dico.gui.MediaShow;
 
 import javafx.application.Application;
 import static javafx.application.Application.launch;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -15,31 +16,34 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 /**
  *
  * @author Ali Al-Jobouri
  */
 public class MediaShowMain extends Application {
-    
-     @Override
+
+    @Override
     public void start(Stage stage) throws Exception {
-    
+
         //stage.getIcons().add(new Image(getClass().getResourceAsStream("pic.png")));
-        Parent root=new Parent() {
-};
-        try{
-         root = FXMLLoader.load (getClass().getResource("MediaShowFXML.fxml"));
-        }
-        catch (Exception e)
-        {
+        Parent root = new Parent() {
+        };
+        try {
+            root = FXMLLoader.load(getClass().getResource("MediaShowFXML.fxml"));
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        
         Scene scene = new Scene(root);
         stage.setTitle("2H - Dico");
         stage.setScene(scene);
         stage.show();
+    }
+
+    @Override
+    public void stop() {
+        MediaShowFXMLController.stop();
     }
 
     public static void main(String[] args) {

@@ -166,5 +166,4 @@ public class MediaManagerFXMLController implements Initializable {
             comboDictionary.getItems().add(str);
         }
     }
-    
 }
