@@ -41,11 +41,6 @@ public class MediaShowMain extends Application {
         stage.show();
     }
 
-    @Override
-    public void stop() {
-        MediaShowFXMLController.stop();
-    }
-
     public static void main(String[] args) {
 
         launch(args);
