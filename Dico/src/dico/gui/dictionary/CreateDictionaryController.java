@@ -15,7 +15,7 @@ import javafx.scene.control.ComboBox;
 import dico.models.ClassModel;
 import dico.models.ObjectModel;
 import dico.ClassFactory;
-import dico.ObjectFactory;
+import dico.Pool;
 import dico.exceptions.DicoClassNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;

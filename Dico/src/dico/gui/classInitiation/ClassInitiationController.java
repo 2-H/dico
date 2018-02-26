@@ -6,12 +6,15 @@
 package dico.gui.classInitiation;
 
 import dico.ClassFactory;
-import dico.ObjectFactory;
+import dico.Pool;
 import dico.exceptions.ComplierFailedException;
 import dico.exceptions.DicoClassNotFoundException;
 import dico.exceptions.ObjectCreationException;
 import dico.models.Attribute;
 import dico.models.ClassModel;
+import dico.models.ObjectModel;
+import dico.models.Type;
+import java.awt.event.MouseEvent;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -52,16 +55,16 @@ public class ClassInitiationController implements Initializable {
     private TableColumn tblColFeildName;
     @FXML
     private TableColumn tblColFeildValue;
-
-    private ArrayList<Attribute> getAllAttributes(ClassModel c) {
-        ArrayList<Attribute> allAtributes = new ArrayList<Attribute>();
-        ClassModel model;
-        while (!(c == null)) {
-            allAtributes.addAll(0, c.getAttribute());
-            c = c.getParent();
-        }
-        return allAtributes;
-    }
+    @FXML
+    private TextField txtfieldvalue;
+    @FXML
+    private ComboBox cbxobjectvalue;
+    @FXML
+    private Button SaveValueBtn;
+    @FXML
+    private Label FieldNameLabel;
+    private ObjectInstanceRow selectedRow;
+    private ArrayList<Attribute> allAtributes;
 
     private void addToComboBox(ArrayList<String> myArrStr) {
         for (String str : myArrStr) {
@@ -75,20 +78,71 @@ public class ClassInitiationController implements Initializable {
     }
 
     @FXML
+    public void Start() {
+        SaveValueBtn.setDisable(false);
+        selectedRow = tableInstances.getSelectionModel().getSelectedItem();
+        if (selectedRow != null) {
+            cbxobjectvalue.getItems().clear();
+            txtfieldvalue.clear();
+            Type t = selectedRow.getAtr().getType();
+            FieldNameLabel.setText(t.getName() + " " + selectedRow.getField());
+            boolean isobject = t.isCustomType();
+            cbxobjectvalue.setDisable(!isobject);
+            txtfieldvalue.setDisable(isobject);
+            if (isobject) {
+                for (ObjectModel o : Pool.Instance.getObjectsByType(t.getName())) {
+                    cbxobjectvalue.getItems().add(o.getVariableName());
+                }
+            }
+        }
+    }
+
+    @FXML
+    public void SaveValueButtonHandler() {
+
+        if (selectedRow != null) {
+            String val = "";
+            if (cbxobjectvalue.isDisable()) {
+                val = txtfieldvalue.getText();
+            } else {
+                val = cbxobjectvalue.getSelectionModel().getSelectedItem().toString();
+            }
+            for (Attribute at : allAtributes) {
+                if (at.getName().equals(selectedRow.getField())) {
+                    at.setValue(val);
+                    RefreshTable(false);
+                    return;
+                }
+            }
+        } else {
+            System.out.println("selected null");
+        }
+
+    }
+
+    private void RefreshTable(boolean firstload) {
+        tableInstances.getItems().clear();
+
+        System.out.println("Model name after: " + model.getName());
+        for (Attribute t : allAtributes) {
+            ObjectInstanceRow row = new ObjectInstanceRow(t.getName(), t);
+            if (!firstload && t.getValue() != null) {
+                row.setValue(t.getValue().toString());
+            }
+            tableInstances.getItems().add(row);
+        }
+    }
+
+    @FXML
     private void Select(ActionEvent event) {
         try {
             model = null;
-            tableInstances.getItems().clear();
-            tableInstances.refresh();
+            //tableInstances.refresh();
             String selected = comboClassType.getSelectionModel().getSelectedItem().toString();
             model = ClassFactory.Instance.GetClass(selected);
             System.out.println("Model name before: " + model.getName());
-            ArrayList<Attribute> allAtributes = getAllAttributes(model);
-            System.out.println("Model name after: " + model.getName());
-            for (Attribute t : allAtributes) {
-                ObjectInstanceRow row = new ObjectInstanceRow(t.getName());
-                tableInstances.getItems().add(row);
-            }
+            allAtributes = model.getAttributesWithSuper();
+            RefreshTable(true);
         } catch (DicoClassNotFoundException ex) {
             Logger.getLogger(ClassInitiationController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -108,9 +162,9 @@ public class ClassInitiationController implements Initializable {
     @FXML
     private void CreateInstanceButtonHandler(ActionEvent event) {
         /*if (txtObjectName == null || (comboClassType.getValue() == null)) {
-        #Alert
-                return;
-            }
+         #Alert
+         return;
+         }
          */
         try {
             for (ObjectInstanceRow row : tableInstances.getItems()) {
@@ -126,7 +180,7 @@ public class ClassInitiationController implements Initializable {
                 }
             }
             //System.out.println(model.getAttribute().get(0).getValue());
-            ObjectFactory.Instance.createObject(model, txtObjectName.getText());
+            Pool.Instance.createObject(model, txtObjectName.getText());
         } catch (ComplierFailedException ex) {
             Logger.getLogger(ClassInitiationController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ObjectCreationException ex) {
@@ -150,6 +204,9 @@ public class ClassInitiationController implements Initializable {
         tableInstances.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         tableInstances.getSelectionModel().cellSelectionEnabledProperty().set(true);
 
+        cbxobjectvalue.setDisable(true);
+        txtfieldvalue.setDisable(true);
+        SaveValueBtn.setDisable(true);
     }
 
 }

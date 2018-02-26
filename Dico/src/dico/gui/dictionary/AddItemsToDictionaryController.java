@@ -6,7 +6,7 @@
 package dico.gui.dictionary;
 
 import dico.DictionaryFactory;
-import dico.ObjectFactory;
+import dico.Pool;
 import dico.gui.classCreator.AttributeRow;
 import dico.models.Dictionary;
 import dico.models.ObjectModel;

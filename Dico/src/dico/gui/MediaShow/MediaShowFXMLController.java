@@ -7,7 +7,7 @@ package dico.gui.MediaShow;
 
 import Message.Message;
 import dico.DictionaryFactory;
-import dico.ObjectFactory;
+import dico.Pool;
 import dico.exceptions.ObjectNotFoundException;
 import dico.gui.Media.Media;
 import dico.models.Dictionary;
@@ -59,7 +59,7 @@ public class MediaShowFXMLController implements Initializable {
         String user = comboObjects.getSelectionModel().getSelectedItem().toString();
         Triplet<Object> triplet = null;
         try {
-            triplet = dic.getPair(ObjectFactory.Instance.GetObject(user));
+            triplet = dic.getPair(Pool.Instance.GetObject(user));
         } catch (ObjectNotFoundException ex) {
             System.out.println(ex.getMessage());
         }
@@ -121,7 +121,7 @@ public class MediaShowFXMLController implements Initializable {
         try {
             dic = DictionaryFactory.Instance.getDictionary(selectedDictionary);
             String selectedObject = comboObjects.getSelectionModel().getSelectedItem().toString();
-            Object o = ObjectFactory.Instance.GetObject(selectedObject);
+            Object o = Pool.Instance.GetObject(selectedObject);
             Triplet<Object> t = dic.getPair(o);
             for (Media m : t.getMedias()) {
                 lstPaths.getItems().add(m.getAddress());

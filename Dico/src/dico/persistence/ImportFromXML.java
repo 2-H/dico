@@ -7,7 +7,7 @@ package dico.persistence;
 
 import dico.ClassFactory;
 import dico.DictionaryFactory;
-import dico.ObjectFactory;
+import dico.Pool;
 import dico.TypesFactory;
 import dico.compiler.DicoCompilerIntiator;
 import dico.exceptions.DuplicateAttributesException;
@@ -133,7 +133,7 @@ public class ImportFromXML {
             String value = GetText(attributeElement, "Value");
             Type t = TypesFactory.Instance.Get(type);
             if (t == null) {
-                t = new Type(type, "", null, true);
+                //t = new Type(type, "", null, true);
             }
             Attribute at = new Attribute(name, t, true, true);
             at.setValue(value);

@@ -47,7 +47,7 @@ public class DictionaryFactory {
     public ArrayList<ObjectModel> getObjectsByType(Dictionary d) {
         ArrayList<ObjectModel> list = new ArrayList<>();
        // ArrayList<ClassModel> test = new ArrayList<>();
-        for (ObjectModel obj : ObjectFactory.Instance.Objects) {
+        for (ObjectModel obj : Pool.Instance.Objects) {
 //           test.addAll(getKids(obj.getClassModel()));
             if (obj.getClassModel().getName().equals(d.getClassModel().getName())) {
                 list.add(obj);
@@ -77,7 +77,7 @@ public class DictionaryFactory {
     }
 
     public static void Demo() throws ComplierFailedException, ClassNotFoundException, Exception {
-        ObjectFactory.Demo();
+        Pool.Demo();
 
         for (ClassModel c : ClassFactory.Classess) {
             Dictionary<ObjectModel> dic = DictionaryFactory.Instance.createDictionary(c, "Dictionary " + c.getName());

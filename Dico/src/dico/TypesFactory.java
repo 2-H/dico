@@ -14,9 +14,9 @@ import java.util.ArrayList;
  */
 public class TypesFactory {
 
-    public static Type INT = new Type("int", "", int.class, false);
-    public static Type STRING = new Type("String", "", String.class, true);
-    public static Type DOUBLE = new Type("Double", "", Double.class, true);
+    public static Type INT = new Type("int", "", int.class, false, false);
+    public static Type STRING = new Type("String", "", String.class, true, false);
+    public static Type DOUBLE = new Type("Double", "", Double.class, true, false);
 
     public static final TypesFactory Instance = new TypesFactory();
 

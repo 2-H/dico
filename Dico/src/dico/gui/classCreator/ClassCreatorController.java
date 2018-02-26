@@ -16,17 +16,15 @@ import dico.models.Type;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-//import javafx.scene.control.Alert;
-//import javafx.scene.control.Alert.AlertType;
-//import javafx.scene.control.Alert;
-//import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
@@ -127,15 +125,21 @@ public class ClassCreatorController implements Initializable {
             ArrayList<Attribute> list = new ArrayList<>();
 
             for (AttributeRow at : tblAtd.getItems()) {
-                list.add(new Attribute(at.getName(), TypesFactory.Instance.Get(at.getType()), at.getEquals().equals("Yes"), at.getCompareTo().equals("Yes")));
+                Type t = TypesFactory.Instance.Get(at.getType());
+                if (t == null) {
+                    ClassModel c = ClassFactory.Instance.GetClass(at.getType());
+                    t = new Type(c.getName(), "", c.getClassReference(), true, true);
+                }
+
+                list.add(new Attribute(at.getName(), t, at.getEquals().equals("Yes"), at.getCompareTo().equals("Yes")));
             }
 
             classmodel.setAttribute(list);
 
             if (comboInheritedTypes.getValue() != null) {
-                    String selected = comboInheritedTypes.getSelectionModel().getSelectedItem().toString();
-                    classmodel.setParent(ClassFactory.Instance.GetClass(selected));                
-            }     
+                String selected = comboInheritedTypes.getSelectionModel().getSelectedItem().toString();
+                classmodel.setParent(ClassFactory.Instance.GetClass(selected));
+            }
 
             ClassFactory.Instance.generateJavaCode(classmodel);
 
@@ -169,6 +173,10 @@ public class ClassCreatorController implements Initializable {
             typeList.add(t.getName());
         }
         addToComboBox(comboTypes, typeList);
+
+        for (String m : ClassFactory.Instance.GetClassNames()) {
+            comboTypes.getItems().add(m);
+        }
 
         ArrayList<String> classList = new ArrayList<>();
         for (ClassModel c : ClassFactory.Classess) {

@@ -7,7 +7,7 @@ package dico.gui.MainForm;
 
 import dico.ClassFactory;
 import dico.DictionaryFactory;
-import dico.ObjectFactory;
+import dico.Pool;
 import dico.compiler.DicoCompilerIntiator;
 import dico.exceptions.ComplierFailedException;
 import dico.gui.classCreator.ClassCreator;
@@ -87,14 +87,14 @@ public class MainFormController implements Initializable {
     private Button btnexport;
 
     public void refreshForm() {
-        ArrayList<ObjectModel> Objects = ObjectFactory.Instance.Objects;
+        ArrayList<ObjectModel> Objects = Pool.Instance.Objects;
         ObservableList<String> names = FXCollections.observableArrayList();
         if (ClassFactory.Instance.Classess.size() > 0) {
             btnCreateObject.setDisable(false);
             btnCompileClasses.setDisable(false);
 
         }
-        if (ObjectFactory.Instance.Objects.size() > 0) {
+        if (Pool.Instance.Objects.size() > 0) {
             btnCallMethods.setDisable(false);
             btnCreateDictionary.setDisable(false);
 

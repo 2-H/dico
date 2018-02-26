@@ -5,6 +5,7 @@
  */
 package dico.gui.classInitiation;
 
+import dico.models.Attribute;
 import javafx.beans.property.SimpleStringProperty;
 
 /**
@@ -14,14 +15,24 @@ import javafx.beans.property.SimpleStringProperty;
 public class ObjectInstanceRow {
 
     private SimpleStringProperty field;
+
+    public Attribute getAtr() {
+        return atr;
+    }
+
+    public void setAtr(Attribute atr) {
+        this.atr = atr;
+    }
     private SimpleStringProperty value;
+    private Attribute atr;
 
     public ObjectInstanceRow() {
         field = new SimpleStringProperty("");
         value = new SimpleStringProperty("");
     }
 
-    public ObjectInstanceRow(String field) {
+    public ObjectInstanceRow(String field,Attribute atr) {
+        this.atr=atr;
         this.field = new SimpleStringProperty(field);
         this.value = new SimpleStringProperty("");
     }

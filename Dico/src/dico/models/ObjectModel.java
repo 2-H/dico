@@ -5,6 +5,8 @@
  */
 package dico.models;
 
+import dico.compiler.DicoCompilerIntiator;
+
 /**
  *
  * @author Me
@@ -13,7 +15,7 @@ public class ObjectModel {
 
     private ClassModel classModel;
     private String variableName;
-    private Object instance;   
+    private Object instance;
 
     public Object getInstance() {
         return instance;
@@ -41,7 +43,8 @@ public class ObjectModel {
 
     @Override
     public String toString() {
-        return this.classModel.getName() + " " + getVariableName();
+        return DicoCompilerIntiator.Instance.InvokeToString(this);
+        //  return this.classModel.getName() + " " + getVariableName();
     }
 
 }

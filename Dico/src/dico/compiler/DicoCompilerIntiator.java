@@ -68,7 +68,7 @@ public class DicoCompilerIntiator {
     }
 
     public Class getClassByReflection(String className) throws ClassNotFoundException {
-        Class reflectionClass = (Class) classess.get(className);
+        Class reflectionClass =  classess.get(className);
         if (reflectionClass == null) {
             ClassLoader loader = getClassLoader();
             reflectionClass = loader.loadClass("dicodemo." + className);
@@ -95,7 +95,11 @@ public class DicoCompilerIntiator {
 
             ArrayList<Class> constructorParamsTypes = new ArrayList<>();
             for (Attribute atr : model.getAttributesWithSuper()) {
-                constructorParamsTypes.add(atr.getType().getClassName());
+                if (atr.getType().isCustomType()) {
+                    constructorParamsTypes.add(atr.getType().getClassName());
+                } else {
+                    constructorParamsTypes.add(atr.getType().getClassName());
+                }
             }
             // Class[] params =new {int.class,String.class} id name
             Class[] paramsTypes = constructorParamsTypes.toArray(new Class[constructorParamsTypes.size()]);

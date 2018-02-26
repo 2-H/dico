@@ -6,7 +6,7 @@
 package dico.gui.CallingMethods;
 
 import Message.Message;
-import dico.ObjectFactory;
+import dico.Pool;
 import dico.compiler.DicoCompilerIntiator;
 import dico.exceptions.ObjectNotFoundException;
 import dico.models.ClassModel;
@@ -109,8 +109,8 @@ public class MethodsController1 implements Initializable {
             String second = comboSecondObject.getSelectionModel().getSelectedItem().toString();
             String first = comboFirstObject.getSelectionModel().getSelectedItem().toString();
 
-            ObjectModel firstObject = ObjectFactory.Instance.GetObject(first);
-            ObjectModel secondObject = ObjectFactory.Instance.GetObject(second);
+            ObjectModel firstObject = Pool.Instance.GetObject(first);
+            ObjectModel secondObject = Pool.Instance.GetObject(second);
 
             if (method.equals("toString")) {
                 tf.setText(DicoCompilerIntiator.Instance.InvokeToString(firstObject));
@@ -158,6 +158,32 @@ public class MethodsController1 implements Initializable {
 
             }
 
+            /*
+            //
+            if (s.equals("compareTo")) {
+                if (c1.getClass() == c2.getClass()) {
+//             Comparable c1=(Comparable) s1;
+//             Comparable c2=(Comparable) s2;
+                    if (c1.compareTo(c2) > 0) {
+                        tf.setText(c1.getName() + "is greater");
+                    } else if (c1.compareTo(c2) < 0) {
+                        tf.setText(c2.getName() + " is greater");
+                    } else {
+                        tf.setText("they are equal");
+                    }
+
+                } else {
+                    tf.setText("2 Objects of different classes cannot be compared");
+                }
+
+            }
+
+            if (s.equals("Hashcode")) {
+                String a = " " + c1.hashCode();
+                tf.setText(a);
+
+            }
+
            
          */ catch (ObjectNotFoundException | ClassCastException ex) {
             Message.show("Fatal Error", ex.getMessage(), AlertType.ERROR);
@@ -180,7 +206,7 @@ public class MethodsController1 implements Initializable {
         }
 
         addToComboBox(comboMethods, methodNames);
-        ArrayList<ObjectModel> objlist = ObjectFactory.Instance.Objects;
+        ArrayList<ObjectModel> objlist = Pool.Instance.Objects;
 
         addToCombo(comboFirstObject, objlist);
         addToCombo(comboSecondObject, objlist);

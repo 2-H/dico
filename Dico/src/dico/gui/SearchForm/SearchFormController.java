@@ -7,7 +7,7 @@ package dico.gui.SearchForm;
 
 import dico.ClassFactory;
 import dico.DictionaryFactory;
-import dico.ObjectFactory;
+import dico.Pool;
 import dico.models.Dictionary;
 import dico.models.ObjectModel;
 import java.net.URL;

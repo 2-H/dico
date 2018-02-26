@@ -5,7 +5,6 @@
  */
 package dico.models;
 
-
 /**
  *
  * @author k.shehady
@@ -14,14 +13,24 @@ public class Type {
 
     private String name;
     private String packageName;
-    private Class<?> className;
-    private boolean object;    
+    private Class className;
+    private boolean object;
+    private boolean customType;
 
     public Type() {
- 
+
     }
 
-    public Type(String name, String packageName, Class<?> className, boolean isObject) {
+    public boolean isCustomType() {
+        return customType;
+    }
+
+    public void setCustomType(boolean customType) {
+        this.customType = customType;
+    }
+
+    public Type(String name, String packageName, Class className, boolean isObject, boolean customType) {
+        this.customType = customType;
         this.name = name;
         this.className = className;
         this.packageName = packageName;
@@ -44,7 +53,7 @@ public class Type {
         this.packageName = packageName;
     }
 
-    public Class<?> getClassName() {
+    public Class getClassName() {
         return className;
     }
 
@@ -59,7 +68,4 @@ public class Type {
     public void setIsObject(boolean isObject) {
         this.object = isObject;
     }
-
-    
- 
 }

@@ -7,7 +7,7 @@ package dico.gui.Media;
 
 import Message.Message;
 import dico.DictionaryFactory;
-import dico.ObjectFactory;
+import dico.Pool;
 import dico.exceptions.ObjectNotFoundException;
 import dico.models.Dictionary;
 import dico.models.ObjectModel;
@@ -117,7 +117,7 @@ public class MediaManagerFXMLController implements Initializable {
         try {
             dic = DictionaryFactory.Instance.getDictionary(selectedDictionary);
             String selectedObject = comboUsers.getSelectionModel().getSelectedItem().toString();
-            Object o = ObjectFactory.Instance.GetObject(selectedObject);
+            Object o = Pool.Instance.GetObject(selectedObject);
             Triplet<Object> t = dic.getPair(o);
             for (Media m : t.getMedias()) {
                 lstFileNames.getItems().add(m.getAddress());
@@ -142,7 +142,7 @@ public class MediaManagerFXMLController implements Initializable {
         try {
             dic = DictionaryFactory.Instance.getDictionary(selectedDictionary);
             String selectedObject = comboUsers.getSelectionModel().getSelectedItem().toString();
-            Object o = ObjectFactory.Instance.GetObject(selectedObject);
+            Object o = Pool.Instance.GetObject(selectedObject);
             Triplet<Object> t = dic.getPair(o);
             Set<Media> set = new HashSet<>();
             Media m;
