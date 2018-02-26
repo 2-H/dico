@@ -11,7 +11,7 @@ import dico.compiler.DicoCompilerIntiator;
  *
  * @author Me
  */
-public class ObjectModel {
+public class ObjectModel implements Comparable<ObjectModel> {
 
     private ClassModel classModel;
     private String variableName;
@@ -42,9 +42,25 @@ public class ObjectModel {
     }
 
     @Override
+    public boolean equals(Object other) {
+        // return DicoCompilerIntiator.Instance.InvokeToString(this);
+        return this.getInstance().equals(other);
+    }
+
+    @Override
+    public int compareTo(ObjectModel other) {
+        return DicoCompilerIntiator.Instance.InvokeCompareTo(this, other);
+    }
+
+    @Override
+    public int hashCode() {
+        return this.getInstance().hashCode();
+    }
+
+    @Override
     public String toString() {
-        return DicoCompilerIntiator.Instance.InvokeToString(this);
-        //  return this.classModel.getName() + " " + getVariableName();
+        // return DicoCompilerIntiator.Instance.InvokeToString(this);
+        return this.classModel.getName() + " " + getVariableName();
     }
 
 }

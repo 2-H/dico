@@ -10,6 +10,7 @@ import dico.Pool;
 import dico.exceptions.ComplierFailedException;
 import dico.exceptions.DicoClassNotFoundException;
 import dico.exceptions.ObjectCreationException;
+import dico.exceptions.ObjectNotFoundException;
 import dico.models.Attribute;
 import dico.models.ClassModel;
 import dico.models.ObjectModel;
@@ -148,7 +149,12 @@ public class ClassInitiationController implements Initializable {
         }
     }
 
-    private Object GetValue(Attribute atr, String value) {
+    private Object GetValue(Attribute atr, String value) throws ObjectNotFoundException {
+        if (atr.getType().isCustomType()) {
+            Object ob = Pool.Instance.GetObject(value).getInstance();
+            return ob;
+            //return atr.getType().getClassName().cast(ob);
+        }
         if (atr.getType().getClassName() == int.class) {
             return Integer.parseInt(value);
         } else if (atr.getType().getClassName() == Double.class) {

@@ -19,7 +19,7 @@ package Test;
 
         @Override
         public String toString() {
-            return "Manager{" + "salary=" + salary + '}';
+            return "ManagerClass{" + "salary=" + salary + '}';
         }
 
     }

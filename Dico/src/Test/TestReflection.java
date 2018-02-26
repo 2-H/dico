@@ -25,12 +25,12 @@ public class TestReflection {
             Constructor constrManager = managerClass.getConstructor(int.class);
 
             Object manager = constrManager.newInstance(1500);
-
+            System.out.println("Object.ToString=" + manager);
             try {
                 Method method = managerClass.getDeclaredMethod("toString", null);
                 Object str = method.invoke(manager);
                 String text = str.toString();
-                System.out.println(text);
+                System.out.println("invoke=" + text);
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
