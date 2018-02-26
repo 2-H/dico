@@ -10,6 +10,7 @@ import dico.DictionaryFactory;
 import dico.Pool;
 import dico.compiler.DicoCompilerIntiator;
 import dico.exceptions.ComplierFailedException;
+import dico.gui.Media.Media;
 import dico.gui.classCreator.ClassCreator;
 import java.io.IOException;
 import java.net.URL;
@@ -30,6 +31,7 @@ import dico.gui.classCreator.*;
 import dico.models.ClassModel;
 import dico.models.Dictionary;
 import dico.models.ObjectModel;
+import dico.persistence.ImportFromXML;
 import static java.awt.SystemColor.window;
 import java.io.File;
 import java.util.ArrayList;
@@ -39,13 +41,14 @@ import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
-import java.nio.file.Files ;
+import java.nio.file.Files;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import dico.persistence.exportToXML;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import javax.xml.stream.XMLStreamException;
+
 /**
  * FXML Controller class
  *
@@ -85,6 +88,8 @@ public class MainFormController implements Initializable {
     private ListView lstBoxDictionaries;
     @FXML
     private Button btnexport;
+    @FXML
+    private Button btnimport;
 
     public void refreshForm() {
         ArrayList<ObjectModel> Objects = Pool.Instance.Objects;
@@ -163,34 +168,47 @@ public class MainFormController implements Initializable {
     }
 
     @FXML
-    private void exportDictionary() throws XMLStreamException, IOException{
-        
-       Stage stage = (Stage) btnexport.getScene().getWindow();
+    private void exportDictionary() throws XMLStreamException, IOException {
+
+        Stage stage = (Stage) btnexport.getScene().getWindow();
         //FileChooser fileChooser = new FileChooser();
         //fileChooser.setTitle("Open Resource File");
         //File selectedFile = fileChooser.showOpenDialog(null);
         DirectoryChooser dirChooser = new DirectoryChooser();
         File selectedDirectory = dirChooser.showDialog(stage);
-        if(selectedDirectory != null )
-        {
-            String code=exportToXML.ExportToXml();
-            try{
+        if (selectedDirectory != null) {
+            String code = exportToXML.ExportToXml();
+            try {
                 // Create file 
-                String path=selectedDirectory.getAbsolutePath()+"/test.xml";
+                String path = selectedDirectory.getAbsolutePath() + "/Dictionaries.xml";
                 FileWriter fstream = new FileWriter(path);
                 BufferedWriter out = new BufferedWriter(fstream);
                 out.write(code);
                 //Close the output stream
                 out.close();
-            }catch (Exception e)
-            {//Catch exception if any
+            } catch (Exception e) {//Catch exception if any
                 System.err.println("Error: " + e.getMessage());
             }
         }
-   
+
     }
-    
-    
+
+    @FXML
+    private void importDictionary() throws XMLStreamException, IOException {
+
+        Stage stage = (Stage) btnimport.getScene().getWindow();
+        FileChooser fileChooser = new FileChooser();
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("XML files (*.xml)","*.xml");
+        fileChooser.getExtensionFilters().add(extFilter);
+        fileChooser.setTitle("Open XML File");
+        File selectedFile = fileChooser.showOpenDialog(null);
+        if (selectedFile != null ) {
+            ImportFromXML.Import(selectedFile.getAbsolutePath());
+            refreshForm();
+        }
+
+    }
+
     @FXML
     private void CreateObject() {
         opener("..//classInitiation//ClassInitiation.fxml");

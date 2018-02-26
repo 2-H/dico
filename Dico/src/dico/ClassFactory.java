@@ -36,7 +36,8 @@ public class ClassFactory {
         }
         throw new DicoClassNotFoundException("Class Not Found");
     }
-    public boolean CheckClass(String name)  {
+
+    public boolean CheckClass(String name) {
         for (ClassModel cls : Classess) {
             if (cls.getName().equals(name)) {
                 return true;
@@ -44,6 +45,7 @@ public class ClassFactory {
         }
         return false;
     }
+
     public void addDefaultConstructor(ClassModel model, StringBuilder sb) {
         //Start Render Default Constructer
         sb.append("\t")
@@ -297,12 +299,20 @@ public class ClassFactory {
         //End Render Attributes
     }
 
-    public void checkValidity(ClassModel model) throws DuplicateAttributesException, DuplicateClassesException {
-        for (String cm1 : ClassFactory.Instance.GetClassNames()) {
-            if (cm1.equals(model.getName())) {
-                throw new DuplicateClassesException(model.getName() + " exists before ");
+    public ClassModel GetExisitingClass(String name) {
+        for (ClassModel cm1 : ClassFactory.Instance.Classess) {
+            if (cm1.getName().equals(name)) {
+                return cm1;
             }
         }
+        return null;
+    }
+
+    public void checkValidity(ClassModel model) throws DuplicateAttributesException, DuplicateClassesException {
+        if (GetExisitingClass(model.getName()) != null) {
+            throw new DuplicateClassesException(model.getName() + " exists before ");
+        }
+
         if (model.getParent() != null) {
             ArrayList<Attribute> attributesWithSuper = model.getParent().getAttributesWithSuper();
             for (Attribute atd : attributesWithSuper) {
@@ -379,9 +389,9 @@ public class ClassFactory {
             ClassModel person = new ClassModel();
             person.setName("Person");
             Attribute atrId = new Attribute("id", TypesFactory.INT, true, true);
-            atrId.setValue(1);
+            //atrId.setValue(1);
             Attribute atrName = new Attribute("name", TypesFactory.STRING, true, true);
-            atrName.setValue("ali");
+            //atrName.setValue("ali");
 
             ArrayList<Attribute> list = new ArrayList<>();
             list.add(atrId);
@@ -394,7 +404,7 @@ public class ClassFactory {
             ClassModel manager = new ClassModel();
             manager.setName("Manager");
             Attribute atrSalary = new Attribute("salary", TypesFactory.DOUBLE, true, true);
-            atrSalary.setValue(1500.25);
+            //atrSalary.setValue(1500.25);
             ArrayList<Attribute> list2 = new ArrayList<>();
             list2.add(atrSalary);
             manager.setAttribute(list2);
@@ -406,7 +416,7 @@ public class ClassFactory {
             ClassModel cto = new ClassModel();
             cto.setName("CTO");
             Attribute atrYears = new Attribute("yearsOfExperience", TypesFactory.INT, true, true);
-            atrYears.setValue(8);
+            //atrYears.setValue(8);
             ArrayList<Attribute> list3 = new ArrayList<>();
             list3.add(atrYears);
             cto.setAttribute(list3);

@@ -42,6 +42,15 @@ public class ClassModel {
         return attribute;
     }
 
+    public Attribute getAttribute(String a) {
+        for (Attribute at : getAttributesWithSuper()) {
+            if (at.getName().equals(a)) {
+                return at;
+            }
+        }
+        return null;
+    }
+
     public ArrayList<Attribute> getAttributesWithSuper() {
         ArrayList<Attribute> list = new ArrayList<>();
         if (parent != null) {

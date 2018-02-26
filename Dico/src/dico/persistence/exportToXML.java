@@ -7,6 +7,7 @@ package dico.persistence;
 
 import dico.DictionaryFactory;
 import dico.models.Attribute;
+import dico.models.AttributeValue;
 import dico.models.ClassModel;
 import dico.models.Dictionary;
 import dico.models.ObjectModel;
@@ -15,6 +16,7 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringWriter;
+import java.util.Map;
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
@@ -122,35 +124,38 @@ public class exportToXML {
     }
 
     public static void ObjectToXML(XMLStreamWriter xMLStreamWriter, ObjectModel object) throws XMLStreamException {
-        xMLStreamWriter.writeStartElement("Object");
+        xMLStreamWriter.writeStartElement("Item");
         xMLStreamWriter.writeStartElement("Variable");
         xMLStreamWriter.writeCharacters(object.getVariableName());
         xMLStreamWriter.writeEndElement();
 
-        xMLStreamWriter.writeStartElement("Class");
-        xMLStreamWriter.writeStartElement("Name");
+        xMLStreamWriter.writeStartElement("Object");
+        xMLStreamWriter.writeStartElement("Type");
         xMLStreamWriter.writeCharacters(object.getClassModel().getName());
         xMLStreamWriter.writeEndElement();
 
-        xMLStreamWriter.writeStartElement("Parent");
-        if (object.getClassModel().getParent() != null) {
+        /*   if (object.getClassModel().getParent() != null) {
+            xMLStreamWriter.writeStartElement("Parent");
             xMLStreamWriter.writeCharacters(object.getClassModel().getParent().getName());
+            xMLStreamWriter.writeEndElement();
         }
-        xMLStreamWriter.writeEndElement();
+         */
+        for (Attribute at : object.getClassModel().getAttributesWithSuper()) {
 
-        for (Attribute attribute : object.getClassModel().getAttributesWithSuper()) {
-            xMLStreamWriter.writeStartElement("Attribute");
+            AttributeValue attributeValue = object.getAttributesValues().get(at.getName());
+
+            xMLStreamWriter.writeStartElement("AttributeValue");
 
             xMLStreamWriter.writeStartElement("Name");
-            xMLStreamWriter.writeCharacters(attribute.getName().toString());
+            xMLStreamWriter.writeCharacters(at.getName());
             xMLStreamWriter.writeEndElement();
 
             xMLStreamWriter.writeStartElement("Type");
-            xMLStreamWriter.writeCharacters(attribute.getType().getName());
+            xMLStreamWriter.writeCharacters(at.getType().getName());
             xMLStreamWriter.writeEndElement();
 
             xMLStreamWriter.writeStartElement("Value");
-            xMLStreamWriter.writeCharacters(attribute.getValue().toString());
+            xMLStreamWriter.writeCharacters(attributeValue.getValue().toString());
             xMLStreamWriter.writeEndElement();
 
             xMLStreamWriter.writeEndElement();
@@ -172,11 +177,10 @@ public class exportToXML {
         if (cls.getParent() != null) {
             xMLStreamWriter.writeStartElement("Parent");
             ClassToXML(xMLStreamWriter, cls.getParent());
-            xMLStreamWriter.writeCharacters(cls.getParent().getName());
             xMLStreamWriter.writeEndElement();
         }
 
-        for (Attribute attribute : cls.getAttributesWithSuper()) {
+        for (Attribute attribute : cls.getAttribute()) {
             xMLStreamWriter.writeStartElement("Attribute");
 
             xMLStreamWriter.writeStartElement("Name");

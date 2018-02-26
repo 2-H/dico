@@ -12,12 +12,15 @@ import dico.exceptions.DicoClassNotFoundException;
 import dico.exceptions.ObjectCreationException;
 import dico.exceptions.ObjectNotFoundException;
 import dico.models.Attribute;
+import dico.models.AttributeValue;
 import dico.models.ClassModel;
 import dico.models.ObjectModel;
 import dico.models.Type;
 import java.awt.event.MouseEvent;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -66,6 +69,7 @@ public class ClassInitiationController implements Initializable {
     private Label FieldNameLabel;
     private ObjectInstanceRow selectedRow;
     private ArrayList<Attribute> allAtributes;
+    private Map<String, AttributeValue> allAtributesValues;
 
     private void addToComboBox(ArrayList<String> myArrStr) {
         for (String str : myArrStr) {
@@ -110,8 +114,11 @@ public class ClassInitiationController implements Initializable {
             }
             for (Attribute at : allAtributes) {
                 if (at.getName().equals(selectedRow.getField())) {
-                    at.setValue(val);
-                    RefreshTable(false);
+                    AttributeValue av = allAtributesValues.get(at.getName());
+                    if (av != null) {
+                        av.setValue(val);
+                    }
+                    RefreshTable();
                     return;
                 }
             }
@@ -121,14 +128,15 @@ public class ClassInitiationController implements Initializable {
 
     }
 
-    private void RefreshTable(boolean firstload) {
+    private void RefreshTable() {
         tableInstances.getItems().clear();
 
         System.out.println("Model name after: " + model.getName());
         for (Attribute t : allAtributes) {
             ObjectInstanceRow row = new ObjectInstanceRow(t.getName(), t);
-            if (!firstload && t.getValue() != null) {
-                row.setValue(t.getValue().toString());
+            AttributeValue av = allAtributesValues.get(t.getName());
+            if (av != null && av.getValue()!=null) {
+                row.setValue(av.getValue().toString());
             }
             tableInstances.getItems().add(row);
         }
@@ -143,42 +151,28 @@ public class ClassInitiationController implements Initializable {
             model = ClassFactory.Instance.GetClass(selected);
             System.out.println("Model name before: " + model.getName());
             allAtributes = model.getAttributesWithSuper();
-            RefreshTable(true);
+
+            allAtributesValues = new HashMap<>();
+            for (Attribute at : allAtributes) {
+                allAtributesValues.put(at.getName(), new AttributeValue(at));
+            }
+            RefreshTable();
         } catch (DicoClassNotFoundException ex) {
             Logger.getLogger(ClassInitiationController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    private Object GetValue(Attribute atr, String value) throws ObjectNotFoundException {
-        if (atr.getType().isCustomType()) {
-            Object ob = Pool.Instance.GetObject(value).getInstance();
-            return ob;
-            //return atr.getType().getClassName().cast(ob);
-        }
-        if (atr.getType().getClassName() == int.class) {
-            return Integer.parseInt(value);
-        } else if (atr.getType().getClassName() == Double.class) {
-            return Double.parseDouble(value);
-        } else if (atr.getType().getClassName() == String.class) {
-            return value;
-        }
-        return value;
-    }
-
     @FXML
     private void CreateInstanceButtonHandler(ActionEvent event) {
-        /*if (txtObjectName == null || (comboClassType.getValue() == null)) {
-         #Alert
-         return;
-         }
-         */
         try {
+            Map<String, AttributeValue> att = new HashMap<>();
             for (ObjectInstanceRow row : tableInstances.getItems()) {
                 ClassModel tmp = model;
                 while (tmp != null) {
                     for (Attribute atr : tmp.getAttribute()) {
                         if (atr.getName().equals(row.getField()) && row.getValue() != null) {
-                            atr.setValue(GetValue(atr, row.getValue()));
+                            AttributeValue av = new AttributeValue(atr, Pool.Instance.GetValue(atr, row.getValue()));
+                            att.put(atr.getName(), av);
                         }
                     }
                     tmp = tmp.getParent();
@@ -186,7 +180,7 @@ public class ClassInitiationController implements Initializable {
                 }
             }
             //System.out.println(model.getAttribute().get(0).getValue());
-            Pool.Instance.createObject(model, txtObjectName.getText());
+            Pool.Instance.createObject(model, txtObjectName.getText(), att);
         } catch (ComplierFailedException ex) {
             Logger.getLogger(ClassInitiationController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ObjectCreationException ex) {

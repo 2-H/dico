@@ -71,7 +71,7 @@ public class CreateDictionaryController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        ClassFactory.Demo();
+      //  ClassFactory.Demo();
 
         for (ClassModel c : ClassFactory.Classess) {
             ComboTypes.getItems().add(c.getName());

@@ -6,6 +6,7 @@
 package dico.models;
 
 import dico.compiler.DicoCompilerIntiator;
+import java.util.Map;
 
 /**
  *
@@ -13,12 +14,21 @@ import dico.compiler.DicoCompilerIntiator;
  */
 public class ObjectModel implements Comparable<ObjectModel> {
 
+    private Map<String,AttributeValue> AttributesValues;
     private ClassModel classModel;
     private String variableName;
     private Object instance;
 
     public Object getInstance() {
         return instance;
+    }
+
+    public Map<String, AttributeValue> getAttributesValues() {
+        return AttributesValues;
+    }
+
+    public void setAttributesValues(Map<String, AttributeValue> Attributes) {
+        this.AttributesValues = Attributes;
     }
 
     public void setInstance(Object instance) {

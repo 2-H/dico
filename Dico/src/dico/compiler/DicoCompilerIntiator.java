@@ -13,6 +13,7 @@ import dico.ClassFactory;
 import dico.exceptions.ComplierFailedException;
 import dico.exceptions.ObjectCreationException;
 import dico.models.Attribute;
+import dico.models.AttributeValue;
 import dico.models.ClassModel;
 import dico.models.ObjectModel;
 import java.io.File;
@@ -27,6 +28,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.tools.Diagnostic;
@@ -81,11 +83,13 @@ public class DicoCompilerIntiator {
         return reflectionClass;
     }
 
-    public ObjectModel createObject(ClassModel model, String variablename) throws ObjectCreationException {
+    public ObjectModel createObject(ClassModel model, String variablename, Map<String, AttributeValue> attributeValues) throws ObjectCreationException {
 
+        System.out.println("variablename " + model.getName() + " v=" + variablename);
         ObjectModel objectModel = new ObjectModel();
         objectModel.setVariableName(variablename);
         objectModel.setClassModel(model);
+        objectModel.setAttributesValues(attributeValues);
 
         try {
 
@@ -95,12 +99,8 @@ public class DicoCompilerIntiator {
 
             ArrayList<Class> constructorParamsTypes = new ArrayList<>();
             for (Attribute atr : model.getAttributesWithSuper()) {
-
-                if (atr.getType().isCustomType()) {
-                    constructorParamsTypes.add(atr.getType().getClassName());
-                } else {
-                    constructorParamsTypes.add(atr.getType().getClassName());
-                }
+                System.out.println("type " + atr.getType().getClassName());
+                constructorParamsTypes.add(atr.getType().getClassName());
             }
             // Class[] params =new {int.class,String.class} id name
             Class[] paramsTypes = constructorParamsTypes.toArray(new Class[constructorParamsTypes.size()]);
@@ -108,10 +108,10 @@ public class DicoCompilerIntiator {
 
             //Object instance = thisClass.newInstance();
             Constructor constructor = thisClass.getConstructor(paramsTypes);
-            System.out.println("constructor ready ");
             ArrayList<Object> constructorParamValues = new ArrayList<>();
             for (Attribute atr : model.getAttributesWithSuper()) {
-                constructorParamValues.add(atr.getValue());
+                System.out.println("value " + attributeValues.get(atr.getName()).getValue());
+                constructorParamValues.add(attributeValues.get(atr.getName()).getValue());
             }
 
             //Object ali = constructor.newInstance(1, "ali");
@@ -126,6 +126,7 @@ public class DicoCompilerIntiator {
             //Object o = equalsMethold.invoke(ali, kassem);
             //System.out.println("ali.equals(kassem) ==> " + (boolean) o);
         } catch (Exception ex) {
+            System.out.println(ex.getMessage());
             throw new ObjectCreationException(ex.getMessage());
         }
         return objectModel;

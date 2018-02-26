@@ -10,15 +10,18 @@ import dico.DictionaryFactory;
 import dico.Pool;
 import dico.TypesFactory;
 import dico.compiler.DicoCompilerIntiator;
+import dico.exceptions.ComplierFailedException;
 import dico.exceptions.DuplicateAttributesException;
 import dico.exceptions.DuplicateClassesException;
+import dico.exceptions.ObjectNotFoundException;
 import dico.models.Attribute;
+import dico.models.AttributeValue;
 import dico.models.ClassModel;
-import dico.models.ObjectModel;
 import dico.models.Type;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.DocumentBuilder;
 import org.w3c.dom.Document;
@@ -32,10 +35,9 @@ import org.w3c.dom.Element;
  */
 public class ImportFromXML {
 
-    public static void main(String[] args) {
-
+    public static void Import(String path) {
         try {
-            File inputFile = new File("./src/dico/persistence/demo.xml");
+            File inputFile = new File(path);
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.parse(inputFile);
@@ -43,8 +45,6 @@ public class ImportFromXML {
             System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
             NodeList dictionaries = doc.getElementsByTagName("Dictionary");
             System.out.println("----------------------------");
-
-            ArrayList<ObjectModel> objectsList = new ArrayList<ObjectModel>();
 
             for (int dicIndex = 0; dicIndex < dictionaries.getLength(); dicIndex++) {
 
@@ -56,8 +56,7 @@ public class ImportFromXML {
                     Element dictionaryElement = (Element) dictionary;
                     String dictionaryName = GetText(dictionaryElement, "Name");
 
-                    ClassModel dictionaryClass = GetClass(dictionaryElement,true);
-                    CreateParents(dictionaryClass, dictionaryElement);
+                    ClassModel dictionaryClass = CreateClass(dictionaryElement);
 
                     DictionaryFactory.Instance.createDictionary(dictionaryClass, dictionaryName);
 
@@ -65,16 +64,39 @@ public class ImportFromXML {
                     for (int itemIndex = 0; itemIndex < dictionaryItems.getLength(); itemIndex++) {
                         Node dictionaryItemNode = dictionaryItems.item(itemIndex);
                         System.out.println("\nDictionaryItem :" + dictionaryItemNode.getNodeName());
-                        ObjectModel objectmodel = new ObjectModel();
+
                         Element dictionaryItemElement = (Element) dictionaryItemNode;
-                        Node object = dictionaryItemElement.getElementsByTagName("Object").item(0);
+                        Node object = dictionaryItemElement.getElementsByTagName("Item").item(0);
                         Element objectElement = (Element) object;
                         String variableName = GetText(objectElement, "Variable");
 
-                        objectmodel.setVariableName(variableName);
-                        ClassModel objectClass = GetClass(objectElement,false);
-                        objectmodel.setClassModel(objectClass);
-                        objectsList.add(objectmodel);
+                        String typeName = GetText(objectElement, "Type");
+                        ClassModel objectClass = ClassFactory.Instance.GetExisitingClass(typeName);
+
+                        Map<String, AttributeValue> attributesValues = new HashMap<>();
+
+                        NodeList objectAttributes = objectElement.getElementsByTagName("AttributeValue");
+                        for (int attributeIndex = 0; attributeIndex < objectAttributes.getLength(); attributeIndex++) {
+                            Node classAttributeNode = objectAttributes.item(attributeIndex);
+                            System.out.println("\nAttributeValue :" + classAttributeNode.getNodeName());
+                            Element attributeElement = (Element) classAttributeNode;
+                            String name = GetText(attributeElement, "Name");
+                            String type = GetText(attributeElement, "Type");
+                            Type t = TypesFactory.Instance.Get(type);
+                            if (t == null) {
+                                ///////////////////////////////////t = new Type(type, "", null, true);
+                            }
+                            Attribute at = objectClass.getAttribute(name);
+                            AttributeValue atv = new AttributeValue(at);
+                            String v = GetText(attributeElement, "Value");
+                            if (v != null && !"".equals(v)) {
+                                Object value = Pool.Instance.GetValue(at, v);
+                                atv.setValue(value);
+                            }
+                            attributesValues.put(at.getName(), atv);
+                        }
+
+                        Pool.Instance.createObject(objectClass, variableName,attributesValues);
 
                         Node friends = dictionaryItemElement.getElementsByTagName("Friends").item(0);
                         Node Enemies = dictionaryItemElement.getElementsByTagName("Enemies").item(0);
@@ -83,63 +105,62 @@ public class ImportFromXML {
                 }
             }
 
-            DicoCompilerIntiator.Instance.CreateAndComplieFiles();
-
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public static void CreateParents(ClassModel cls, Element e) throws DuplicateAttributesException, DuplicateClassesException {
-        if (cls.getParent() != null) {
-            Element parentElement = (Element) e.getElementsByTagName("Parent").item(0);
-            ClassModel parent = GetClass(parentElement,true);
-            if (!ClassFactory.Instance.CheckClass(parent.getName())) {
-                CreateParents(cls.getParent(), parentElement);
-            }
-        }
-        System.out.println("cls " + cls.getName());
-        ClassFactory.Instance.generateJavaCode(cls);
+    public static void main(String[] args) {
+        Import("./src/dico/persistence/demo.xml");
     }
 
-    public static ClassModel GetClass(Element e , boolean dictionary) {
+    public static ClassModel CreateClass(Element e) throws DuplicateAttributesException, DuplicateClassesException, ComplierFailedException, ClassNotFoundException, ObjectNotFoundException {
         Node objectClass = e.getElementsByTagName("Class").item(0);
         Element objectClassElement = (Element) objectClass;
         String className = GetText(objectClassElement, "Name");
-        NodeList parentElement = objectClassElement.getElementsByTagName("Parent");
-        //String parentClassName = GetText(objectClassElement, "Parent");
+        ClassModel cls = ClassFactory.Instance.GetExisitingClass(className);
 
-        ClassModel cls = new ClassModel();
-
-        cls.setName(className);
-
-        /*
-        if (parentElement.getLength() != 0 && dictionary) {
-            Node p = parentElement.item(0);
-            ClassModel clsParent = new ClassModel();
-            String parentClassName=GetText((Element)parentElement, "");
-            clsParent.setName(parentClassName);
-            cls.setParent(clsParent);
-        }*/
-
-        ArrayList<Attribute> attributes = new ArrayList<Attribute>();
-        NodeList classAttributes = objectClassElement.getElementsByTagName("Attribute");
-        for (int attributeIndex = 0; attributeIndex < classAttributes.getLength(); attributeIndex++) {
-            Node classAttributeNode = classAttributes.item(attributeIndex);
-            System.out.println("\nAttribute :" + classAttributeNode.getNodeName());
-            Element attributeElement = (Element) classAttributeNode;
-            String name = GetText(attributeElement, "Name");
-            String type = GetText(attributeElement, "Type");
-            String value = GetText(attributeElement, "Value");
-            Type t = TypesFactory.Instance.Get(type);
-            if (t == null) {
-                //t = new Type(type, "", null, true);
+        if (cls == null) {
+            System.out.println("Create Class " + className);
+            cls = new ClassModel();
+            cls.setName(className);
+            NodeList parenttags = e.getElementsByTagName("Parent");
+            if (parenttags.getLength() > 0) {
+                Element parentElement = (Element) parenttags.item(0);
+                ClassModel parent = CreateClass(parentElement);
+                cls.setParent(parent);
             }
-            Attribute at = new Attribute(name, t, true, true);
-            at.setValue(value);
-            attributes.add(at);
+
+            ArrayList<Attribute> attributes = new ArrayList<Attribute>();
+            NodeList classAttributes = objectClassElement.getElementsByTagName("Attribute");
+            for (int attributeIndex = 0; attributeIndex < classAttributes.getLength(); attributeIndex++) {
+                Node classAttributeNode = classAttributes.item(attributeIndex);
+                System.out.println("\nAttribute :" + classAttributeNode.getNodeName());
+                Element attributeElement = (Element) classAttributeNode;
+                String name = GetText(attributeElement, "Name");
+                String type = GetText(attributeElement, "Type");
+                Type t = TypesFactory.Instance.Get(type);
+                if (t == null) {
+                    ///////////////////////////////////t = new Type(type, "", null, true);
+                }
+
+                Attribute at = cls.getAttribute(name);
+                if (at == null) {
+                    at = new Attribute(name, t, true, true);
+                    attributes.add(at);
+                }
+                //AttributeValue atv = new AttributeValue(at);
+
+                //String v = GetText(attributeElement, "Value");
+                // if (v != null && !"".equals(v)) {
+                //    Object value = Pool.Instance.GetValue(at, v);
+                //atv.setValue(value);
+                //}
+            }
+            cls.setAttribute(attributes);
+            ClassFactory.Instance.generateJavaCode(cls);
+            DicoCompilerIntiator.Instance.CreateAndComplieFiles();
         }
-        cls.setAttribute(attributes);
         return cls;
     }
 

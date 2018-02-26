@@ -54,7 +54,7 @@ public class ManageFriendEnemeyController implements Initializable {
     public ArrayList<String> Person = new ArrayList<>();
     public ArrayList<String> Animal = new ArrayList<>();
     public Dictionary dic;
-    
+
     public void showAlert(String title, String content, AlertType alertType) {
         Alert alert = new Alert(alertType);
         alert.setTitle(title);
@@ -103,7 +103,7 @@ public class ManageFriendEnemeyController implements Initializable {
                 }
             }
         } catch (FriendOrEnemyAlreadyExistsException | FriendIsEnemyOrEnemyIsFriendException | NullPointerException ex) {
-            showAlert("Fatal Error",ex.getMessage(),AlertType.ERROR);
+            showAlert("Fatal Error", ex.getMessage(), AlertType.ERROR);
         }
     }
 
@@ -141,8 +141,14 @@ public class ManageFriendEnemeyController implements Initializable {
     }
 
     public void editLists() {
-        ComboBoxF.getItems().clear();
-        ComboBoxE.getItems().clear();
+        System.out.println("dico.gui.dictionary.ManageFriendEnemeyController.editLists()");
+
+        if (ComboBoxF.getItems().size() > 0) {
+            ComboBoxF.getItems().clear();
+        }
+        if (ComboBoxE.getItems().size() > 0) {
+            ComboBoxE.getItems().clear();
+        }
         for (Object obj : dic.getKeySet()) {
             if (obj != ComboBoxIt.getSelectionModel().getSelectedItem()) {
                 ComboBoxF.getItems().add(obj);
@@ -153,8 +159,8 @@ public class ManageFriendEnemeyController implements Initializable {
             if (obj != ComboBoxIt.getSelectionModel().getSelectedItem()) {
                 ComboBoxE.getItems().add(obj);
             }
-
         }
+        System.out.println("dico.gui.dictionary.ManageFriendEnemeyController.editLists()");
 
     }
 

@@ -6,7 +6,7 @@ public class Manager extends Person {
 	super();
 	}
 
-	public Manager(int id, String name, Double salary) {
+	public Manager(int id, String name, int salary) {
 		super(id, name);
 		this.salary = salary;
 	}
@@ -17,7 +17,7 @@ public class Manager extends Person {
 			return false;
 		}
 		final Manager other = (Manager) obj;
-		if (!this.salary.equals(other.salary)) {
+		if (this.salary != other.salary) {
 			return false;
 		}
 		return true;
@@ -29,8 +29,8 @@ public class Manager extends Person {
 			throw new ClassCastException();
 		}
 		Manager tmp = (Manager) other;
-		if (!this.salary.equals(tmp.salary)) {
-			return this.salary.compareTo(tmp.salary);
+		if (!(this.salary == tmp.salary)) {
+			return this.salary - tmp.salary;
 		}
 		return super.compareTo(tmp);
 	}
@@ -40,6 +40,6 @@ public class Manager extends Person {
 		return super.toString() +"[salary=" + salary + "]";		
 	}
 
-	private Double salary;
+	private int salary;
 
 }
