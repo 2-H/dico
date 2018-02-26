@@ -83,20 +83,21 @@ public class ImportFromXML {
                             String name = GetText(attributeElement, "Name");
                             String type = GetText(attributeElement, "Type");
                             Type t = TypesFactory.Instance.Get(type);
-                            if (t == null) {
+                            if (t != null) {
                                 ///////////////////////////////////t = new Type(type, "", null, true);
+
+                                Attribute at = objectClass.getAttribute(name);
+                                AttributeValue atv = new AttributeValue(at);
+                                String v = GetText(attributeElement, "Value");
+                                if (v != null && !"".equals(v)) {
+                                    Object value = Pool.Instance.GetValue(at, v);
+                                    atv.setValue(value);
+                                }
+                                attributesValues.put(at.getName(), atv);
                             }
-                            Attribute at = objectClass.getAttribute(name);
-                            AttributeValue atv = new AttributeValue(at);
-                            String v = GetText(attributeElement, "Value");
-                            if (v != null && !"".equals(v)) {
-                                Object value = Pool.Instance.GetValue(at, v);
-                                atv.setValue(value);
-                            }
-                            attributesValues.put(at.getName(), atv);
                         }
 
-                        Pool.Instance.createObject(objectClass, variableName,attributesValues);
+                        Pool.Instance.createObject(objectClass, variableName, attributesValues);
 
                         Node friends = dictionaryItemElement.getElementsByTagName("Friends").item(0);
                         Node Enemies = dictionaryItemElement.getElementsByTagName("Enemies").item(0);
@@ -140,22 +141,22 @@ public class ImportFromXML {
                 String name = GetText(attributeElement, "Name");
                 String type = GetText(attributeElement, "Type");
                 Type t = TypesFactory.Instance.Get(type);
-                if (t == null) {
+                if (t != null) {
                     ///////////////////////////////////t = new Type(type, "", null, true);
-                }
 
-                Attribute at = cls.getAttribute(name);
-                if (at == null) {
-                    at = new Attribute(name, t, true, true);
-                    attributes.add(at);
-                }
-                //AttributeValue atv = new AttributeValue(at);
+                    Attribute at = cls.getAttribute(name);
+                    if (at == null) {
+                        at = new Attribute(name, t, true, true);
+                        attributes.add(at);
+                    }
+                    //AttributeValue atv = new AttributeValue(at);
 
-                //String v = GetText(attributeElement, "Value");
-                // if (v != null && !"".equals(v)) {
-                //    Object value = Pool.Instance.GetValue(at, v);
-                //atv.setValue(value);
-                //}
+                    //String v = GetText(attributeElement, "Value");
+                    // if (v != null && !"".equals(v)) {
+                    //    Object value = Pool.Instance.GetValue(at, v);
+                    //atv.setValue(value);
+                    //}
+                }
             }
             cls.setAttribute(attributes);
             ClassFactory.Instance.generateJavaCode(cls);
