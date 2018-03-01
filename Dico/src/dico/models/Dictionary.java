@@ -226,6 +226,7 @@ public class Dictionary<T> implements Collection<T>, Iterable<T> {
 
     @Override
     public boolean contains(Object o) {
+        System.out.println(o);
         return elements.containsKey(o);
     }
 

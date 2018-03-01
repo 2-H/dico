@@ -14,7 +14,7 @@ import java.util.Map;
  */
 public class ObjectModel implements Comparable<ObjectModel> {
 
-    private Map<String,AttributeValue> AttributesValues;
+    private Map<String, AttributeValue> AttributesValues;
     private ClassModel classModel;
     private String variableName;
     private Object instance;
@@ -53,22 +53,26 @@ public class ObjectModel implements Comparable<ObjectModel> {
 
     @Override
     public boolean equals(Object other) {
+        System.out.println("ObjectModel.equals");
         // return DicoCompilerIntiator.Instance.InvokeToString(this);
         return this.getInstance().equals(other);
     }
 
     @Override
     public int compareTo(ObjectModel other) {
+        System.out.println("ObjectModel.compareTo");
         return DicoCompilerIntiator.Instance.InvokeCompareTo(this, other);
     }
 
     @Override
     public int hashCode() {
+       System.out.println("ObjectModel.hashCode");
         return this.getInstance().hashCode();
     }
 
     @Override
     public String toString() {
+          System.out.println("ObjectModel.toString");
         // return DicoCompilerIntiator.Instance.InvokeToString(this);
         return this.classModel.getName() + " " + getVariableName();
     }

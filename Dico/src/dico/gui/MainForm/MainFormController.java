@@ -241,7 +241,7 @@ public class MainFormController implements Initializable {
 
     @FXML
     private void CallDictionaryMethods() {
-        opener("..//dictionary//ManagerFriendEnemy.fxml");
+        opener("..//dictionaryMethods//dicoMethods.fxml");
     }
 
     @FXML

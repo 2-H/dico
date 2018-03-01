@@ -36,8 +36,7 @@ public class Pool {
     public Pool() {
         Objects = new ArrayList<>();
     }
-
-    public ObjectModel GetObject(String name) throws ObjectNotFoundException {
+ public ObjectModel GetObject(String name) throws ObjectNotFoundException {
         for (ObjectModel cls : Objects) {
             String s = cls.getVariableName();
             if (s.equals(name)) {
@@ -45,6 +44,13 @@ public class Pool {
             }
         }
         throw new ObjectNotFoundException("Object Not Found");
+    }   
+    public ArrayList<String> getObjectNames() {
+        ArrayList<String> objects = new ArrayList<>();
+        for (ObjectModel cls : Objects) {
+            objects.add( cls.getVariableName());           
+        }
+        return objects;
     }
 
     public ObjectModel createObject(ClassModel modelClass, String variableName, Map<String, AttributeValue> attributeValues) throws ComplierFailedException, ObjectCreationException, ClassNotFoundException {
